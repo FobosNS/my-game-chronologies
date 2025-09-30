@@ -291,6 +291,7 @@
     body.mobile-view:not(.force-pc) .grid {
       grid-template-columns: 1fr;
       gap: 16px;
+      display: grid !important; /* Принудительно устанавливаем display: grid */
     }
     body.mobile-view:not(.force-pc) .card {
       padding: 18px;
@@ -323,6 +324,7 @@
     body.force-pc .grid {
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 20px;
+      display: grid !important; /* Принудительно устанавливаем display: grid */
     }
     body.force-pc .card {
       padding: 22px;
@@ -403,6 +405,7 @@
     let currentPage = 1;
     const ITEMS_PER_PAGE = 8;
     let showFavorites = false;
+    let observer = null; // Глобальный IntersectionObserver
 
     const grid = document.getElementById('gamesGrid');
     const paginationEl = document.getElementById('pagination');
@@ -451,8 +454,28 @@
       });
     }
 
+    // Инициализация IntersectionObserver
+    function initLazyLoading() {
+      if (observer) {
+        observer.disconnect(); // Отключить предыдущий observer
+      }
+      observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('loaded');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { rootMargin: '100px' });
+
+      document.querySelectorAll('.card:not(.loaded)').forEach(card => {
+        observer.observe(card);
+      });
+    }
+
     // Рендер страницы
     function renderPage() {
+      grid.style.display = 'grid'; // Убедимся, что grid отображается
       const start = (currentPage - 1) * ITEMS_PER_PAGE;
       const pageGames = filteredGames.slice(start, start + ITEMS_PER_PAGE);
       const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
@@ -528,48 +551,8 @@
         paginationEl.appendChild(lastBtn);
       }
 
-      // Ленивая загрузка
-      const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('loaded');
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { rootMargin: '100px' });
-
-      document.querySelectorAll('.card:not(.loaded)').forEach(card => {
-        observer.observe(card);
-      });
-
-      // Обработчик для избранного
-      document.querySelectorAll('.favorite-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          e.preventDefault();
-          const file = btn.dataset.file;
-          const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-          let message = '';
-          if (favorites.includes(file)) {
-            localStorage.setItem('favorites', JSON.stringify(favorites.filter(f => f !== file)));
-            message = 'Удалено из избранного';
-          } else {
-            favorites.push(file);
-            localStorage.setItem('favorites', JSON.stringify(favorites));
-            message = 'Добавлено в избранное';
-          }
-          updateFavoritesUI();
-          if (showFavorites) {
-            applyFilters();
-          }
-          // Показать тост-уведомление
-          const toast = document.createElement('div');
-          toast.className = 'toast';
-          toast.textContent = message;
-          toast.setAttribute('aria-live', 'polite');
-          document.body.appendChild(toast);
-          setTimeout(() => toast.remove(), 2000);
-        });
-      });
+      // Инициализация ленивой загрузки
+      initLazyLoading();
     }
 
     // Изменение страницы
@@ -654,6 +637,8 @@
       viewPcBtn.setAttribute('aria-pressed', 'true');
       viewMobileBtn.setAttribute('aria-pressed', 'false');
       localStorage.setItem('viewMode', 'pc');
+      grid.style.display = 'grid'; // Принудительно устанавливаем display
+      renderPage(); // Перерисовываем для обновления ленивой загрузки
     });
 
     viewMobileBtn.addEventListener('click', () => {
@@ -664,6 +649,8 @@
       viewMobileBtn.setAttribute('aria-pressed', 'true');
       viewPcBtn.setAttribute('aria-pressed', 'false');
       localStorage.setItem('viewMode', 'mobile');
+      grid.style.display = 'grid'; // Принудительно устанавливаем display
+      renderPage(); // Перерисовываем для обновления ленивой загрузки
     });
 
     themeToggleBtn.addEventListener('click', () => {
@@ -691,6 +678,42 @@
       showFavorites = !showFavorites;
       favoritesFilterBtn.classList.toggle('active', showFavorites);
       applyFilters();
+    });
+
+    // Обработчик для избранного
+    document.addEventListener('click', (e) => {
+      if (e.target.classList.contains('favorite-btn')) {
+        e.preventDefault();
+        const file = e.target.dataset.file;
+        const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+        let message = '';
+        if (favorites.includes(file)) {
+          localStorage.setItem('favorites', JSON.stringify(favorites.filter(f => f !== file)));
+          message = 'Удалено из избранного';
+        } else {
+          favorites.push(file);
+          localStorage.setItem('favorites', JSON.stringify(favorites));
+          message = 'Добавлено в избранное';
+        }
+        updateFavoritesUI();
+        if (showFavorites) {
+          applyFilters();
+        }
+        // Показать тост-уведомление
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.textContent = message;
+        toast.setAttribute('aria-live', 'polite');
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 2000);
+      }
+    });
+
+    // Перезапуск ленивой загрузки при изменении размера окна
+    window.addEventListener('resize', () => {
+      if (grid.style.display === 'grid') {
+        initLazyLoading();
+      }
     });
 
     // Запуск
