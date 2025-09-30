@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heroes of Might and Magic — Chronology</title>
+  <style>
+    body {
+      font-family: 'Cinzel', 'Noto Sans JP', serif;
+      background: linear-gradient(135deg, #0d150a, #1a2512);
+      color: #f0e8d0;
+      padding: 15px;
+      margin: 0;
+      line-height: 1.6;
+      font-size: 15px;
+    }
+    h2 {
+      text-align: center;
+      color: #d4af37;
+      font-size: 24px;
+      margin: 15px 0 10px;
+      text-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
+      letter-spacing: 1px;
+    }
+    .subtitle {
+      text-align: center;
+      color: #aacc88;
+      font-size: 14px;
+      margin-bottom: 15px;
+      font-style: italic;
+      font-family: 'Noto Sans JP', sans-serif;
+    }
+
+    /* Фильтры */
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin: 15px 0;
+    }
+    .filter-btn {
+      background: rgba(25, 40, 20, 0.8);
+      color: #d0ffaa;
+      border: 1px solid #5a7a3a;
+      padding: 6px 12px;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 13px;
+      cursor: pointer;
+      border-radius: 20px;
+      transition: all 0.2s;
+    }
+    .filter-btn:hover {
+      background: rgba(35, 50, 30, 0.9);
+    }
+    .filter-btn.active {
+      background: #5a7a3a;
+      color: #0a150d;
+    }
+
+    /* Таблица */
+    .table-container {
+      overflow-x: auto;
+      width: 100%;
+      margin: 15px 0;
+    }
+    table {
+      width: 100%;
+      min-width: 600px;
+      border-collapse: collapse;
+      background: rgba(15, 25, 15, 0.92);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+      border: 1px solid #3a4a2a;
+    }
+    th, td {
+      padding: 12px 10px;
+      text-align: left;
+      border-bottom: 1px solid #2a3a20;
+    }
+    th {
+      background: rgba(25, 40, 20, 0.95);
+      color: #d0ffaa;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    tr:last-child td {
+      border-bottom: none;
+    }
+    tr:hover {
+      background: rgba(35, 50, 30, 0.7);
+    }
+
+    /* Эра-боксы */
+    .era-box {
+      background: rgba(20, 35, 20, 0.85);
+      border-left: 4px solid #5a7a3a;
+      padding: 15px;
+      border-radius: 0 8px 8px 0;
+      margin: 15px 0;
+      font-size: 14px;
+      line-height: 1.5;
+      font-family: 'Noto Sans JP', sans-serif;
+    }
+    .era-box h3 {
+      color: #88cc66;
+      margin-top: 0;
+      font-size: 18px;
+      font-family: 'Cinzel', serif;
+    }
+
+    .note {
+      margin-top: 15px;
+      font-size: 12px;
+      color: #b8d8a0;
+      text-align: center;
+      line-height: 1.5;
+      font-family: 'Noto Sans JP', sans-serif;
+    }
+
+    /* Мобильные улучшения */
+    @media (max-width: 600px) {
+      h2 { font-size: 20px; }
+      .subtitle { font-size: 13px; }
+      .filter-btn { padding: 5px 10px; font-size: 12px; }
+      th, td { padding: 10px 8px; font-size: 13px; }
+      .era-box { padding: 12px; font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+  <h2>🏰 HEROES OF MIGHT AND MAGIC — ХРОНОЛОГИЯ МИРОВ</h2>
+  <div class="subtitle">«Могущество — в армии. Магия — в сердце»</div>
+
+  <!-- Фильтры -->
+  <div class="filters">
+    <button class="filter-btn active" data-filter="all">Все</button>
+    <button class="filter-btn" data-filter="main">Основные игры</button>
+    <button class="filter-btn" data-filter="expansion">Дополнения</button>
+    <button class="filter-btn" data-filter="remaster">Ремастеры</button>
+  </div>
+
+  <!-- Таблица -->
+  <div class="table-container">
+    <table id="gamesTable">
+      <thead>
+        <tr>
+          <th>📅 Год</th>
+          <th>🎮 Игра</th>
+          <th>🕹️ Платформы</th>
+          <th>🌍 Мир</th>
+          <th>⚔️ Особенность</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr data-type="main">
+          <td><b>1995</b></td>
+          <td><b>Heroes of Might and Magic I</b></td>
+          <td>DOS, Windows</td>
+          <td>Энрот</td>
+          <td>Рождение жанра. 6 рас, герой-командир.</td>
+        </tr>
+        <tr data-type="expansion">
+          <td><b>1996</b></td>
+          <td><b>HOMM I: The Succession Wars</b></td>
+          <td>DOS, Windows</td>
+          <td>Энрот</td>
+          <td>Новые кампании, улучшенный ИИ.</td>
+        </tr>
+        <tr data-type="main">
+          <td><b>1996</b></td>
+          <td><b>Heroes of Might and Magic II</b></td>
+          <td>Windows, Mac</td>
+          <td>Антиагон</td>
+          <td>Два брата-героя. Введение артефактов и заклинаний.</td>
+        </tr>
+        <tr data-type="expansion">
+          <td><b>1997</b></td>
+          <td><b>HOMM II: The Price of Loyalty</b></td>
+          <td>Windows</td>
+          <td>Антиагон</td>
+          <td>4 новые кампании, 2 расы (Демоны, Конструкторы).</td>
+        </tr>
+        <tr data-type="main">
+          <td><b>1999</b></td>
+          <td><b>Heroes of Might and Magic III</b></td>
+          <td>Windows, Mac, Linux</td>
+          <td>Энрот</td>
+          <td>Золотой век. 8 рас, тактические бои, моды.</td>
+        </tr>
+        <tr data-type="expansion">
+          <td><b>1999</b></td>
+          <td><b>HOMM III: Armageddon’s Blade</b></td>
+          <td>Windows</td>
+          <td>Энрот</td>
+          <td>Раса Конструкторов, сюжет о Харгарте.</td>
+        </tr>
+        <tr data-type="expansion">
+          <td><b>2000</b></td>
+          <td><b>HOMM III: The Shadow of Death</b></td>
+          <td>Windows</td>
+          <td>Энрот</td>
+          <td>Новые кампании, артефакты, баланс.</td>
+        </tr>
+        <tr data-type="main">
+          <td><b>2002</b></td>
+          <td><b>Heroes of Might and Magic IV</b></td>
+          <td>Windows</td>
+          <td>Новый мир</td>
+          <td>Радикальный перезапуск. Герой в бою, магия через очки.</td>
+        </tr>
+        <tr data-type="expansion">
+          <td><b>2003</b></td>
+          <td><b>HOMM IV: The Gathering Storm</b></td>
+          <td>Windows</td>
+          <td>Новый мир</td>
+          <td>Новые расы, улучшенный ИИ.</td>
+        </tr>
+        <tr data-type="main">
+          <td><b>2006</b></td>
+          <td><b>Heroes of Might and Magic V</b></td>
+          <td>Windows</td>
+          <td>Ашан</td>
+          <td>3D-графика, 6 рас, фракционные кампании.</td>
+        </tr>
+        <tr data-type="expansion">
+          <td><b>2006</b></td>
+          <td><b>HOMM V: Hammers of Fate</b></td>
+          <td>Windows</td>
+          <td>Ашан</td>
+          <td>Раса Дворфов, новые герои.</td>
+        </tr>
+        <tr data-type="expansion">
+          <td><b>2007</b></td>
+          <td><b>HOMM V: Tribes of the East</b></td>
+          <td>Windows</td>
+          <td>Ашан</td>
+          <td>Раса Орков, финал саги Ашана.</td>
+        </tr>
+        <tr data-type="main">
+          <td><b>2011</b></td>
+          <td><b>Heroes of Might and Magic VI</b></td>
+          <td>Windows</td>
+          <td>Телегия</td>
+          <td>Возвращение к корням. Судьба, честь, могущество.</td>
+        </tr>
+        <tr data-type="expansion">
+          <td><b>2012</b></td>
+          <td><b>HOMM VI: Shades of Darkness</b></td>
+          <td>Windows</td>
+          <td>Телегия</td>
+          <td>Кампания за Демонов, новые механики.</td>
+        </tr>
+        <tr data-type="main">
+          <td><b>2015</b></td>
+          <td><b>Heroes of Might and Magic VII</b></td>
+          <td>Windows</td>
+          <td>Элион</td>
+          <td>Ретро-стиль в духе HOMM III. 6 рас, классический геймплей.</td>
+        </tr>
+        <tr data-type="remaster">
+          <td><b>2024</b></td>
+          <td><b>Heroes of Might and Magic III: HD Edition</b></td>
+          <td>Windows, Consoles</td>
+          <td>Энрот</td>
+          <td>Полный ремастер с 4K, улучшенным ИИ, всеми дополнениями.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="era-box">
+    <h3>⚔️ Три великие эпохи:</h3>
+    <p><b>• Эпоха Энрота (I–III)</b>:<br>
+    — Золотой век стратегий. HOMM III — эталон жанра.<br>
+    — Мир: магия, драконы, борьба добра и зла.</p>
+    <p><b>• Эпоха перемен (IV–V)</b>:<br>
+    — Эксперименты: герой в бою (IV), 3D-графика (V).<br>
+    — Новые миры: Ашан, Новый мир.</p>
+    <p><b>• Эпоха возрождения (VI–VII)</b>:<br>
+    — Возврат к классике. VII — дань уважения HOMM III.<br>
+    — Акцент на сюжете и фракционной идентичности.</p>
+  </div>
+
+  <div class="note">
+    💡 <i>HOMM III</i> — самая популярная часть (моды, турниры, фанаты до сих пор играют).<br>
+    <i>HOMM VII</i> разработана Limbic Entertainment (создатели <i>Requiem</i>).<br>
+    В 2024 году выходит <b>HOMM III: HD Edition</b> — официальный ремастер.
+  </div>
+
+  <!-- JavaScript для фильтрации -->
+  <script>
+    document.querySelectorAll('.filter-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+          btn.classList.remove('active');
+        });
+        button.classList.add('active');
+
+        const filter = button.getAttribute('data-filter');
+        const rows = document.querySelectorAll('#gamesTable tbody tr');
+
+        rows.forEach(row => {
+          if (filter === 'all' || row.getAttribute('data-type') === filter) {
+            row.style.display = '';
+          } else {
+            row.style.display = 'none';
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
