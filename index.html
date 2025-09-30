@@ -182,6 +182,20 @@
     body.force-pc { zoom: 1 !important; }
     body.force-pc .grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important; }
 
+        /* Mobile view simulation */
+    body.mobile-view {
+      zoom: 0.6; /* Уменьшаем масштаб как на ПК */
+      transform-origin: top center;
+    }
+    
+    /* Force PC mode */
+    body.force-pc {
+      zoom: 1 !important;
+    }
+    body.force-pc .grid {
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+    }
+
     .note { text-align: center; color: var(--text-secondary); font-size: 13px; margin-top: 15px; max-width: 600px; margin: 15px auto; }
   </style>
 </head>
