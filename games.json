@@ -1,5 +1,11 @@
 [
    {
+    "name": "Super Mario",
+    "emoji": "🍄",
+    "desc": "It’s-a me, Mario!",
+    "file": "Super Mario.html"
+  },
+   {
     "name": "Splinter Cell",
     "emoji": "🕵️‍♂️",
     "desc": "В тени — правда. В свете — иллюзия",
