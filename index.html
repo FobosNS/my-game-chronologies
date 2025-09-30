@@ -18,6 +18,18 @@
       --shadow: rgba(0, 240, 255, 0.15);
     }
 
+    body.light-theme {
+      --bg-primary: #f0f4f8;
+      --bg-secondary: #d9e2ec;
+      --accent: #007bff;
+      --accent-hover: #0056b3;
+      --text-primary: #1a1a1a;
+      --text-secondary: #4a4a4a;
+      --card-bg: rgba(255, 255, 255, 0.9);
+      --card-border: #ccc;
+      --shadow: rgba(0, 123, 255, 0.2);
+    }
+
     * {
       box-sizing: border-box;
     }
@@ -38,7 +50,7 @@
       font-family: 'Orbitron', monospace;
       font-size: 32px;
       margin: 20px 0 20px;
-      text-shadow: 0 0 12px rgba(0, 240, 255, 0.4);
+      text-shadow: 0 0 12px var(--shadow);
       letter-spacing: 1px;
       transition: font-size 0.3s ease;
     }
@@ -55,7 +67,7 @@
       font-size: 16px;
       border-radius: 12px;
       border: 1px solid var(--card-border);
-      background: rgba(10, 20, 35, 0.8);
+      background: var(--card-bg);
       color: var(--text-primary);
       font-family: 'Exo 2', sans-serif;
       transition: padding 0.3s ease, font-size 0.3s ease;
@@ -81,7 +93,7 @@
     }
 
     button {
-      background: rgba(10, 20, 35, 0.8);
+      background: var(--card-bg);
       color: var(--text-primary);
       border: 1px solid var(--card-border);
       padding: 8px 14px;
@@ -93,9 +105,9 @@
     }
 
     button:hover {
-      background: rgba(30, 50, 80, 0.9);
+      background: var(--accent-hover);
       border-color: var(--accent);
-      color: white;
+      color: var(--text-primary);
     }
 
     button.active {
@@ -121,18 +133,23 @@
       transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
       border: 1px solid var(--card-border);
       backdrop-filter: blur(4px);
+      opacity: 0;
+    }
+
+    .card.loaded {
+      opacity: 1;
     }
 
     .card:hover {
       transform: translateY(-6px);
       box-shadow: 0 10px 25px var(--shadow);
-      background: rgba(30, 50, 80, 0.85);
+      background: var(--accent-hover);
       border-color: var(--accent);
     }
 
     .card h2 {
       margin: 0 0 14px;
-      color: white;
+      color: var(--text-primary);
       font-size: 20px;
       font-weight: 600;
       transition: font-size 0.3s ease;
@@ -177,6 +194,22 @@
       padding: 30px;
       color: var(--accent);
       font-size: 18px;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid var(--accent);
+      border-top: 2px solid transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-left: 8px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
     /* Медиа-запрос для мобильных устройств */
@@ -310,10 +343,11 @@
 
   <div class="controls">
     <div class="note" style="width: 100%; margin-bottom: 10px;">
-      Переключайте режим отображения или обновляйте данные для загрузки новых хронологий
+      Переключайте режим отображения, тему или обновляйте данные для загрузки новых хронологий
     </div>
     <div class="control-group">
       <button id="refresh-btn" aria-label="Обновить данные">🔄 Обновить</button>
+      <button id="theme-toggle" aria-label="Переключить тему">🌙</button>
       <button id="view-pc" class="active" aria-label="Переключиться на ПК-режим" aria-pressed="true">🖥️ ПК-режим</button>
       <button id="view-mobile" aria-label="Переключиться на мобильный режим" aria-pressed="false">📱 Мобильный</button>
     </div>
@@ -346,6 +380,7 @@
     const searchInput = document.getElementById('searchInput');
     const viewPcBtn = document.getElementById('view-pc');
     const viewMobileBtn = document.getElementById('view-mobile');
+    const themeToggleBtn = document.getElementById('theme-toggle');
 
     // Функция санитизации HTML
     function escapeHTML(str) {
@@ -382,8 +417,9 @@
       pageGames.forEach(game => {
         const card = document.createElement('a');
         card.href = `Resources-game/${game.file}`;
+        card.classList.add('card');
         card.innerHTML = `
-          <div class="card">
+          <div>
             <h2>${escapeHTML((game.emoji || '') + ' ' + game.name)}</h2>
             <p>${escapeHTML(game.desc || 'Нет описания')}</p>
           </div>
@@ -409,6 +445,22 @@
         prevBtn.addEventListener('click', () => changePage(-1));
         paginationEl.appendChild(prevBtn);
 
+        // Добавление номеров страниц
+        const startPage = Math.max(1, currentPage - 2);
+        const endPage = Math.min(totalPages, currentPage + 2);
+        for (let i = startPage; i <= endPage; i++) {
+          const pageBtn = document.createElement('button');
+          pageBtn.textContent = i;
+          pageBtn.setAttribute('aria-label', `Страница ${i}`);
+          pageBtn.classList.toggle('active', i === currentPage);
+          pageBtn.disabled = i === currentPage;
+          pageBtn.addEventListener('click', () => {
+            currentPage = i;
+            renderPage();
+          });
+          paginationEl.appendChild(pageBtn);
+        }
+
         const pageInfo = document.createElement('div');
         pageInfo.className = 'page-info';
         pageInfo.textContent = `${currentPage} / ${totalPages}`;
@@ -428,6 +480,20 @@
         lastBtn.addEventListener('click', () => changePage(totalPages - currentPage));
         paginationEl.appendChild(lastBtn);
       }
+
+      // Ленивая загрузка
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('loaded');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { rootMargin: '100px' });
+
+      document.querySelectorAll('.card:not(.loaded)').forEach(card => {
+        observer.observe(card);
+      });
     }
 
     // Изменение страницы
@@ -453,11 +519,25 @@
 
     // Инициализация
     async function init() {
-      loadingEl.textContent = 'Загрузка хронологий...';
+      loadingEl.innerHTML = 'Загрузка хронологий... <span class="spinner"></span>';
       loadingEl.style.color = 'var(--accent)';
       allGames = await loadGames();
       currentOrder = [...allGames];
       filteredGames = [...allGames];
+
+      const savedMode = localStorage.getItem('viewMode');
+      if (savedMode === 'mobile') {
+        viewMobileBtn.click();
+      }
+      const savedSort = localStorage.getItem('sortMode');
+      if (savedSort) {
+        document.querySelector(`.sort-btn[data-sort="${savedSort}"]`).click();
+      }
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'light') {
+        document.body.classList.add('light-theme');
+        themeToggleBtn.textContent = '🌞';
+      }
 
       loadingEl.style.display = 'none';
       grid.style.display = 'grid';
@@ -484,6 +564,7 @@
         } else {
           currentOrder = [...allGames];
         }
+        localStorage.setItem('sortMode', mode);
         applyFilters();
       });
     });
@@ -495,6 +576,7 @@
       viewMobileBtn.classList.remove('active');
       viewPcBtn.setAttribute('aria-pressed', 'true');
       viewMobileBtn.setAttribute('aria-pressed', 'false');
+      localStorage.setItem('viewMode', 'pc');
     });
 
     viewMobileBtn.addEventListener('click', () => {
@@ -504,12 +586,26 @@
       viewPcBtn.classList.remove('active');
       viewMobileBtn.setAttribute('aria-pressed', 'true');
       viewPcBtn.setAttribute('aria-pressed', 'false');
+      localStorage.setItem('viewMode', 'mobile');
+    });
+
+    themeToggleBtn.addEventListener('click', () => {
+      document.body.classList.toggle('light-theme');
+      const isLight = document.body.classList.contains('light-theme');
+      themeToggleBtn.textContent = isLight ? '🌞' : '🌙';
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
     });
 
     document.getElementById('refresh-btn').addEventListener('click', () => {
       searchInput.value = '';
       document.querySelector('.sort-btn[data-sort="original"]').click();
-      init();
+      const refreshBtn = document.getElementById('refresh-btn');
+      refreshBtn.innerHTML = '🔄 Обновить <span class="spinner"></span>';
+      refreshBtn.disabled = true;
+      init().finally(() => {
+        refreshBtn.innerHTML = '🔄 Обновить';
+        refreshBtn.disabled = false;
+      });
     });
 
     // Запуск
