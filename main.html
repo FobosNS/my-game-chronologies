@@ -226,6 +226,20 @@
       100% { transform: rotate(360deg); }
     }
 
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--accent);
+      color: var(--bg-primary);
+      padding: 10px 20px;
+      border-radius: 8px;
+      z-index: 1000;
+      opacity: 0.9;
+      transition: opacity 0.3s ease;
+    }
+
     /* Медиа-запрос для мобильных устройств */
     @media (max-width: 600px) {
       body:not(.force-pc) {
@@ -325,7 +339,7 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .card {
+      .card, .toast {
         transition: none;
       }
       .card:hover {
@@ -373,7 +387,7 @@
     </div>
   </div>
 
-  <div class="loading" id="loading">Загрузка хронологий...</div>
+  <div class="loading" id="loading" aria-live="polite">Загрузка хронологий...</div>
   <div class="grid" id="gamesGrid" style="display:none;"></div>
   <div class="pagination" id="pagination" style="display:none;"></div>
 
@@ -423,6 +437,18 @@
         loadingEl.style.color = '#ff5555';
         return [];
       }
+    }
+
+    // Обновление UI кнопок избранного без перерисовки карточек
+    function updateFavoritesUI() {
+      const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+      document.querySelectorAll('.favorite-btn').forEach(btn => {
+        const file = btn.dataset.file;
+        const isFavorite = favorites.includes(file);
+        btn.textContent = isFavorite ? '★' : '☆';
+        btn.classList.toggle('active', isFavorite);
+        btn.setAttribute('aria-label', isFavorite ? 'Удалить из избранного' : 'Добавить в избранное');
+      });
     }
 
     // Рендер страницы
@@ -522,19 +548,26 @@
           e.preventDefault();
           const file = btn.dataset.file;
           const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+          let message = '';
           if (favorites.includes(file)) {
             localStorage.setItem('favorites', JSON.stringify(favorites.filter(f => f !== file)));
-            btn.textContent = '☆';
-            btn.classList.remove('active');
-            btn.setAttribute('aria-label', 'Добавить в избранное');
+            message = 'Удалено из избранного';
           } else {
             favorites.push(file);
             localStorage.setItem('favorites', JSON.stringify(favorites));
-            btn.textContent = '★';
-            btn.classList.add('active');
-            btn.setAttribute('aria-label', 'Удалить из избранного');
+            message = 'Добавлено в избранное';
           }
-          applyFilters();
+          updateFavoritesUI();
+          if (showFavorites) {
+            applyFilters();
+          }
+          // Показать тост-уведомление
+          const toast = document.createElement('div');
+          toast.className = 'toast';
+          toast.textContent = message;
+          toast.setAttribute('aria-live', 'polite');
+          document.body.appendChild(toast);
+          setTimeout(() => toast.remove(), 2000);
         });
       });
     }
@@ -642,6 +675,8 @@
 
     document.getElementById('refresh-btn').addEventListener('click', () => {
       searchInput.value = '';
+      showFavorites = false;
+      favoritesFilterBtn.classList.remove('active');
       document.querySelector('.sort-btn[data-sort="original"]').click();
       const refreshBtn = document.getElementById('refresh-btn');
       refreshBtn.innerHTML = '🔄 Обновить <span class="spinner"></span>';
