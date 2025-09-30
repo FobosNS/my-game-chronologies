@@ -182,21 +182,26 @@
     body.force-pc { zoom: 1 !important; }
     body.force-pc .grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important; }
 
-        /* Mobile view simulation */
+    /* Mobile view simulation */
     body.mobile-view {
-      zoom: 0.6; /* Уменьшаем масштаб как на ПК */
+      transform: scale(0.6); /* Изменено с zoom на scale для лучшей совместимости */
       transform-origin: top center;
     }
     
     /* Force PC mode */
     body.force-pc {
-      zoom: 1 !important;
+      transform: scale(1) !important;
     }
     body.force-pc .grid {
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
     }
 
     .note { text-align: center; color: var(--text-secondary); font-size: 13px; margin-top: 15px; max-width: 600px; margin: 15px auto; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .card { transition: none; }
+      .card:hover { transform: none; box-shadow: none; }
+    }
   </style>
 </head>
 <body>
@@ -240,21 +245,38 @@
     const loadingEl = document.getElementById('loading');
     const searchInput = document.getElementById('searchInput');
 
-    // Загрузка данных из games.json
+    // Функция санитизации HTML
+    function escapeHTML(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    // Загрузка данных из games.json с кэшированием
     async function loadGames() {
       try {
-        const response = await fetch('games.json'); // Файл в корне репозитория
+        const cached = localStorage.getItem('gamesData');
+        if (cached) {
+          const games = JSON.parse(cached);
+          if (Array.isArray(games) && games.every(game => game.name && game.desc && game.file && game.emoji)) {
+            return games;
+          }
+        }
+
+        const response = await fetch('games.json');
         if (!response.ok) {
           throw new Error('games.json не найден или ошибка загрузки');
         }
         const games = await response.json();
-        return games;
+        // Валидация данных
+        const validGames = games.filter(game => game.name && game.desc && game.file && game.emoji);
+        localStorage.setItem('gamesData', JSON.stringify(validGames));
+        return validGames;
       } catch (e) {
         console.error("Ошибка загрузки games.json:", e);
-        // Возврат заглушки, если JSON не загружен
-        return [
-          { name: "Ошибка", emoji: "⚠️", desc: "Файл games.json не найден", file: "#" }
-        ];
+        loadingEl.textContent = 'Ошибка загрузки данных. Попробуйте обновить страницу позже.';
+        loadingEl.style.color = '#ff5555';
+        return [];
       }
     }
 
@@ -266,12 +288,11 @@
       grid.innerHTML = '';
       pageGames.forEach(game => {
         const card = document.createElement('a');
-        // Важно: путь к файлу из JSON
         card.href = `Resources-game/${game.file}`;
         card.innerHTML = `
           <div class="card">
-            <h2>${game.emoji} ${game.name}</h2>
-            <p>${game.desc}</p>
+            <h2>${escapeHTML(game.emoji + ' ' + game.name)}</h2>
+            <p>${escapeHTML(game.desc)}</p>
           </div>
         `;
         grid.appendChild(card);
@@ -281,9 +302,11 @@
       paginationEl.style.display = totalPages > 1 ? 'flex' : 'none';
       if (totalPages > 1) {
         paginationEl.innerHTML = `
-          <button ${currentPage === 1 ? 'disabled' : ''} onclick="changePage(-1)">❮</button>
+          <button aria-label="Первая страница" ${currentPage === 1 ? 'disabled' : ''} onclick="changePage(-currentPage + 1)">«</button>
+          <button aria-label="Предыдущая страница" ${currentPage === 1 ? 'disabled' : ''} onclick="changePage(-1)">❮</button>
           <div class="page-info">${currentPage} / ${totalPages}</div>
-          <button ${currentPage === totalPages ? 'disabled' : ''} onclick="changePage(1)">❯</button>
+          <button aria-label="Следующая страница" ${currentPage === totalPages ? 'disabled' : ''} onclick="changePage(1)">❯</button>
+          <button aria-label="Последняя страница" ${currentPage === totalPages ? 'disabled' : ''} onclick="changePage(totalPages - currentPage)">»</button>
         `;
       }
     }
@@ -321,7 +344,11 @@
     }
 
     // Обработчики
-    searchInput.addEventListener('input', applyFilters);
+    let timeout;
+    searchInput.addEventListener('input', () => {
+      clearTimeout(timeout);
+      timeout = setTimeout(applyFilters, 300);
+    });
 
     document.querySelectorAll('.sort-btn').forEach(btn => {
       btn.addEventListener('click', () => {
