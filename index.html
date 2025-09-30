@@ -1,1 +1,347 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Хронологии игр — by FobosNS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0b0e1a;
+      --bg-secondary: #121826;
+      --accent: #00f0ff;
+      --accent-hover: #00ccff;
+      --text-primary: #e0f8ff;
+      --text-secondary: #a0d8e8;
+      --card-bg: rgba(20, 30, 50, 0.7);
+      --card-border: #2a4a6a;
+      --shadow: rgba(0, 240, 255, 0.15);
+    }
 
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Exo 2', sans-serif;
+      background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary));
+      color: var(--text-primary);
+      margin: 0;
+      padding: 20px;
+      line-height: 1.6;
+      transition: background 0.4s ease;
+    }
+
+    h1 {
+      text-align: center;
+      color: var(--accent);
+      font-family: 'Orbitron', monospace;
+      font-size: 32px;
+      margin: 20px 0 20px;
+      text-shadow: 0 0 12px rgba(0, 240, 255, 0.4);
+      letter-spacing: 1px;
+    }
+
+    .search-box {
+      max-width: 600px;
+      margin: 0 auto 20px;
+    }
+
+    #searchInput {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 16px;
+      border-radius: 12px;
+      border: 1px solid var(--card-border);
+      background: rgba(10, 20, 35, 0.8);
+      color: var(--text-primary);
+      font-family: 'Exo 2', sans-serif;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .control-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    button {
+      background: rgba(10, 20, 35, 0.8);
+      color: var(--text-primary);
+      border: 1px solid var(--card-border);
+      padding: 8px 14px;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 14px;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.25s ease;
+    }
+
+    button:hover {
+      background: rgba(30, 50, 80, 0.9);
+      border-color: var(--accent);
+      color: white;
+    }
+
+    button.active {
+      background: var(--accent);
+      color: var(--bg-primary);
+      font-weight: 600;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto 20px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 22px;
+      text-align: center;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(4px);
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 10px 25px var(--shadow);
+      background: rgba(30, 50, 80, 0.85);
+      border-color: var(--accent);
+    }
+
+    .card h2 {
+      margin: 0 0 14px;
+      color: white;
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .card p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .pagination button {
+      min-width: 36px;
+      padding: 6px 10px;
+      font-size: 14px;
+    }
+
+    .pagination .page-info {
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 30px;
+      color: var(--accent);
+      font-size: 18px;
+    }
+
+    @media (max-width: 600px) {
+      body:not(.force-pc) { padding: 12px; }
+      h1 { font-size: 26px; }
+      .grid { grid-template-columns: 1fr !important; gap: 16px; }
+      .card { padding: 18px; }
+    }
+
+    body.force-pc { zoom: 1 !important; }
+    body.force-pc .grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important; }
+
+    .note { text-align: center; color: var(--text-secondary); font-size: 13px; margin-top: 15px; max-width: 600px; margin: 15px auto; }
+  </style>
+</head>
+<body>
+
+  <h1>🎮 Хронологии игровых вселенных<br><small style="font-size:18px; color:#88ccdd;">by FobosNS</small></h1>
+
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="🔍 Поиск по названию или описанию...">
+  </div>
+
+  <div class="controls">
+    <div class="control-group">
+      <button id="view-pc" class="active">🖥️ ПК-режим</button>
+      <button id="view-mobile">📱 Мобильный</button>
+    </div>
+    <div class="control-group">
+      <button class="sort-btn active" data-sort="original">🔃 Исходный</button>
+      <button class="sort-btn" data-sort="az">🔤 А→Я</button>
+      <button class="sort-btn" data-sort="za">🔤 Я→А</button>
+    </div>
+  </div>
+
+  <div class="loading" id="loading">Загрузка хронологий...</div>
+  <div class="grid" id="gamesGrid" style="display:none;"></div>
+  <div class="pagination" id="pagination" style="display:none;"></div>
+
+  <div class="note">
+    Все хронологии доступны офлайн. Просто откройте файл в браузере.
+  </div>
+
+  <script>
+    // Глобальные переменные
+    let allGames = [];
+    let filteredGames = [];
+    let currentOrder = [];
+    let currentPage = 1;
+    const ITEMS_PER_PAGE = 30;
+
+    const grid = document.getElementById('gamesGrid');
+    const paginationEl = document.getElementById('pagination');
+    const loadingEl = document.getElementById('loading');
+    const searchInput = document.getElementById('searchInput');
+
+    // Загрузка данных из games.json
+    async function loadGames() {
+      try {
+        const response = await fetch('games.json'); // Файл в корне репозитория
+        if (!response.ok) {
+          throw new Error('games.json не найден или ошибка загрузки');
+        }
+        const games = await response.json();
+        return games;
+      } catch (e) {
+        console.error("Ошибка загрузки games.json:", e);
+        // Возврат заглушки, если JSON не загружен
+        return [
+          { name: "Ошибка", emoji: "⚠️", desc: "Файл games.json не найден", file: "#" }
+        ];
+      }
+    }
+
+    // Рендер страницы
+    function renderPage() {
+      const start = (currentPage - 1) * ITEMS_PER_PAGE;
+      const pageGames = filteredGames.slice(start, start + ITEMS_PER_PAGE);
+
+      grid.innerHTML = '';
+      pageGames.forEach(game => {
+        const card = document.createElement('a');
+        // Важно: путь к файлу из JSON
+        card.href = `Resources-game/${game.file}`;
+        card.innerHTML = `
+          <div class="card">
+            <h2>${game.emoji} ${game.name}</h2>
+            <p>${game.desc}</p>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+
+      const totalPages = Math.max(1, Math.ceil(filteredGames.length / ITEMS_PER_PAGE));
+      paginationEl.style.display = totalPages > 1 ? 'flex' : 'none';
+      if (totalPages > 1) {
+        paginationEl.innerHTML = `
+          <button ${currentPage === 1 ? 'disabled' : ''} onclick="changePage(-1)">❮</button>
+          <div class="page-info">${currentPage} / ${totalPages}</div>
+          <button ${currentPage === totalPages ? 'disabled' : ''} onclick="changePage(1)">❯</button>
+        `;
+      }
+    }
+
+    // Изменение страницы
+    window.changePage = function(delta) {
+      const totalPages = Math.max(1, Math.ceil(filteredGames.length / ITEMS_PER_PAGE));
+      const newPage = currentPage + delta;
+      if (newPage >= 1 && newPage <= totalPages) {
+        currentPage = newPage;
+        renderPage();
+      }
+    };
+
+    // Применение фильтра и сортировки
+    function applyFilters() {
+      const query = searchInput.value.toLowerCase();
+      filteredGames = currentOrder.filter(game =>
+        game.name.toLowerCase().includes(query) ||
+        game.desc.toLowerCase().includes(query)
+      );
+      currentPage = 1;
+      renderPage();
+    }
+
+    // Инициализация
+    async function init() {
+      allGames = await loadGames();
+      currentOrder = [...allGames];
+      filteredGames = [...allGames];
+
+      loadingEl.style.display = 'none';
+      grid.style.display = 'grid';
+      renderPage();
+    }
+
+    // Обработчики
+    searchInput.addEventListener('input', applyFilters);
+
+    document.querySelectorAll('.sort-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const mode = btn.dataset.sort;
+        if (mode === 'az') {
+          currentOrder = [...allGames].sort((a, b) => a.name.localeCompare(b.name, 'ru'));
+        } else if (mode === 'za') {
+          currentOrder = [...allGames].sort((a, b) => b.name.localeCompare(a.name, 'ru'));
+        } else {
+          currentOrder = [...allGames];
+        }
+        applyFilters();
+      });
+    });
+
+    document.getElementById('view-pc').addEventListener('click', () => {
+      document.body.classList.remove('mobile-view');
+      document.body.classList.add('force-pc');
+      document.getElementById('view-pc').classList.add('active');
+      document.getElementById('view-mobile').classList.remove('active');
+    });
+
+    document.getElementById('view-mobile').addEventListener('click', () => {
+      document.body.classList.add('mobile-view');
+      document.body.classList.remove('force-pc');
+      document.getElementById('view-mobile').classList.add('active');
+      document.getElementById('view-pc').classList.remove('active');
+    });
+
+    // Запуск
+    init();
+  </script>
+</body>
+</html>
