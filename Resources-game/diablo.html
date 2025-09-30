@@ -1,1 +1,264 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diablo — Chronology</title>
+  <style>
+    body {
+      font-family: 'Cinzel', 'Noto Sans JP', serif;
+      background: linear-gradient(135deg, #1a0505, #2a0808);
+      color: #f0e0d0;
+      padding: 15px;
+      margin: 0;
+      line-height: 1.6;
+      font-size: 15px;
+    }
+    h2 {
+      text-align: center;
+      color: #c1272d;
+      font-size: 24px;
+      margin: 15px 0 10px;
+      text-shadow: 0 0 8px rgba(193, 39, 45, 0.5);
+      letter-spacing: 1px;
+    }
+    .subtitle {
+      text-align: center;
+      color: #d4af37;
+      font-size: 14px;
+      margin-bottom: 15px;
+      font-style: italic;
+      font-family: 'Noto Sans JP', sans-serif;
+    }
 
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin: 15px 0;
+    }
+    .filter-btn {
+      background: rgba(50, 15, 15, 0.8);
+      color: #ffd780;
+      border: 1px solid #c1272d;
+      padding: 6px 12px;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 13px;
+      cursor: pointer;
+      border-radius: 20px;
+      transition: all 0.2s;
+    }
+    .filter-btn:hover {
+      background: rgba(70, 20, 20, 0.9);
+    }
+    .filter-btn.active {
+      background: #c1272d;
+      color: #fff;
+    }
+
+    .table-container {
+      overflow-x: auto;
+      width: 100%;
+      margin: 15px 0;
+    }
+    table {
+      width: 100%;
+      min-width: 650px;
+      border-collapse: collapse;
+      background: rgba(30, 10, 10, 0.92);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+      border: 1px solid #5a1a1a;
+    }
+    th, td {
+      padding: 12px 10px;
+      text-align: left;
+      border-bottom: 1px solid #4a1515;
+    }
+    th {
+      background: rgba(50, 15, 15, 0.95);
+      color: #ffd780;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    tr:last-child td {
+      border-bottom: none;
+    }
+    tr:hover {
+      background: rgba(60, 20, 20, 0.7);
+    }
+
+    .era-box {
+      background: rgba(40, 15, 15, 0.85);
+      border-left: 4px solid #c1272d;
+      padding: 15px;
+      border-radius: 0 8px 8px 0;
+      margin: 15px 0;
+      font-size: 14px;
+      line-height: 1.5;
+      font-family: 'Noto Sans JP', sans-serif;
+    }
+    .era-box h3 {
+      color: #d45555;
+      margin-top: 0;
+      font-size: 18px;
+      font-family: 'Cinzel', serif;
+    }
+
+    .note {
+      margin-top: 15px;
+      font-size: 12px;
+      color: #d8a080;
+      text-align: center;
+      line-height: 1.5;
+      font-family: 'Noto Sans JP', sans-serif;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 12px; }
+      h2 { font-size: 20px; }
+      .subtitle { font-size: 12px; }
+      .filter-btn { padding: 5px 10px; font-size: 12px; }
+      th, td { padding: 10px 8px; font-size: 13px; }
+      .era-box { padding: 12px; font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+  <h2>🔥 DIABLO — ХРОНОЛОГИЯ ПО ГОДАМ САНКТУАРИЯ</h2>
+  <div class="subtitle">«Война Небес и Ада длится тысячелетия… но решается здесь и сейчас»</div>
+
+  <div class="filters">
+    <button class="filter-btn active" data-filter="all">Все</button>
+    <button class="filter-btn" data-filter="main">Основные игры</button>
+    <button class="filter-btn" data-filter="expansion">Дополнения</button>
+    <button class="filter-btn" data-filter="remaster">Ремастеры</button>
+  </div>
+
+  <div class="table-container">
+    <table id="gamesTable">
+      <thead>
+        <tr>
+          <th>📅 Год Санктуария</th>
+          <th>🎮 Игра</th>
+          <th>🕹️ Платформы</th>
+          <th>😈 Антагонист</th>
+          <th>⚔️ Событие</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr data-type="main">
+          <td><b>~964</b></td>
+          <td><b>Первое вторжение</b></td>
+          <td>—</td>
+          <td>Повелители Греха</td>
+          <td>Архангел Тираэль впервые помогает смертным. Начало цикла войны.</td>
+        </tr>
+        <tr data-type="main">
+          <td><b>1263</b></td>
+          <td><b>Diablo</b></td>
+          <td>PC, Mac</td>
+          <td>Диабло (Повелитель Ужаса)</td>
+          <td>Герой побеждает Диабло в Тристане. Но носит его душу в себе.</td>
+        </tr>
+        <tr data-type="expansion">
+          <td><b>1263</b></td>
+          <td><b>Diablo: Hellfire</b></td>
+          <td>PC</td>
+          <td>Наал (Повелитель Гнева)</td>
+          <td>Неканоничное приключение в новых катакомбах.</td>
+        </tr>
+        <tr data-type="main">
+          <td><b>1264</b></td>
+          <td><b>Diablo II</b></td>
+          <td>PC, Mac</td>
+          <td>Мепhisto, Диабло</td>
+          <td>Освобождение Мепhisto. Поход через пустыню. Смерть Диабло.</td>
+        </tr>
+        <tr data-type="expansion">
+          <td><b>1265</b></td>
+          <td><b>Diablo II: Lord of Destruction</b></td>
+          <td>PC, Mac</td>
+          <td>Баал (Повелитель Разрушения)</td>
+          <td>Баал уничтожает Святой Артефакт на горе Арре.</td>
+        </tr>
+        <tr data-type="remaster">
+          <td><b>1265</b></td>
+          <td><b>Diablo II: Resurrected</b></td>
+          <td>PC, PS4/5, Xbox, Switch</td>
+          <td>Баал</td>
+          <td>Ремастер с 3D-графикой. Канон не изменён.</td>
+        </tr>
+        <tr data-type="main">
+          <td><b>1285</b></td>
+          <td><b>Diablo III</b></td>
+          <td>PC, PS3/4, Xbox, Switch</td>
+          <td>Диабло (Повелитель Тьмы)</td>
+          <td>Через 20 лет после D2. Все 7 Грехов объединены в Диабло.</td>
+        </tr>
+        <tr data-type="expansion">
+          <td><b>1285</b></td>
+          <td><b>Diablo III: Reaper of Souls</b></td>
+          <td>PC, консоли</td>
+          <td>Мальтазар (Архангел Смерти)</td>
+          <td>Герой получает силу Небес. Рождение новой угрозы.</td>
+        </tr>
+        <tr data-type="expansion">
+          <td><b>1285+</b></td>
+          <td><b>Diablo III: Rise of the Necromancer</b></td>
+          <td>PC, консоли</td>
+          <td>Культ мёртвых</td>
+          <td>Некромант из Кургистана прибывает в Санктуарий.</td>
+        </tr>
+        <tr data-type="main">
+          <td><b>1296</b></td>
+          <td><b>Diablo IV</b></td>
+          <td>PC, PS4/5, Xbox</td>
+          <td>Лилит (Мать Демонов)</td>
+          <td>Через 10+ лет после D3. Лилит возвращается, чтобы создать новую эру.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="era-box">
+    <h3>👁️ Ключевые временные промежутки:</h3>
+    <p>• <b>Diablo I → II</b>: 1 год<br>
+    • <b>Diablo II → III</b>: 20 лет<br>
+    • <b>Diablo III → IV</b>: ~11 лет<br>
+    Все даты подтверждены в <i>Diablo IV</i> через надгробия, книги и диалоги.</p>
+  </div>
+
+  <div class="note">
+    💀 Годы Санктуария — часть официального лора Blizzard.<br>
+    <i>Diablo IV</i> — самая тёмная и мрачная часть, возвращающаяся к корням.<br>
+    Слоган: «Санктуарий больше не принадлежит ангелам. Или демонам. Он наш».
+  </div>
+
+  <script>
+    document.querySelectorAll('.filter-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+          btn.classList.remove('active');
+        });
+        button.classList.add('active');
+
+        const filter = button.getAttribute('data-filter');
+        const rows = document.querySelectorAll('#gamesTable tbody tr');
+
+        rows.forEach(row => {
+          if (filter === 'all' || row.getAttribute('data-type') === filter) {
+            row.style.display = '';
+          } else {
+            row.style.display = 'none';
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
