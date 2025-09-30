@@ -310,7 +310,7 @@
 
   <div class="controls">
     <div class="note" style="width: 100%; margin-bottom: 10px;">
-    Переключайте режим отображения или обновляйте данные для загрузки новых хронологий
+      Переключайте режим отображения или обновляйте данные для загрузки новых хронологий
     </div>
     <div class="control-group">
       <button id="refresh-btn" aria-label="Обновить данные">🔄 Обновить</button>
@@ -329,7 +329,7 @@
   <div class="pagination" id="pagination" style="display:none;"></div>
 
   <div class="note">
-   © 2025 @FobosNS-POKROVSK FOREVER
+    © 2025 @FobosNS-POKROVSK FOREVER
   </div>
 
   <script>
@@ -394,13 +394,39 @@
       const totalPages = Math.max(1, Math.ceil(filteredGames.length / ITEMS_PER_PAGE));
       paginationEl.style.display = totalPages > 1 ? 'flex' : 'none';
       if (totalPages > 1) {
-        paginationEl.innerHTML = `
-          <button aria-label="Первая страница" ${currentPage === 1 ? 'disabled' : ''} onclick="changePage(-currentPage + 1)">«</button>
-          <button aria-label="Предыдущая страница" ${currentPage === 1 ? 'disabled' : ''} onclick="changePage(-1)">❮</button>
-          <div class="page-info">${currentPage} / ${totalPages}</div>
-          <button aria-label="Следующая страница" ${currentPage === totalPages ? 'disabled' : ''} onclick="changePage(1)">❯</button>
-          <button aria-label="Последняя страница" ${currentPage === totalPages ? 'disabled' : ''} onclick="changePage(totalPages - currentPage)">»</button>
-        `;
+        paginationEl.innerHTML = '';
+        const firstBtn = document.createElement('button');
+        firstBtn.textContent = '«';
+        firstBtn.setAttribute('aria-label', 'Первая страница');
+        firstBtn.disabled = currentPage === 1;
+        firstBtn.addEventListener('click', () => changePage(-currentPage + 1));
+        paginationEl.appendChild(firstBtn);
+
+        const prevBtn = document.createElement('button');
+        prevBtn.textContent = '❮';
+        prevBtn.setAttribute('aria-label', 'Предыдущая страница');
+        prevBtn.disabled = currentPage === 1;
+        prevBtn.addEventListener('click', () => changePage(-1));
+        paginationEl.appendChild(prevBtn);
+
+        const pageInfo = document.createElement('div');
+        pageInfo.className = 'page-info';
+        pageInfo.textContent = `${currentPage} / ${totalPages}`;
+        paginationEl.appendChild(pageInfo);
+
+        const nextBtn = document.createElement('button');
+        nextBtn.textContent = '❯';
+        nextBtn.setAttribute('aria-label', 'Следующая страница');
+        nextBtn.disabled = currentPage === totalPages;
+        nextBtn.addEventListener('click', () => changePage(1));
+        paginationEl.appendChild(nextBtn);
+
+        const lastBtn = document.createElement('button');
+        lastBtn.textContent = '»';
+        lastBtn.setAttribute('aria-label', 'Последняя страница');
+        lastBtn.disabled = currentPage === totalPages;
+        lastBtn.addEventListener('click', () => changePage(totalPages - currentPage));
+        paginationEl.appendChild(lastBtn);
       }
     }
 
@@ -454,7 +480,7 @@
         if (mode === 'az') {
           currentOrder = [...allGames].sort((a, b) => a.name.localeCompare(b.name, 'ru'));
         } else if (mode === 'za') {
-          currentOrder = [...allGames].sort((a, b) => b.name.localeCompare(b.name, 'ru'));
+          currentOrder = [...allGames].sort((a, b) => b.name.localeCompare(a.name, 'ru'));
         } else {
           currentOrder = [...allGames];
         }
