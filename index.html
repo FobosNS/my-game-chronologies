@@ -179,29 +179,21 @@
       .card { padding: 18px; }
     }
 
-    body.force-pc { zoom: 1 !important; }
+    body.force-pc { transform: scale(1) !important; }
     body.force-pc .grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important; }
 
     /* Mobile view simulation */
     body.mobile-view {
-      transform: scale(0.6); /* Изменено с zoom на scale для лучшей совместимости */
+      transform: scale(0.6);
       transform-origin: top center;
     }
-    
-    /* Force PC mode */
-    body.force-pc {
-      transform: scale(1) !important;
-    }
-    body.force-pc .grid {
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
-    }
-
-    .note { text-align: center; color: var(--text-secondary); font-size: 13px; margin-top: 15px; max-width: 600px; margin: 15px auto; }
 
     @media (prefers-reduced-motion: reduce) {
       .card { transition: none; }
       .card:hover { transform: none; box-shadow: none; }
     }
+
+    .note { text-align: center; color: var(--text-secondary); font-size: 13px; margin-top: 15px; max-width: 600px; margin: 15px auto; }
   </style>
 </head>
 <body>
@@ -209,18 +201,19 @@
   <h1>🎮 Хронологии игровых вселенных<br><small style="font-size:18px; color:#88ccdd;">by FobosNS</small></h1>
 
   <div class="search-box">
-    <input type="text" id="searchInput" placeholder="🔍 Поиск по названию или описанию...">
+    <input type="text" id="searchInput" placeholder="🔍 Поиск по названию или описанию..." aria-label="Поиск хронологий">
   </div>
 
   <div class="controls">
     <div class="control-group">
-      <button id="view-pc" class="active">🖥️ ПК-режим</button>
-      <button id="view-mobile">📱 Мобильный</button>
+      <button id="refresh-btn" aria-label="Обновить данные">🔄 Обновить</button>
+      <button id="view-pc" class="active" aria-label="Переключиться на ПК-режим">🖥️ ПК-режим</button>
+      <button id="view-mobile" aria-label="Переключиться на мобильный режим">📱 Мобильный</button>
     </div>
     <div class="control-group">
-      <button class="sort-btn active" data-sort="original">🔃 Исходный</button>
-      <button class="sort-btn" data-sort="az">🔤 А→Я</button>
-      <button class="sort-btn" data-sort="za">🔤 Я→А</button>
+      <button class="sort-btn active" data-sort="original" aria-label="Сортировка по исходному порядку">🔃 Исходный</button>
+      <button class="sort-btn" data-sort="az" aria-label="Сортировка по алфавиту А-Я">🔤 А→Я</button>
+      <button class="sort-btn" data-sort="za" aria-label="Сортировка по алфавиту Я-А">🔤 Я→А</button>
     </div>
   </div>
 
@@ -252,25 +245,16 @@
       return div.innerHTML;
     }
 
-    // Загрузка данных из games.json с кэшированием
+    // Загрузка данных из games.json
     async function loadGames() {
       try {
-        const cached = localStorage.getItem('gamesData');
-        if (cached) {
-          const games = JSON.parse(cached);
-          if (Array.isArray(games) && games.every(game => game.name && game.desc && game.file && game.emoji)) {
-            return games;
-          }
-        }
-
-        const response = await fetch('games.json');
+        const response = await fetch(`games.json?v=${Date.now()}`);
         if (!response.ok) {
-          throw new Error('games.json не найден или ошибка загрузки');
+          throw new Error('games.json не найден');
         }
         const games = await response.json();
-        // Валидация данных
-        const validGames = games.filter(game => game.name && game.desc && game.file && game.emoji);
-        localStorage.setItem('gamesData', JSON.stringify(validGames));
+        const validGames = games.filter(game => game.name && game.file);
+        console.log('Loaded from server:', validGames);
         return validGames;
       } catch (e) {
         console.error("Ошибка загрузки games.json:", e);
@@ -291,8 +275,8 @@
         card.href = `Resources-game/${game.file}`;
         card.innerHTML = `
           <div class="card">
-            <h2>${escapeHTML(game.emoji + ' ' + game.name)}</h2>
-            <p>${escapeHTML(game.desc)}</p>
+            <h2>${escapeHTML((game.emoji || '') + ' ' + game.name)}</h2>
+            <p>${escapeHTML(game.desc || 'Нет описания')}</p>
           </div>
         `;
         grid.appendChild(card);
@@ -326,7 +310,7 @@
       const query = searchInput.value.toLowerCase();
       filteredGames = currentOrder.filter(game =>
         game.name.toLowerCase().includes(query) ||
-        game.desc.toLowerCase().includes(query)
+        (game.desc || '').toLowerCase().includes(query)
       );
       currentPage = 1;
       renderPage();
@@ -334,6 +318,8 @@
 
     // Инициализация
     async function init() {
+      loadingEl.textContent = 'Загрузка хронологий...';
+      loadingEl.style.color = 'var(--accent)';
       allGames = await loadGames();
       currentOrder = [...allGames];
       filteredGames = [...allGames];
@@ -359,7 +345,7 @@
         if (mode === 'az') {
           currentOrder = [...allGames].sort((a, b) => a.name.localeCompare(b.name, 'ru'));
         } else if (mode === 'za') {
-          currentOrder = [...allGames].sort((a, b) => b.name.localeCompare(a.name, 'ru'));
+          currentOrder = [...allGames].sort((a, b) => b.name.localeCompare(b.name, 'ru'));
         } else {
           currentOrder = [...allGames];
         }
@@ -379,6 +365,12 @@
       document.body.classList.remove('force-pc');
       document.getElementById('view-mobile').classList.add('active');
       document.getElementById('view-pc').classList.remove('active');
+    });
+
+    document.getElementById('refresh-btn').addEventListener('click', () => {
+      searchInput.value = '';
+      document.querySelector('.sort-btn[data-sort="original"]').click();
+      init();
     });
 
     // Запуск
