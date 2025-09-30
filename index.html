@@ -1,1 +1,150 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Добро пожаловать — Хронологии игровых вселенных</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0b0e1a;
+      --bg-secondary: #121826;
+      --accent: #00f0ff;
+      --accent-hover: #00ccff;
+      --text-primary: #e0f8ff;
+      --text-secondary: #a0d8e8;
+      --card-bg: rgba(20, 30, 50, 0.7);
+      --card-border: #2a4a6a;
+      --shadow: rgba(0, 240, 255, 0.15);
+    }
 
+    body.light-theme {
+      --bg-primary: #f0f4f8;
+      --bg-secondary: #d9e2ec;
+      --accent: #007bff;
+      --accent-hover: #0056b3;
+      --text-primary: #1a1a1a;
+      --text-secondary: #4a4a4a;
+      --card-bg: rgba(255, 255, 255, 0.9);
+      --card-border: #ccc;
+      --shadow: rgba(0, 123, 255, 0.2);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Exo 2', sans-serif;
+      background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary));
+      color: var(--text-primary);
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      transition: background 0.4s ease;
+    }
+
+    .welcome-container {
+      text-align: center;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 40px;
+      max-width: 600px;
+      backdrop-filter: blur(4px);
+      box-shadow: 0 10px 25px var(--shadow);
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    h1 {
+      color: var(--accent);
+      font-family: 'Orbitron', monospace;
+      font-size: 36px;
+      margin: 0 0 20px;
+      text-shadow: 0 0 12px var(--shadow);
+    }
+
+    p {
+      font-size: 18px;
+      color: var(--text-secondary);
+      margin: 0 0 20px;
+    }
+
+    button {
+      background: var(--card-bg);
+      color: var(--text-primary);
+      border: 1px solid var(--card-border);
+      padding: 10px 20px;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.25s ease;
+    }
+
+    button:hover {
+      background: var(--accent-hover);
+      border-color: var(--accent);
+      color: var(--text-primary);
+    }
+
+    .countdown {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-top: 20px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      .welcome-container {
+        padding: 20px;
+      }
+      h1 {
+        font-size: 28px;
+      }
+      p {
+        font-size: 16px;
+      }
+      button {
+        padding: 8px 16px;
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="welcome-container">
+    <h1>Добро пожаловать!</h1>
+    <p>Добро пожаловать в Хронологии игровых вселенных by FobosNS. <br> Исследуйте увлекательные истории игровых миров!</p>
+    <button onclick="window.location.href='./index.html'">Перейти к хронологиям</button>
+    <div class="countdown" id="countdown">Перенаправление через <span id="timer">5</span> секунд...</div>
+  </div>
+
+  <script>
+    // Восстановление темы
+    if (localStorage.getItem('theme') === 'light') {
+      document.body.classList.add('light-theme');
+    }
+
+    // Автоматический редирект через 5 секунд
+    let timeLeft = 5;
+    const timerEl = document.getElementById('timer');
+    const countdown = setInterval(() => {
+      timeLeft--;
+      timerEl.textContent = timeLeft;
+      if (timeLeft <= 0) {
+        clearInterval(countdown);
+        window.location.href = './main.html';
+      }
+    }, 1000);
+  </script>
+</body>
+</html>
