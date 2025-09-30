@@ -1,5 +1,11 @@
 [
    {
+    "name": "Legacy of Kain",
+    "emoji": "🩸",
+    "desc": "Каноническая хронология",
+    "file": "Legacy of Kain.html"
+  },
+   {
     "name": "Heroes of Might and Magic",
     "emoji": "🏰",
     "desc": "Могущество — в армии. Магия — в сердце",
