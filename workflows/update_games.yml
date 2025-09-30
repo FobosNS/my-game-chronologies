@@ -1,1 +1,63 @@
+name: Update games.json
 
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'Resources-game/**'  # Срабатывает при изменении файлов в Resources-game
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        ref: main
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        pip install beautifulsoup4
+
+    - name: Generate games.json
+      run: |
+        python -c "
+import os
+import json
+from bs4 import BeautifulSoup
+
+games = []
+for filename in os.listdir('Resources-game'):
+    if filename.endswith('.html'):
+        filepath = os.path.join('Resources-game', filename)
+        with open(filepath, 'r', encoding='utf-8') as f:
+            content = f.read()
+        soup = BeautifulSoup(content, 'html.parser')
+        title_tag = soup.find('title')
+        title = title_tag.get_text().replace(' — Хронология', '').strip() if title_tag else filename.replace('.html', '').replace('-', ' ').title()
+        # Добавь эмодзи и описание по умолчанию или из комментариев в HTML
+        emoji = '🎮' # или извлекай из HTML, например, из <meta>
+        desc = 'Игровая хронология' # или извлекай из <meta>
+        games.append({'name': title, 'emoji': emoji, 'desc': desc, 'file': filename})
+
+with open('games.json', 'w', encoding='utf-8') as f:
+    json.dump(games, f, ensure_ascii=False, indent=2)
+        "
+
+    - name: Commit and push if changed
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add games.json
+        if [ -z "$(git status --porcelain)" ]; then
+          echo "No changes to commit"
+        else
+          git commit -m "[AUTO] Update games.json"
+          git push
+        fi
