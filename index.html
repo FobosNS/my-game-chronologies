@@ -357,52 +357,5 @@
     // Запуск
     init();
   </script>
-<!-- Фоновый аудиоплеер -->
-<audio id="bg-music" loop preload="auto">
-  <source src="music/background.mp3" type="audio/mpeg">
-  Ваш браузер не поддерживает аудио.
-</audio>
-
-<!-- Кнопка управления музыкой -->
-<button id="toggle-music" style="
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 1000;
-  padding: 10px 15px;
-  font-size: 16px;
-  border-radius: 50%;
-  background: rgba(10, 20, 35, 0.9);
-  color: #00f0ff;
-  border: 1px solid #00f0ff;
-  cursor: pointer;
-  box-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
-">
-  🔇 Вкл. музыку
-</button>
-
-<script>
-  const audio = document.getElementById('bg-music');
-  const toggleBtn = document.getElementById('toggle-music');
-  let isPlaying = false;
-
-  // Установим громкость по умолчанию
-  audio.volume = 0.2;
-
-  toggleBtn.addEventListener('click', () => {
-    if (isPlaying) {
-      audio.pause();
-      toggleBtn.innerHTML = '🔇 Вкл. музыку';
-      isPlaying = false;
-    } else {
-      audio.play().catch(e => {
-        console.log("Ошибка воспроизведения:", e);
-        alert("Браузер заблокировал автовоспроизведение. Нажмите ещё раз.");
-      });
-      toggleBtn.innerHTML = '🔊 Выкл. музыку';
-      isPlaying = true;
-    }
-  });
-</script>
 </body>
 </html>
