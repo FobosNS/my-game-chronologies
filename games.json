@@ -13,9 +13,15 @@
   },
   {
     "name": "Batman Arkham",
-    "emoji": "🌀",
+    "emoji": "🦇",
     "desc": "ХРОНОЛОГИЯ ГОТЭМА",
     "file": "Batman Arkham.html"
+  },
+  {
+    "name": "BREATH OF FIRE",
+    "emoji": "🐉",
+    "desc": "Сила дракона — в сердце героя",
+    "file": "BREATH OF FIRE.html"
   },
   {
     "name": "Resident Evil",
