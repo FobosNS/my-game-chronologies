@@ -30,9 +30,7 @@
       --shadow: rgba(0, 123, 255, 0.2);
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       font-family: 'Exo 2', sans-serif;
@@ -104,19 +102,16 @@
     }
 
     @media (max-width: 600px) {
-      .welcome-container {
-        padding: 20px;
-      }
-      h1 {
-        font-size: 28px;
-      }
-      p {
-        font-size: 16px;
-      }
-      button {
-        padding: 8px 16px;
-        font-size: 14px;
-      }
+      .welcome-container { padding: 20px; }
+      h1 { font-size: 28px; }
+      p { font-size: 16px; }
+      button { padding: 8px 16px; font-size: 14px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .welcome-container { animation: none; }
+      body { transition: none; }
+      button { transition: none; }
     }
   </style>
 </head>
@@ -124,8 +119,12 @@
   <div class="welcome-container">
     <h1>Добро пожаловать!</h1>
     <p>Добро пожаловать в Хронологии игровых вселенных by FobosNS. <br> Исследуйте увлекательные истории игровых миров!</p>
-    <button onclick="window.location.href='./index.html'">Перейти к хронологиям</button>
-    <div class="countdown" id="countdown">Перенаправление через <span id="timer">5</span> секунд...</div>
+
+    <button type="button" id="goBtn">Перейти к хронологиям</button>
+
+    <div class="countdown" id="countdown">
+      Перенаправление через <span id="timer">5</span> секунд...
+    </div>
   </div>
 
   <script>
@@ -134,16 +133,25 @@
       document.body.classList.add('light-theme');
     }
 
-    // Автоматический редирект через 5 секунд
+    const targetUrl = './main.html';
+
+    // Переход по кнопке
+    document.getElementById('goBtn').addEventListener('click', () => {
+      window.location.href = targetUrl;
+    });
+
+    // Автоматический редирект через 5 секунд (без показа "0")
     let timeLeft = 5;
     const timerEl = document.getElementById('timer');
+
     const countdown = setInterval(() => {
-      timeLeft--;
-      timerEl.textContent = timeLeft;
-      if (timeLeft <= 0) {
+      if (timeLeft <= 1) {
         clearInterval(countdown);
-        window.location.href = './main.html';
+        window.location.href = targetUrl;
+        return;
       }
+      timeLeft -= 1;
+      timerEl.textContent = String(timeLeft);
     }, 1000);
   </script>
 </body>
