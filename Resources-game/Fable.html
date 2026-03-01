@@ -3,178 +3,183 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fable — Chronology</title>
+  <title>Fable — Albion Archive</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+
+    :root {
+      --hero-blue: #2a52be;
+      --evil-red: #8b0000;
+      --gold: #d4af37;
+      --paper: #f4e4bc;
+    }
+
     body {
-      font-family: 'Cinzel', 'Noto Sans JP', serif;
-      background: linear-gradient(135deg, #0d150f, #1a2518);
+      font-family: 'Playfair Display', serif;
+      background: #0d150f url('https://www.transparenttextures.com/patterns/dark-matter.png');
       color: #f0e8d0;
-      padding: 25px;
       margin: 0;
-      line-height: 1.6;
-      font-size: 15px;
+      padding: clamp(10px, 5vw, 40px);
     }
-    h2 {
-      text-align: center;
-      color: #d4af37;
-      font-size: 28px;
-      margin-bottom: 8px;
-      text-shadow: 0 0 12px rgba(212, 175, 55, 0.5);
-      letter-spacing: 1px;
-    }
-    .subtitle {
-      text-align: center;
-      color: #c19a6b;
-      font-size: 16px;
-      margin-bottom: 24px;
-      font-style: italic;
-      font-family: 'Noto Sans JP', sans-serif;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 0 auto 28px;
-      background: rgba(25, 38, 30, 0.92);
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
-      border: 1px solid #4a4025;
-    }
-    th, td {
-      padding: 15px 14px;
-      text-align: left;
-      border-bottom: 1px solid #3a3525;
-    }
-    th {
-      background: rgba(45, 58, 40, 0.95);
-      color: #ffd780;
-      font-weight: 700;
-      font-size: 14px;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-    }
-    tr:last-child td {
-      border-bottom: none;
-    }
-    tr:hover {
-      background: rgba(55, 70, 50, 0.7);
-    }
-    .era-box {
-      background: rgba(40, 52, 35, 0.85);
-      border-left: 4px solid #d4af37;
-      padding: 18px;
-      border-radius: 0 10px 10px 0;
-      margin: 20px 0;
-      font-size: 14px;
-      line-height: 1.6;
-      font-family: 'Noto Sans JP', sans-serif;
-    }
-    .era-box h3 {
-      color: #d4af37;
-      margin-top: 0;
-      font-size: 19px;
+
+    .journal-container { max-width: 1100px; margin: 0 auto; border: 3px double var(--gold); padding: 30px; background: rgba(20, 30, 25, 0.95); box-shadow: 0 0 30px rgba(0,0,0,0.8); }
+
+    header { text-align: center; margin-bottom: 40px; border-bottom: 1px solid var(--gold); }
+
+    h1 { font-family: 'Cinzel', serif; color: var(--gold); font-size: 2.5rem; margin: 10px 0; letter-spacing: 3px; }
+
+    /* Вкладки */
+    .nav-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; }
+    .tab-btn {
+      background: rgba(212, 175, 55, 0.1);
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      padding: 10px 20px;
       font-family: 'Cinzel', serif;
+      cursor: pointer;
+      transition: 0.3s;
     }
-    .note {
-      margin-top: 20px;
-      font-size: 13px;
-      color: #c8b8a0;
+    .tab-btn:hover, .tab-btn.active { background: var(--gold); color: #1a2518; font-weight: bold; }
+
+    .tab-content { display: none; animation: fadeIn 0.5s ease; }
+    .tab-content.active { display: block; }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    table { width: 100%; border-collapse: collapse; background: rgba(0, 0, 0, 0.3); }
+    th { background: rgba(45, 58, 40, 0.9); color: var(--gold); padding: 15px; font-family: 'Cinzel'; border-bottom: 2px solid var(--gold); }
+    td { padding: 15px; border-bottom: 1px solid rgba(212, 175, 55, 0.1); }
+
+    .highlight { color: var(--gold); font-weight: bold; }
+
+    /* Карма-метр */
+    .karma-box {
+      border: 1px solid var(--gold);
+      padding: 20px;
+      background: rgba(0,0,0,0.4);
+      margin-top: 40px;
       text-align: center;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.5;
-      font-family: 'Noto Sans JP', sans-serif;
     }
-    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+
+    .karma-bar {
+      height: 20px;
+      background: linear-gradient(90deg, var(--evil-red) 0%, #ccc 50%, var(--hero-blue) 100%);
+      margin: 20px 0;
+      position: relative;
+      border-radius: 10px;
+    }
+
+    #karma-pointer {
+      position: absolute;
+      width: 4px;
+      height: 30px;
+      background: #fff;
+      top: -5px;
+      left: 50%;
+      transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 0 10px #fff;
+    }
+
+    .karma-btn { padding: 5px 15px; cursor: pointer; font-family: 'Cinzel'; border: 1px solid var(--gold); background: none; color: #fff; }
+
+    @media (max-width: 768px) { th:nth-child(4), td:nth-child(4) { display: none; } }
   </style>
 </head>
 <body>
-  <h2>🏰 FABLE — ХРОНОЛОГИЯ АЛБИОНА</h2>
-  <div class="subtitle">«Твоя легенда — твоё отражение»</div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>📅 Эпоха</th>
-        <th>🎮 Игра</th>
-        <th>👑 Герой</th>
-        <th>⚔️ Событие</th>
-        <th>🔗 Связь</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><b>До основания Бовера</b></td>
-        <td><b>Fable Legends</b><br><i>(отменена)</i></td>
-        <td>Четыре героя</td>
-        <td>Битва с Виллой</td>
-        <td>Действие за сотни лет до Fable I. Показывала истоки зла в Албоне. Не выпущена.</td>
-      </tr>
-      <tr>
-        <td><b>Эпоха Героя Бовера</b><br>(примерно 1–10 гг.)</td>
-        <td><b>Fable / Fable: The Lost Chapters</b></td>
-        <td>Герой Бовера</td>
-        <td>Месть за семью<br>Борьба с Джеком из Ниоткуда</td>
-        <td>Первый избранный. Основывает Академию Героев. Его выбор определяет будущее Албиона.</td>
-      </tr>
-      <tr>
-        <td><b>Спустя 500 лет</b></td>
-        <td><b>Fable II</b></td>
-        <td>Герой Бовера II</td>
-        <td>Промышленная революция<br>Борьба с Лордом Люсьеном</td>
-        <td>Мир стал урбанизированным. Герой — потомок первого. Спасает Албон от тирании и магии.</td>
-      </tr>
-      <tr>
-        <td><b>Спустя 100 лет после Fable II</b></td>
-        <td><b>Fable III</b></td>
-        <td>Принц/Принцесса</td>
-        <td>Революция против короля<br>Правление Албиона</td>
-        <td>Становится монархом. Решает: спасти народ или предать его ради войны с тьмой.</td>
-      </tr>
-      <tr>
-        <td><b>Между Fable I и II</b></td>
-        <td><b>Fable: The Journey</b></td>
-        <td>Габриэль</td>
-        <td>Путешествие с Терезой</td>
-        <td>Спин-офф (Kinect). Каноничен: Тереза — сквозной персонаж. Габриэль — новый герой.</td>
-      </tr>
-      <tr>
-        <td><b>2025+ (анонс)</b></td>
-        <td><b>Fable (перезапуск)</b></td>
-        <td>Новый герой</td>
-        <td>Новое начало</td>
-        <td>Полный перезапуск от Playground Games. Сохраняет дух, но не связан напрямую с трилогией.</td>
-      </tr>
-    </tbody>
-  </table>
+<div class="journal-container">
+  <header>
+    <h1>ALBION_CHRONICLES</h1>
+    <p style="font-style: italic; color: var(--gold);">«Курица не виновата... но её можно пнуть»</p>
+  </header>
 
-  <div class="era-box">
-    <h3>🌀 Эволюция Албиона:</h3>
-    <p><b>• Fable I (средневековье)</b>:<br>
-    — Деревни, магия, мифы.<br>
-    — Система «добро/зло» влияет на внешность и репутацию.<br>
-    — Тереза — провидица, направляющая героя.</p>
-    <p><b>• Fable II (эпоха промышленности)</b>:<br>
-    — Города, пистолеты, собака-компаньон.<br>
-    — Акцент на семье, богатстве, последствиях.</p>
-    <p><b>• Fable III (эпоха империи)</b>:<br>
-    — Политика, правление, моральный выбор на государственном уровне.<br>
-    — «Собери армию за 1 год — или пожертвуй народом ради победы?»</p>
+  <div class="nav-tabs">
+    <button class="tab-btn active" onclick="openTab(event, 'trilogy')">Оригинальная трилогия</button>
+    <button class="tab-btn" onclick="openTab(event, 'newera')">Новое начало (2025)</button>
   </div>
 
-  <div class="era-box">
-    <h3>👑 Ключевые фигуры:</h3>
-    <p>• <b>Тереза</b> — слепая провидица, появляется во всех играх. Сестра Героя Бовера.<br>
-    • <b>Скринджер</b> — торговец, продаёт всё: от мечей до домов.<br>
-    • <b>Джек из Ниоткуда</b> — главный злодей Fable I, мастер иллюзий и манипуляций.<br>
-    • <b>Выбор</b> — главный «персонаж»: твои поступки формируют мир.</p>
+  <div id="trilogy" class="tab-content active">
+    <table>
+      <thead>
+        <tr><th>Эпоха</th><th>Игра</th><th>Герой</th><th>Судьба Албиона</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Древняя</td><td><span class="highlight">Fable I / Anniversary</span></td><td>Дубодол (Hero of Oakvale)</td><td>Битва с Джеком-из-Тени. Формирование Гильдии.</td></tr>
+        <tr><td>Просвещение</td><td><span class="highlight">Fable II</span></td><td>Воробушек (Sparrow)</td><td>Строительство Шпиля. Огнестрельное оружие.</td></tr>
+        <tr><td>Индустриальная</td><td><span class="highlight">Fable III</span></td><td>Монарх</td><td>Революция. Борьба с Хозяином Теней (The Crawler).</td></tr>
+      </tbody>
+    </table>
   </div>
 
-  <div class="note">
-    💡 Fable — не просто RPG. Это <b>зеркало игрока</b>: хочешь быть святым или тираном?<br>
-    <i>Fable II</i> — самая продаваемая часть (свыше 5 млн копий).<br>
-    Новый <i>Fable</i> (2025+) — ожидается как «духовное перерождение» с открытым миром и юмором.
+  <div id="newera" class="tab-content">
+    <div style="border-left: 4px solid var(--gold); padding-left: 20px;">
+      <h3 style="color: var(--gold); font-family: 'Cinzel';">FABLE (2025) — Playground Games</h3>
+      <p><b>Статус:</b> Релиз запланирован на 2025 год.</p>
+      <p><b>Концепция:</b> Переосмысление Албиона. В центре сюжета — <b>Хамфри</b> ( Humphrey, величайший герой в отставке) и протагонист, чья история высмеивает и одновременно воспевает классические фэнтези-тропы.</p>
+      <p><b>Технология:</b> Движок ForzaTech, обеспечивающий беспрецедентный уровень детализации природы Албиона.</p>
+    </div>
   </div>
+
+  <div class="karma-box">
+    <h3 style="font-family: 'Cinzel'; color: var(--gold); margin: 0;">🔮 ПУТЬ СУДЬБЫ</h3>
+    <p style="font-size: 0.9rem;">Как ваши действия изменят облик Героя?</p>
+    
+    <div class="karma-bar"><div id="karma-pointer"></div></div>
+    
+    <div style="display: flex; justify-content: space-around;">
+      <button class="karma-btn" onclick="moveKarma(-40)" style="border-color: var(--evil-red);">Съесть цыпленка (-)</button>
+      <button class="karma-btn" onclick="moveKarma(0)" style="border-color: #ccc;">Сдать квест</button>
+      <button class="karma-btn" onclick="moveKarma(40)" style="border-color: var(--hero-blue);">Пожертвовать храму (+)</button>
+    </div>
+    <p id="karma-status" style="margin-top: 15px; font-weight: bold; font-family: 'Cinzel';">Статус: Нейтрален</p>
+  </div>
+
+  <div style="margin-top: 30px; font-size: 0.8rem; text-align: center; color: var(--gold); opacity: 0.7;">
+    * Тереза видит всё. Ваши выборы сохраняются в вечности.
+  </div>
+</div>
+
+<script>
+  function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tab-content");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+      tabcontent[i].classList.remove("active");
+    }
+    tablinks = document.getElementsByClassName("tab-btn");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].classList.remove("active");
+    }
+    document.getElementById(tabName).style.display = "block";
+    document.getElementById(tabName).classList.add("active");
+    evt.currentTarget.classList.add("active");
+  }
+
+  function moveKarma(val) {
+    const pointer = document.getElementById('karma-pointer');
+    const status = document.getElementById('karma-status');
+    const container = document.querySelector('.journal-container');
+    
+    // Центр — 50%. Смещение на val.
+    let position = 50 + val;
+    pointer.style.left = position + '%';
+    
+    if (val < -10) {
+      status.innerText = "Статус: ТИРАН (Растут рога)";
+      status.style.color = "var(--evil-red)";
+      container.style.boxShadow = "0 0 30px rgba(139, 0, 0, 0.5)";
+    } else if (val > 10) {
+      status.innerText = "Статус: СВЯТОЙ (Нимб сияет)";
+      status.style.color = "#00d4ff";
+      container.style.boxShadow = "0 0 30px rgba(0, 212, 255, 0.4)";
+    } else {
+      status.innerText = "Статус: НЕЙТРАЛЕН";
+      status.style.color = "var(--gold)";
+      container.style.boxShadow = "0 0 30px rgba(0, 0, 0, 0.8)";
+    }
+  }
+</script>
+
 </body>
 </html>
