@@ -20,7 +20,6 @@
       overflow-x: hidden;
     }
 
-    /* Эффект помех (Глитч) */
     .bg-glitch {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
@@ -47,61 +46,57 @@
       position: relative;
     }
 
-    .container::after {
-      content: "";
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: repeating-linear-gradient(0deg, rgba(0,0,0,0.1) 0px, rgba(0,0,0,0.1) 1px, transparent 1px, transparent 2px);
-      pointer-events: none;
-    }
-
     header {
       text-align: center;
       border-bottom: 2px solid #ff3333;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
       padding-bottom: 15px;
     }
 
     h1 {
       font-family: 'Orbitron', sans-serif;
       color: #ff3333;
-      font-size: clamp(1.5rem, 6vw, 2.5rem);
+      font-size: clamp(1.2rem, 5vw, 2.5rem);
       margin: 0;
       text-transform: uppercase;
       letter-spacing: 4px;
       text-shadow: 0 0 15px #ff0000;
     }
 
-    .status-bar {
+    .tabs-nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 25px;
+    }
+
+    .tab-btn {
+      background: #1a0a0a;
+      border: 1px solid #ff3333;
+      color: #ff3333;
+      padding: 10px 15px;
+      cursor: pointer;
+      font-family: 'Orbitron', sans-serif;
       font-size: 0.7rem;
-      color: #ffcc00;
-      letter-spacing: 2px;
-      margin-top: 10px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: rgba(0,0,0,0.5);
-      font-size: 0.9rem;
-      margin-bottom: 30px;
-    }
-
-    th { 
-      background: #3a1010; 
-      color: #ffcc00; 
-      padding: 15px; 
-      text-align: left; 
-      border-bottom: 2px solid #ff3333;
+      transition: 0.3s;
       text-transform: uppercase;
     }
 
-    td { padding: 12px; border-bottom: 1px solid #4a1515; }
-    tr:hover { background: rgba(255, 51, 51, 0.05); }
+    .tab-btn:hover, .tab-btn.active {
+      background: #ff3333;
+      color: #000;
+      box-shadow: 0 0 10px #ff3333;
+    }
 
-    .era-grid {
+    .tab-content { display: none; }
+    .tab-content.active { display: block; animation: fadeIn 0.4s; }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 20px;
     }
 
@@ -120,8 +115,32 @@
       border-bottom: 1px solid #5a1a1a;
     }
 
-    .highlight { color: #ffcc00; font-weight: bold; }
-    
+    .memo-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .memo-list li {
+      margin-bottom: 15px;
+      padding-left: 25px;
+      position: relative;
+    }
+
+    .memo-list li::before {
+      content: "⚠️";
+      position: absolute;
+      left: 0;
+    }
+
+    .weapon-tag {
+      color: #ffcc00;
+      font-size: 0.6rem;
+      border: 1px solid #ffcc00;
+      padding: 2px 5px;
+      margin-right: 5px;
+      text-transform: uppercase;
+    }
+
     .footer-note {
       text-align: center;
       margin-top: 40px;
@@ -130,8 +149,6 @@
       border-top: 1px solid #5a1a1a;
       padding-top: 20px;
     }
-
-    b { color: #fff; }
   </style>
 </head>
 <body>
@@ -141,50 +158,88 @@
 <div class="container">
   <header>
     <h1>POSTAL_SYSTEM_CORRUPTION</h1>
-    <div class="status-bar">STATUS: GOING_POSTAL // MENTAL_STATE: CRITICAL // 1997-2026</div>
+    <div style="font-size: 0.7rem; color: #ffcc00; letter-spacing: 2px;">PARADISE CITY GOVT. ARCHIVE // NO REGRETS</div>
   </header>
 
-  <table>
-    <thead>
-      <tr>
-        <th>ГОД</th>
-        <th>ОБЪЕКТ</th>
-        <th>ЛОКАЦИЯ</th>
-        <th>СУТЬ ИНЦИДЕНТА</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td>1997</td><td><b>Postal / Redux</b></td><td>Paradise, AZ</td><td>Начало резни. Чувак (Sr.) слышит «Их». Штурм авиабазы.</td></tr>
-      <tr><td>2003</td><td><b>Postal 2</b></td><td>Paradise</td><td>5 дней из жизни Чувака (Jr.). Поход за молоком стал геноцидом.</td></tr>
-      <tr><td>2005</td><td><b>Apocalypse Weekend</b></td><td>Paradise Labs</td><td>Выходные в дурдоме. Появление зомби-коров и мачете.</td></tr>
-      <tr><td>2009</td><td><b>Postal Babes</b></td><td>University</td><td>Мобильный инцидент (J2ME). Почтальон спасает заложниц.</td></tr>
-      <tr><td>2011</td><td><b>Postal III</b></td><td>Catharsis</td><td>Позор семьи. Чувак в России (технически). Считается «дурным сном».</td></tr>
-      <tr><td>2015</td><td><b>Paradise Lost</b></td><td>Nuclear Wasteland</td><td>11 лет спустя. Поиск собаки Чампа в радиоактивных руинах.</td></tr>
-      <tr><td>2022</td><td><b>Postal 4: No Regerts</b></td><td>Edensin, AZ</td><td>Новый город, новые грехи. Истинный сиквел второй части.</td></tr>
-      <tr><td>2022</td><td><b>Brain Damaged</b></td><td>Mindscape</td><td>Психоделический бумер-шутер. Война внутри головы Чувака.</td></tr>
-      <tr><td>2026</td><td><b>Postal: Project X</b></td><td>Unknown</td><td>[ДАННЫЕ ЗАСЕКРЕЧЕНЫ] — Ожидание следующей фазы безумия.</td></tr>
-    </tbody>
-  </table>
+  <nav class="tabs-nav">
+    <button class="tab-btn active" onclick="openTab(event, 'history')">Архив инцидентов</button>
+    <button class="tab-btn" onclick="openTab(event, 'arsenal')">Арсенал безумца</button>
+    <button class="tab-btn" onclick="openTab(event, 'memo')">Памятка гражданина</button>
+  </nav>
 
-  <div class="era-grid">
-    <div class="card">
-      <h3>🧬 ЭВОЛЮЦИЯ ГНЕВА</h3>
-      <p>От изометрического триллера 1997-го до полного 3D-абсурда. Серия прошла путь от <span class="highlight">запрещенной в 13 странах</span> до статуса культовой сатиры.</p>
+  <div id="history" class="tab-content active">
+    <div class="grid">
+      <div class="card">
+        <h3>1997: ORIGIN</h3>
+        <p>Начало резни. Почтальон Старший решает, что мир болен, и пытается "очистить" его. Конечная точка — психиатрическая лечебница.</p>
+      </div>
+      <div class="card">
+        <h3>2003: THE DUDE</h3>
+        <p>Чувак Младший просто хотел забрать чек. Но очереди в банке, сектанты и марширующие оркестры изменили его планы.</p>
+      </div>
+      <div class="card">
+        <h3>2015: NUCLEAR FATE</h3>
+        <p>После ядерного взрыва Парадайз превратился в лоскутное одеяло из фракций. Почтальон вернулся за собакой и закончил начатое.</p>
+      </div>
     </div>
-    <div class="card">
-      <h3>🐕 ЧАМП (CHAMP)</h3>
-      <p>Единственное существо, которое любит Чувак. Главная мотивация в <span class="highlight">Paradise Lost</span> и верный спутник во всех бедах.</p>
+  </div>
+
+  <div id="arsenal" class="tab-content">
+    <div class="grid">
+      <div class="card">
+        <h3>🐈 КОТ-ГЛУШИТЕЛЬ</h3>
+        <p><span class="weapon-tag">Silent</span> <span class="weapon-tag">Cruel</span></p>
+        <p>Самое экологичное бесшумное решение. После 10 выстрелов "глушитель" убегает, если останется жив.</p>
+      </div>
+      <div class="card">
+        <h3>⛽ КАНИСТРА</h3>
+        <p><span class="weapon-tag">Fire</span> <span class="weapon-tag">Classic</span></p>
+        <p>Жидкость для розжига социальных конфликтов. Рисуйте круги, поджигайте, наслаждайтесь.</p>
+      </div>
+      <div class="card">
+        <h3>✂️ НОЖНИЦЫ</h3>
+        <p><span class="weapon-tag">Projectile</span> <span class="weapon-tag">Chaos</span></p>
+        <p>Забудьте, чему учила мама. Эти ножницы рикошетят от стен, превращая комнату в мясорубку.</p>
+      </div>
     </div>
-    <div class="card">
-      <h3>🎙️ ГОЛОСА</h3>
-      <p>Рик Хантер и Кори Круз. Разные игры — разные голоса, но один и тот же уровень цинизма и ненависти к очереди в банке.</p>
+  </div>
+
+  <div id="memo" class="tab-content">
+    <div class="card" style="border-left-color: #ff3333; background: rgba(80, 20, 20, 0.4);">
+      <h3>📜 ПРАВИЛА ВЫЖИВАНИЯ В ПАРАДАЙЗЕ</h3>
+      <ul class="memo-list">
+        <li><b>Не стойте в очередях:</b> Очередь — это прямой путь к психическому расстройству. Если банк занят, просто используйте альтернативные методы входа.</li>
+        <li><b>Отношение к полиции:</b> Мочиться на офицеров полиции настоятельно не рекомендуется, если только вы не хотите проверить скорость их реакции.</li>
+        <li><b>Священники и Сектанты:</b> Если увидите человека с плакатом "Конец близок" — знайте, он, скорее всего, прав. Бегите первым.</li>
+        <li><b>Здоровье:</b> Если вы ранены, съешьте пончик или используйте "Здоровую трубку". О побочных эффектах (галлюцинациях) не беспокойтесь.</li>
+        <li><b>Подписи:</b> Если к вам подойдет высокий человек в плаще и очках с просьбой подписать петицию — <b>ПРОСТО ПОДПИШИТЕ ЕЁ</b>. Вам же будет лучше.</li>
+      </ul>
+      <p style="text-align: center; color: #ff3333; font-weight: bold; margin-top: 20px;">Голосуйте за мэра! Или нет. Всё равно всё взорвется.</p>
     </div>
   </div>
 
   <div class="footer-note">
-    «Я НИ О ЧЕМ НЕ ЖАЛЕЮ!» — ПОСЛЕДНИЕ СЛОВА ПЕРЕД ПЕРЕЗАГРУЗКОЙ МИРА
+    «ПОДПИШИ ЭТУ ЧЕРТОВУ ПЕТИЦИЮ, ИЛИ ЭТО ПРИДЕТСЯ СДЕЛАТЬ ТВОИМ ВЫЖИВШИМ РОДСТВЕННИКАМ!»
   </div>
 </div>
+
+<script>
+  function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tab-content");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+      tabcontent[i].classList.remove("active");
+    }
+    tablinks = document.getElementsByClassName("tab-btn");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].classList.remove("active");
+    }
+    document.getElementById(tabName).style.display = "block";
+    document.getElementById(tabName).classList.add("active");
+    evt.currentTarget.classList.add("active");
+  }
+</script>
 
 </body>
 </html>
