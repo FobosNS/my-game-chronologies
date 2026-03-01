@@ -3,174 +3,217 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CoD: Полный тактический архив</title>
+  <title>CoD: Центральный Архив Командования</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap');
 
     :root {
-      --hud-green: #33ff66;
-      --hud-blue: #00ccff;
-      --hud-red: #ff4444;
-      --bg-dark: #05070a;
-      --panel: rgba(20, 25, 30, 0.9);
-      --border: 1px solid #1a2520;
+      --green: #33ff66;
+      --dim-green: rgba(51, 255, 102, 0.1);
+      --amber: #ffaa00;
+      --cyan: #00f2ff;
+      --bg: #06080a;
+      --panel: #0c1218;
     }
+
+    * { box-sizing: border-box; transition: 0.2s; }
 
     body {
+      background: var(--bg);
+      color: #b0d0b0;
       font-family: 'Share Tech Mono', monospace;
-      background: var(--bg-dark);
-      color: #c0f0c0;
       margin: 0;
       padding: 20px;
-      line-height: 1.4;
+      overflow-x: hidden;
     }
 
-    .container { max-width: 1200px; margin: 0 auto; }
-
-    h2 {
-      font-family: 'Orbitron', sans-serif;
-      color: var(--hud-green);
-      border-bottom: 2px solid var(--hud-green);
-      padding-bottom: 10px;
-      text-transform: uppercase;
-      font-size: 1.4rem;
-    }
-
-    .grid-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-      gap: 25px;
-      margin-top: 20px;
-    }
-
-    .sector {
-      background: var(--panel);
-      border: var(--border);
+    .terminal-header {
+      text-align: center;
+      border: 1px solid var(--green);
       padding: 15px;
-      position: relative;
+      margin-bottom: 25px;
+      background: var(--panel);
+      box-shadow: 0 0 15px var(--dim-green);
     }
 
-    .sector::before {
-      content: 'SECTOR_ID: ' attr(data-sector);
-      position: absolute;
-      top: -10px;
-      right: 10px;
-      background: var(--bg-dark);
-      padding: 0 5px;
-      font-size: 0.7rem;
-      color: var(--hud-blue);
+    h1 { font-family: 'Orbitron', sans-serif; color: var(--green); margin: 0; font-size: 1.5rem; letter-spacing: 3px; }
+
+    /* Навигация (Кнопки-Вкладки) */
+    .tab-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 25px;
     }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-      font-size: 0.85rem;
+    .tab-btn {
+      background: transparent;
+      border: 1px solid var(--green);
+      color: var(--green);
+      padding: 10px 18px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.75rem;
+      cursor: pointer;
+      text-transform: uppercase;
     }
 
-    th {
-      text-align: left;
-      color: var(--hud-blue);
-      border-bottom: 1px solid var(--hud-blue);
-      padding: 8px;
+    .tab-btn:hover, .tab-btn.active {
+      background: var(--green);
+      color: var(--bg);
+      box-shadow: 0 0 10px var(--green);
     }
 
-    td { padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-
-    .tag {
-      font-size: 0.7rem;
-      padding: 1px 4px;
-      border: 1px solid;
+    /* Контент вкладок */
+    .tab-content {
+      display: none;
+      background: var(--panel);
+      border: 1px solid #1a2a20;
+      padding: 20px;
+      animation: fadeIn 0.4s ease;
     }
-    .tag-ww2 { border-color: #888; color: #888; }
-    .tag-fut { border-color: var(--hud-red); color: var(--hud-red); }
-    .tag-reb { border-color: var(--hud-green); color: var(--hud-green); }
 
-    @media (max-width: 600px) {
-      .grid-container { grid-template-columns: 1fr; }
+    .tab-content.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 { color: var(--amber); border-bottom: 1px solid var(--amber); padding-bottom: 5px; font-size: 1.1rem; }
+
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.85rem; }
+    th { text-align: left; color: var(--cyan); border-bottom: 1px solid #223333; padding: 10px; }
+    td { padding: 10px; border-bottom: 1px solid #152015; }
+
+    .tag { font-size: 0.7rem; padding: 2px 5px; border-radius: 3px; border: 1px solid; }
+    .tag-exclusive { border-color: var(--amber); color: var(--amber); }
+    .tag-classic { border-color: #888; color: #888; }
+
+    .status-msg { font-size: 0.7rem; color: var(--amber); margin-top: 20px; text-align: center; }
+
+    @media (max-width: 768px) {
+      .tab-btn { flex: 1 1 45%; font-size: 0.65rem; }
+      th:nth-child(3), td:nth-child(3) { display: none; }
     }
   </style>
 </head>
 <body>
 
-<div class="container">
-  <h1 style="font-family: 'Orbitron'; text-align: center; color: var(--hud-green);">MASTER_DATABASE_SYNC</h1>
-
-  <div class="grid-container">
-    
-    <div class="sector" data-sector="HISTORICAL_DATA">
-      <h2>📜 Классика (WWII)</h2>
-      <table>
-        <thead>
-          <tr><th>Год</th><th>Операция</th><th>Локация</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>2003</td><td><b>Call of Duty 1</b></td><td>Европа</td></tr>
-          <tr><td>2005</td><td><b>Call of Duty 2</b></td><td>Африка/РФ</td></tr>
-          <tr><td>2006</td><td><b>Call of Duty 3</b></td><td>Нормандия</td></tr>
-          <tr><td>2008</td><td><b>World at War</b></td><td>Тихий океан/Берлин</td></tr>
-          <tr><td>2017</td><td><b>CoD: WWII</b></td><td>Западный фронт</td></tr>
-          <tr><td>2021</td><td><b>Vanguard</b></td><td>Глобальный фронт</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="sector" data-sector="REBOOT_PROTOCOL">
-      <h2>🔄 Перезапуск (MW 2019+)</h2>
-      <table>
-        <thead>
-          <tr><th>Год</th><th>Операция</th><th>Цель</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>2019</td><td><b>MW (2019)</b></td><td>Барков / Аль-Катала</td></tr>
-          <tr><td>2022</td><td><b>MW II (2022)</b></td><td>Картель / Хасан</td></tr>
-          <tr><td>2023</td><td><b>MW III (2023)</b></td><td>Макаров (Конни)</td></tr>
-          <tr><td>2020+</td><td><b>Warzone</b></td><td>Верданск / Аль-Мазра</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="sector" data-sector="FUTURE_WARS">
-      <h2>🚀 Будущее (Изоляция)</h2>
-      <table>
-        <thead>
-          <tr><th>Год</th><th>Операция</th><th>Технология</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>2013</td><td><b>Ghosts</b></td><td>Кинетическое оружие</td></tr>
-          <tr><td>2014</td><td><b>Advanced Warfare</b></td><td>Экзоскелеты Atlas</td></tr>
-          <tr><td>2016</td><td><b>Infinite Warfare</b></td><td>Межпланетные бои</td></tr>
-          <tr><td>2018</td><td><b>Black Ops 4</b></td><td>Только онлайн-симуляция</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="sector" data-sector="MOBILE_OPS">
-      <h2>📱 Мобильные подразделения</h2>
-      <table>
-        <thead>
-          <tr><th>Тип</th><th>Название</th><th>Статус</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Mobile</td><td><b>CoD: Mobile</b></td><td>Активен</td></tr>
-          <tr><td>Mobile</td><td><b>Warzone Mobile</b></td><td>Развернут</td></tr>
-          <tr><td>Console</td><td><b>Big Red One / Declassified</b></td><td>Архив</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-  </div>
-
-  
-
-  <div style="margin-top: 30px; padding: 15px; border: 1px dashed var(--hud-red); background: rgba(255,68,68,0.05);">
-    <h3 style="color: var(--hud-red); margin-top: 0;">⚠️ ВНИМАНИЕ: СИНХРОНИЗАЦИЯ КАНОНА</h3>
-    <p style="font-size: 0.9rem;">
-      Согласно последним данным (2024-2026), Activision объединяет <b>Vanguard, WWII, Black Ops и Modern Warfare (Reboot)</b> в одну гигантскую мета-вселенную через сюжеты Warzone. 
-      <i>Ghosts, Advanced Warfare и Infinite Warfare</i> остаются в статусе <b>"Альтернативных реальностей"</b>.
-    </p>
-  </div>
+<div class="terminal-header">
+  <h1>COD_GLOBAL_DATABASE_V4.0</h1>
+  <div style="font-size:0.7rem; opacity:0.6;">ПОЛНАЯ ИСТОРИЯ КОНФЛИКТОВ С 2003 ПО 2026</div>
 </div>
+
+<div class="tab-container">
+  <button class="tab-btn active" onclick="openTab(event, 'classic')">Классика/WWII</button>
+  <button class="tab-btn" onclick="openTab(event, 'mw')">Modern Warfare</button>
+  <button class="tab-btn" onclick="openTab(event, 'bo')">Black Ops</button>
+  <button class="tab-btn" onclick="openTab(event, 'future')">Будущее/Спин-оффы</button>
+  <button class="tab-btn" onclick="openTab(event, 'mobile')">Мобильные/Порты</button>
+</div>
+
+<div id="classic" class="tab-content active">
+  <h2>📜 ИСТОРИЧЕСКИЙ СЕКТОР (1942–1945)</h2>
+  
+  <table>
+    <thead><tr><th>Год</th><th>Название</th><th>Спецификация</th></tr></thead>
+    <tbody>
+      <tr><td>2003</td><td><b>Call of Duty (1)</b></td><td>Старт серии (ПК)</td></tr>
+      <tr><td>2004</td><td><b>United Offensive</b></td><td>Расширение (Аддон)</td></tr>
+      <tr><td>2004</td><td><b>Finest Hour</b></td><td>Первый консольный эксклюзив</td></tr>
+      <tr><td>2005</td><td><b>Call of Duty 2</b></td><td>Технологический прорыв</td></tr>
+      <tr><td>2005</td><td><b>Big Red One</b></td><td>Фокус на 1-й пехотной дивизии</td></tr>
+      <tr><td>2006</td><td><b>Call of Duty 3</b></td><td>Только консоли (Xbox/PS)</td></tr>
+      <tr><td>2008</td><td><b>World at War</b></td><td>Кровавая версия WWII (Резнов)</td></tr>
+      <tr><td>2017</td><td><b>CoD: WWII</b></td><td>Возврат к истокам</td></tr>
+      <tr><td>2021</td><td><b>Vanguard</b></td><td>Спецгруппы и рождение канона</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div id="mw" class="tab-content">
+  <h2>⚡ СОВРЕМЕННЫЙ ТЕАТР (2007–2026)</h2>
+  
+  <table>
+    <thead><tr><th>Год</th><th>Название</th><th>Статус</th></tr></thead>
+    <tbody>
+      <tr><td>2007</td><td><b>Modern Warfare (4)</b></td><td>Классика (Оригинал)</td></tr>
+      <tr><td>2009</td><td><b>Modern Warfare 2</b></td><td>Культовый сиквел (Шепард)</td></tr>
+      <tr><td>2011</td><td><b>Modern Warfare 3</b></td><td>Финал оригинальной саги</td></tr>
+      <tr><td>2019</td><td><b>MW (Reboot)</b></td><td>Перезапуск серии</td></tr>
+      <tr><td>2022</td><td><b>MW II (Reboot)</b></td><td>ОТГ-141: Современность</td></tr>
+      <tr><td>2023</td><td><b>MW III (Reboot)</b></td><td>Текущий оперативный цикл</td></tr>
+      <tr><td>2020-26</td><td><b>Warzone 1/2/3</b></td><td>Глобальная экосистема</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div id="bo" class="tab-content">
+  <h2>👁️ СЕКРЕТНЫЕ ОПЕРАЦИИ (BLACK OPS)</h2>
+  
+  <table>
+    <thead><tr><th>Год</th><th>Название</th><th>Детали</th></tr></thead>
+    <tbody>
+      <tr><td>2010</td><td><b>Black Ops</b></td><td>Вьетнам / Промывка мозгов</td></tr>
+      <tr><td>2012</td><td><b>Black Ops II</b></td><td>Ветвление сюжета (2025 год)</td></tr>
+      <tr><td>2015</td><td><b>Black Ops III</b></td><td>Кибер-солдаты / DNI</td></tr>
+      <tr><td>2018</td><td><b>Black Ops 4</b></td><td>Без кампании / Специалисты</td></tr>
+      <tr><td>2020</td><td><b>Cold War</b></td><td>Прямой сиквел к первой части</td></tr>
+      <tr><td>2024</td><td><b>Black Ops 6</b></td><td>Война в Заливе (90-е)</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div id="future" class="tab-content">
+  <h2>🚀 АЛЬТЕРНАТИВНЫЕ РЕАЛЬНОСТИ</h2>
+  <table>
+    <thead><tr><th>Год</th><th>Название</th><th>Конфликт</th></tr></thead>
+    <tbody>
+      <tr><td>2013</td><td><b>Ghosts</b></td><td>Постапокалиптика (США vs Федерация)</td></tr>
+      <tr><td>2014</td><td><b>Advanced Warfare</b></td><td>Эпоха ЧВК и экзоскелетов</td></tr>
+      <tr><td>2016</td><td><b>Infinite Warfare</b></td><td>Межпланетная война (Марс)</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div id="mobile" class="tab-content">
+  <h2>📱 МОБИЛЬНЫЕ И ПОРТАТИВНЫЕ ВЕРСИИ</h2>
+  <table>
+    <thead><tr><th>Год</th><th>Название</th><th>Платформа</th></tr></thead>
+    <tbody>
+      <tr><td>2007</td><td><b>Roads to Victory</b></td><td>PSP <span class="tag tag-exclusive">Exclusive</span></td></tr>
+      <tr><td>2009</td><td><b>Modern Warfare: Mobilized</b></td><td>Nintendo DS</td></tr>
+      <tr><td>2010</td><td><b>Black Ops DS</b></td><td>Nintendo DS</td></tr>
+      <tr><td>2011</td><td><b>Defiance</b></td><td>Nintendo DS</td></tr>
+      <tr><td>2012</td><td><b>Declassified</b></td><td>PS Vita (Сюжет BO)</td></tr>
+      <tr><td>2019</td><td><b>CoD: Mobile</b></td><td>iOS / Android</td></tr>
+      <tr><td>2024</td><td><b>Warzone Mobile</b></td><td>Кросс-прогрессия</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="status-msg">
+  ОШИБКА: ДАННЫЕ ПО ЗОМБИ-РЕЖИМУ "ЭФИР" ВЫНЕСЕНЫ В ОТДЕЛЬНЫЙ ШИФРОВАННЫЙ КАНАЛ.
+</div>
+
+<script>
+  function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tab-content");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+      tabcontent[i].classList.remove("active");
+    }
+    tablinks = document.getElementsByClassName("tab-btn");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(tabName).style.display = "block";
+    document.getElementById(tabName).classList.add("active");
+    evt.currentTarget.className += " active";
+  }
+</script>
 
 </body>
 </html>
