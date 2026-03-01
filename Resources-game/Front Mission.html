@@ -3,180 +3,196 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Front Mission — Chronology</title>
+  <title>Front Mission — Tactical Archive</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@500;700&display=swap');
+
+    :root {
+      --ocu-cyan: #40e0d0;
+      --usn-orange: #ff8c00;
+      --dh-red: #ff4444;
+      --bg-dark: #0c1418;
+      --panel: rgba(20, 32, 38, 0.95);
+      --skill-bg: rgba(64, 224, 208, 0.1);
+    }
+
     body {
-      font-family: 'Share Tech Mono', 'Segoe UI', monospace;
-      background: linear-gradient(135deg, #0c1418, #141e24);
+      font-family: 'Share Tech Mono', monospace;
+      background: var(--bg-dark);
       color: #d0f0e0;
-      padding: 25px;
       margin: 0;
-      line-height: 1.6;
-      font-size: 15px;
+      padding: clamp(10px, 4vw, 30px);
+      background-image: 
+        linear-gradient(rgba(64, 224, 208, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(64, 224, 208, 0.05) 1px, transparent 1px);
+      background-size: 30px 30px;
     }
-    h2 {
-      text-align: center;
-      color: #40e0d0;
-      font-size: 28px;
-      margin-bottom: 8px;
-      text-shadow: 0 0 10px rgba(64, 224, 208, 0.4);
-      letter-spacing: 1px;
+
+    .terminal-container { max-width: 1200px; margin: 0 auto; border: 1px solid #2a3a3a; padding: 20px; background: var(--panel); box-shadow: 0 0 40px rgba(0,0,0,0.8); }
+
+    header { border-bottom: 2px solid var(--ocu-cyan); padding-bottom: 15px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; }
+
+    h1 { font-family: 'Rajdhani', sans-serif; color: var(--ocu-cyan); font-size: 2rem; margin: 0; text-transform: uppercase; letter-spacing: 3px; }
+
+    .nav-tabs { display: flex; gap: 5px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 10px; }
+    .tab-btn {
+      background: #1a2a30; border: 1px solid #3a4a50; color: #a0f0e0; padding: 10px 15px; cursor: pointer; font-family: inherit; transition: 0.3s; white-space: nowrap;
     }
-    .subtitle {
-      text-align: center;
-      color: #a0d8c0;
-      font-size: 16px;
-      margin-bottom: 24px;
-      font-style: italic;
+    .tab-btn.active { background: var(--ocu-cyan); color: #000; border-color: var(--ocu-cyan); font-weight: bold; }
+
+    .tab-content { display: none; }
+
+    table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 0.9rem; }
+    th { background: #1a2a30; color: var(--ocu-cyan); padding: 12px; text-align: left; border-bottom: 2px solid var(--ocu-cyan); }
+    td { padding: 12px; border-bottom: 1px solid #2a3a3a; }
+
+    .highlight-ocu { color: var(--ocu-cyan); font-weight: bold; }
+
+    /* Стили для навыков */
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; }
+    .skill-card { 
+      background: var(--skill-bg); border: 1px solid rgba(64, 224, 208, 0.3); padding: 15px; 
+      border-left: 4px solid var(--ocu-cyan); transition: 0.3s;
     }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 0 auto 28px;
-      background: rgba(18, 28, 34, 0.92);
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
-      border: 1px solid #2a3a3a;
-    }
-    th, td {
-      padding: 14px 12px;
-      text-align: left;
-      border-bottom: 1px solid #2a3a3a;
-    }
-    th {
-      background: rgba(25, 40, 48, 0.95);
-      color: #a0f0e0;
-      font-weight: bold;
-      font-size: 14px;
-      letter-spacing: 0.8px;
-      text-transform: uppercase;
-    }
-    tr:last-child td {
-      border-bottom: none;
-    }
-    tr:hover {
-      background: rgba(35, 50, 60, 0.7);
-    }
-    .era-box {
-      background: rgba(22, 35, 42, 0.85);
-      border-left: 4px solid #40e0d0;
-      padding: 18px;
-      border-radius: 0 10px 10px 0;
-      margin: 20px 0;
-      font-size: 14px;
-      line-height: 1.6;
-    }
-    .era-box h3 {
-      color: #40e0d0;
-      margin-top: 0;
-      font-size: 19px;
-    }
-    .note {
-      margin-top: 20px;
-      font-size: 13px;
-      color: #99ccbb;
-      text-align: center;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.5;
-    }
-    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+    .skill-card:hover { background: rgba(64, 224, 208, 0.2); border-color: var(--ocu-cyan); }
+    .skill-name { color: var(--ocu-cyan); font-weight: bold; font-size: 1.1rem; margin-bottom: 5px; display: block; }
+    .skill-type { font-size: 0.7rem; color: #888; text-transform: uppercase; letter-spacing: 1px; }
+
+    .wanzer-builder { border: 1px solid #3a4a50; background: #081014; padding: 20px; margin-top: 30px; }
+    .builder-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .stat-bar { height: 10px; background: #1a2a30; margin-top: 5px; position: relative; }
+    .stat-fill { height: 100%; background: var(--ocu-cyan); transition: 0.5s; }
+
+    select { background: #1a2a30; color: #fff; border: 1px solid var(--ocu-cyan); padding: 5px; width: 100%; font-family: inherit; }
+
+    @media (max-width: 768px) { .builder-grid { grid-template-columns: 1fr; } .hide-mobile { display: none; } }
   </style>
 </head>
 <body>
-  <h2>🤖 FRONT MISSION — ХРОНОЛОГИЯ КОНФЛИКТОВ</h2>
-  <div class="subtitle">«Война не меняется. Меняются только машины»</div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>📅 Год</th>
-        <th>🎮 Игра</th>
-        <th>🌍 Конфликт</th>
-        <th>👤 Ключевые лица</th>
-        <th>🔗 Сюжетная связь</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><b>2020</b></td>
-        <td><b>Front Mission: Online</b> (спин-офф)</td>
-        <td>Первые Ванзеры<br>Локальные конфликты</td>
-        <td>—</td>
-        <td>Пролог к эре Ванзеров. Не основная линия.</td>
-      </tr>
-      <tr>
-        <td><b>2090</b></td>
-        <td><b>Front Mission 4 + Echoes of the Past</b></td>
-        <td>Вторая Хас-Бахарская война</td>
-        <td>Элис Фонсей, Даррен Уэйд</td>
-        <td>Конфликт между США и Южной Америкой. Введение системы "LINK".</td>
-      </tr>
-      <tr>
-        <td><b>2102</b></td>
-        <td><b>Front Mission 2</b></td>
-        <td>Война за независимость Альфреда</td>
-        <td>Эшли Кершав, Томас Норлан</td>
-        <td>Мятеж в колонии Альфред. Борьба за автономию от OCU.</td>
-      </tr>
-      <tr>
-        <td><b>2105</b></td>
-        <td><b>Front Mission 1st</b> (ремейк FM1)</td>
-        <td>Третья Хас-Бахарская война</td>
-        <td>Ройд Клэпхэм, Крис Оуэн</td>
-        <td>Классика серии. Конфликт между OCU и США. Убийство президента как катализатор.</td>
-      </tr>
-      <tr>
-        <td><b>2112</b></td>
-        <td><b>Front Mission 5: Scars of the War</b></td>
-        <td>Глобальная война<br>Падение OCU</td>
-        <td>Уолтер Фердинанд, Гленда Аткинс</td>
-        <td><b>Кульминация эпохи.</b> Распад OCU, рост терроризма, появление "Группы Зефир".</td>
-      </tr>
-      <tr>
-        <td><b>2120</b></td>
-        <td><b>Front Mission 3</b></td>
-        <td>Кибер-война<br>Проект "Антракт"</td>
-        <td>Казуки Тойошима, Рёнсю Хо</td>
-        <td>Япония против Китая. Био-чипы, контроль сознания, этика технологий.</td>
-      </tr>
-      <tr>
-        <td><b>2170</b></td>
-        <td><b>Front Mission: Gun Hazard</b></td>
-        <td>Постапокалипсис<br>Ресурсы vs. выживание</td>
-        <td>Эльвин Дрейк</td>
-        <td>Альтернативная временная линия. Боковой сюжет с платформерным геймплеем.</td>
-      </tr>
-      <tr>
-        <td><b>2220</b></td>
-        <td><b>Front Mission 2089 / 2089-II</b></td>
-        <td>Колониальные войны на Луне</td>
-        <td>Даррен Уэйд (молодость)</td>
-        <td>Приквел к FM4. Борьба за лунные базы между корпорациями.</td>
-      </tr>
-    </tbody>
-  </table>
+<div class="terminal-container">
+  <header>
+    <h1>FRONT_MISSION_RECORDS</h1>
+    <div id="status" style="color: var(--ocu-cyan); font-size: 0.8rem;">[SKILLS_DATABASE_LOADED]</div>
+  </header>
 
-  <div class="era-box">
-    <h3>🌐 Геополитические блоки:</h3>
-    <p><b>• OCU (Океанийский коллективный союз)</b> — аналог НАТО, включает Японию, Австралию, Юго-Восточную Азию.<br>
-    <b>• США</b> — сверхдержава, часто в конфликте с OCU.<br>
-    <b>• EC (Евразийская коалиция)</b> — упоминается, но редко участвует напрямую.<br>
-    Войны ведутся не государствами, а <b>частными военными корпорациями</b> через Ванзеры.</p>
+  <div class="nav-tabs">
+    <button class="tab-btn active" onclick="openTab(event, 'main-line')">Хронология Канона</button>
+    <button class="tab-btn" onclick="openTab(event, 'skills')">Боевые навыки</button>
+    <button class="tab-btn" onclick="openTab(event, 'wanzer')">Hangar (Конструктор)</button>
+    <button class="tab-btn" onclick="openTab(event, 'geo')">Геополитика</button>
   </div>
 
-  <div class="era-box">
-    <h3>⚙️ Что такое "Ванзер"?</h3>
-    <p>Боевая машина на гусеничном/ходовом шасси, управляемая пилотом. Модульная конструкция: можно менять руки, оружие, броню. Символ технологического прогресса — и его ужаса.</p>
+  <div id="main-line" class="tab-content" style="display: block;">
+    <table>
+      <thead>
+        <tr><th>Год</th><th>Операция</th><th class="hide-mobile">Локация</th><th>Суть конфликта</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><b class="highlight-ocu">2090</b></td><td><b>FM 1st</b></td><td class="hide-mobile">О-в Хаффман</td><td>Вторая Хаффманская война. Ройд Клэпхэм ищет правду.</td></tr>
+        <tr><td><b class="highlight-ocu">2096</b></td><td><b>FM 4</b></td><td class="hide-mobile">Европа / Ю. Америка</td><td>Диверсии в EC. Появление системы связки "Link".</td></tr>
+        <tr><td><b class="highlight-ocu">2102</b></td><td><b>FM 2</b></td><td class="hide-mobile">Алордеш (Бангладеш)</td><td>Переворот в Алордеше. Мятеж против OCU.</td></tr>
+        <tr><td><b class="highlight-ocu">2112</b></td><td><b>FM 3</b></td><td class="hide-mobile">Япония / DHZ (Китай)</td><td>Инцидент с бомбой "MIDAS". Экспериментальные WAP.</td></tr>
+        <tr><td><b class="highlight-ocu">2070-2121</b></td><td><b>FM 5</b></td><td class="hide-mobile">Глобально</td><td>Судьба Уолтера Фердинанда. Кульминация серии.</td></tr>
+      </tbody>
+    </table>
   </div>
 
-  <div class="note">
-    💡 Основная хронология: <b>FM4 → FM2 → FM1 → FM5 → FM3</b>.<br>
-    <i>Front Mission 2089</i> — приквел к FM4.<br>
-    <i>Gun Hazard</i> и <i>Online</i> — неканоничны или альтернативны.<br>
-    В 2023 году Square Enix анонсировала ремейки FM1 и FM2 — канон сохранится.
+  <div id="skills" class="tab-content">
+    <div class="skills-grid">
+      <div class="skill-card">
+        <span class="skill-type">Melee / Close Range</span>
+        <span class="skill-name">Double Punch</span>
+        <p style="font-size: 0.85rem; margin: 5px 0;">Позволяет атаковать обеими руками в одной фазе ближнего боя. Смертельно при использовании кастетов или дубинок.</p>
+      </div>
+      <div class="skill-card">
+        <span class="skill-type">Ranged Attack</span>
+        <span class="skill-name">Switch</span>
+        <p style="font-size: 0.85rem; margin: 5px 0;">Шанс мгновенно активировать второе оружие (левой руки) после выстрела из первого. Создает непрерывную очередь.</p>
+      </div>
+      <div class="skill-card">
+        <span class="skill-type">Tactical / Targeting</span>
+        <span class="skill-name">Body / Aim</span>
+        <p style="font-size: 0.85rem; margin: 5px 0;">Фокусирует атаку на торсе врага. Кратчайший путь к уничтожению ванзера, игнорируя конечности.</p>
+      </div>
+      <div class="skill-card">
+        <span class="skill-type">Support / Link</span>
+        <span class="skill-name">Salvage</span>
+        <p style="font-size: 0.85rem; margin: 5px 0;">Шанс восстановить разрушенную часть ванзера прямо во время боя. Критически важно в затяжных миссиях.</p>
+      </div>
+      <div class="skill-card">
+        <span class="skill-type">Special</span>
+        <span class="skill-name">Zoom / Long</span>
+        <p style="font-size: 0.85rem; margin: 5px 0;">Увеличивает дальность стрельбы и точность снайперских винтовок. Позволяет уничтожать цели вне зоны их видимости.</p>
+      </div>
+      <div class="skill-card">
+        <span class="skill-type">Ultimate</span>
+        <span class="skill-name">Terror / Stun</span>
+        <p style="font-size: 0.85rem; margin: 5px 0;">Шанс дезориентировать пилота. Враг пропускает следующий ход, становясь легкой мишенью.</p>
+      </div>
+    </div>
   </div>
+
+  <div id="wanzer" class="tab-content">
+    <div class="wanzer-builder">
+      <h3 style="color: var(--ocu-cyan); margin-top:0;">🔧 МОДЕЛИРОВАНИЕ ВАНЗЕРА (WAP)</h3>
+      <div class="builder-grid">
+        <div>
+          <label>Тип корпуса:</label>
+          <select id="body-part" onchange="updateStats()">
+            <option value="1">Zenith (Сбалансированный)</option>
+            <option value="2">Frost (Тяжелый/Броня)</option>
+            <option value="3">Kyojun (Легкий/Дальний бой)</option>
+          </select>
+        </div>
+        <div>
+          <div>Мощность: <span id="stat-pwr">60%</span> <div class="stat-bar"><div id="bar-pwr" class="stat-fill" style="width: 60%;"></div></div></div>
+          <div style="margin-top:10px;">Броня: <span id="stat-def">50%</span> <div class="stat-bar"><div id="bar-def" class="stat-fill" style="width: 50%;"></div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="geo" class="tab-content">
+    <div class="era-box">
+      <h3>🌍 Геополитические блоки:</h3>
+      <p><b class="highlight-ocu">O.C.U.</b>: Азиатско-Тихоокеанский альянс. Главные герои большинства частей.</p>
+      <p><b class="highlight-usn">U.S.N.</b>: Мощный блок Америки. Вечные соперники OCU за остров Хаффман.</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tab-content");
+    for (i = 0; i < tabcontent.length; i++) { tabcontent[i].style.display = "none"; }
+    tablinks = document.getElementsByClassName("tab-btn");
+    for (i = 0; i < tablinks.length; i++) { tablinks[i].classList.remove("active"); }
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.classList.add("active");
+  }
+
+  function updateStats() {
+    const body = document.getElementById('body-part').value;
+    const pwrT = document.getElementById('stat-pwr');
+    const pwrB = document.getElementById('bar-pwr');
+    const defT = document.getElementById('stat-def');
+    const defB = document.getElementById('bar-def');
+
+    if (body == "1") { 
+      pwrT.innerText = "60%"; pwrB.style.width = "60%";
+      defT.innerText = "50%"; defB.style.width = "50%";
+    } else if (body == "2") {
+      pwrT.innerText = "40%"; pwrB.style.width = "40%";
+      defT.innerText = "90%"; defB.style.width = "90%";
+    } else {
+      pwrT.innerText = "95%"; pwrB.style.width = "95%";
+      defT.innerText = "20%"; defB.style.width = "20%";
+    }
+  }
+</script>
+
 </body>
 </html>
