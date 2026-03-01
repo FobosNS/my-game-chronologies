@@ -26,6 +26,7 @@
       margin: 0;
       line-height: 1.6;
       font-size: 10px;
+      transition: transform 0.4s cubic-bezier(0.17, 0.67, 0.83, 1.5);
     }
 
     .container {
@@ -44,6 +45,7 @@
       font-size: clamp(14px, 5vw, 22px);
       text-shadow: 3px 3px 0 var(--mario-red);
       margin-bottom: 10px;
+      cursor: pointer;
     }
 
     .subtitle {
@@ -53,72 +55,22 @@
       margin-bottom: 25px;
     }
 
-    /* ТАБЛИЦА И МОБИЛЬНЫЕ КАРТОЧКИ */
     .table-wrapper { width: 100%; overflow: hidden; }
-
     table { width: 100%; border-collapse: collapse; }
-
     thead { background: var(--mario-blue); }
+    th { padding: 15px; color: #fff; border: 2px solid #fff; text-align: left; font-size: 10px; }
+    td { padding: 12px; border: 1px solid #444; vertical-align: top; background: rgba(255, 255, 255, 0.05); }
 
-    th {
-      padding: 15px;
-      color: #fff;
-      border: 2px solid #fff;
-      text-align: left;
-      font-size: 10px;
-    }
-
-    td {
-      padding: 12px;
-      border: 1px solid #444;
-      vertical-align: top;
-      background: rgba(255, 255, 255, 0.05);
-    }
-
-    /* АДАПТАЦИЯ ПОД МОБИЛЬНЫЕ УСТРОЙСТВА */
     @media screen and (max-width: 850px) {
       table, thead, tbody, th, td, tr { display: block; }
-      thead { display: none; } /* Скрываем шапку */
-
-      tr {
-        margin-bottom: 25px;
-        border: 3px solid var(--mario-yellow);
-        background: #1a1a1a;
-        padding: 10px;
-        box-shadow: 5px 5px 0px #000;
-      }
-
-      td {
-        display: block;
-        border: none;
-        padding: 10px 5px;
-        border-bottom: 1px solid #333;
-        position: relative;
-        text-align: left;
-        line-height: 1.4;
-        word-wrap: break-word; /* Чтобы текст не вылетал */
-      }
-
-      /* Подписи для каждой строки в карточке */
-      td::before {
-        content: attr(data-label);
-        display: block;
-        color: var(--mario-blue);
-        font-size: 8px;
-        margin-bottom: 5px;
-        text-transform: uppercase;
-      }
-
+      thead { display: none; }
+      tr { margin-bottom: 25px; border: 3px solid var(--mario-yellow); background: #1a1a1a; padding: 10px; box-shadow: 5px 5px 0px #000; }
+      td { display: block; border: none; padding: 10px 5px; border-bottom: 1px solid #333; position: relative; text-align: left; line-height: 1.4; word-wrap: break-word; }
+      td::before { content: attr(data-label); display: block; color: var(--mario-blue); font-size: 8px; margin-bottom: 5px; text-transform: uppercase; }
       td b { color: var(--mario-yellow); }
     }
 
-    .era-box {
-      border: 4px dashed var(--mario-green);
-      padding: 15px;
-      margin: 25px 0;
-      background: rgba(0, 0, 0, 0.5);
-    }
-
+    .era-box { border: 4px dashed var(--mario-green); padding: 15px; margin: 25px 0; background: rgba(0, 0, 0, 0.5); }
     .era-box h3 { color: var(--mario-yellow); font-size: 12px; margin-top: 0; }
     .era-box p { margin: 10px 0; font-size: 9px; line-height: 1.5; }
 
@@ -128,11 +80,10 @@
       background: var(--mario-yellow);
       border: 2px solid #000;
       pointer-events: none;
+      z-index: 1000;
       animation: coin-up 0.5s ease-out forwards;
     }
-    @keyframes coin-up {
-      to { transform: translateY(-80px) rotate(360deg); opacity: 0; }
-    }
+    @keyframes coin-up { to { transform: translateY(-80px) rotate(360deg); opacity: 0; } }
   </style>
 </head>
 <body onclick="spawnCoin(event)">
@@ -172,9 +123,9 @@
         </tr>
         <tr onclick="playSound('coin')">
           <td data-label="📅 Год">1988</td>
-          <td data-label="Игра"><b>Mario Bros. 3</b></td>
-          <td data-label="Событие">Полеты и Костюмы</td>
-          <td data-label="Связь">Марио получает хвост енота и карту мира.</td>
+          <td data-label="🎮 Игра"><b>Mario Bros. 3</b></td>
+          <td data-label="👑 Событие">Полеты и Костюмы</td>
+          <td data-label="🔗 Связь">Марио получает хвост енота и карту мира.</td>
         </tr>
         <tr onclick="playSound('jump')">
           <td data-label="📅 Год">1990</td>
@@ -182,18 +133,30 @@
           <td data-label="👑 Событие">Появление Йоши</td>
           <td data-label="🔗 Связь">Путешествие в Диносаурус-Ленд.</td>
         </tr>
-
         <tr onclick="playSound('coin')">
+          <td data-label="📅 Год">1992</td>
+          <td data-label="🎮 Игра"><b>Mario Land 2</b></td>
+          <td data-label="👑 Событие">6 Золотых монет</td>
+          <td data-label="🔗 Связь">Первое появление Варио.</td>
+        </tr>
+
+        <tr onclick="playSound('jump')">
           <td data-label="📅 Год">1996</td>
           <td data-label="🎮 Игра"><b>Super Mario 64</b></td>
           <td data-label="👑 Событие">3D Революция</td>
           <td data-label="🔗 Связь">Свободное перемещение в замке Пич.</td>
         </tr>
-        <tr onclick="playSound('jump')">
+        <tr onclick="playSound('coin')">
           <td data-label="📅 Год">2002</td>
           <td data-label="🎮 Игра"><b>Mario Sunshine</b></td>
           <td data-label="👑 Событие">Водомёт Ф.L.U.D.D.</td>
           <td data-label="🔗 Связь">Отпуск на тропическом острове Делфино.</td>
+        </tr>
+        <tr onclick="playSound('jump')">
+          <td data-label="📅 Год">2006</td>
+          <td data-label="🎮 Игра"><b>New Super Mario Bros.</b></td>
+          <td data-label="👑 Событие">Возврат к корням</td>
+          <td data-label="🔗 Связь">Марио снова в 2D, но с новой графикой.</td>
         </tr>
         <tr onclick="playSound('coin')">
           <td data-label="📅 Год">2007</td>
@@ -201,12 +164,24 @@
           <td data-label="👑 Событие">Космическая гравитация</td>
           <td data-label="🔗 Связь">Знакомство с Розалиной в глубоком космосе.</td>
         </tr>
-
         <tr onclick="playSound('jump')">
+          <td data-label="📅 Год">2010</td>
+          <td data-label="🎮 Игра"><b>Mario Galaxy 2</b></td>
+          <td data-label="👑 Событие">Космический Йоши</td>
+          <td data-label="🔗 Связь">Марио и Йоши покоряют новые планеты.</td>
+        </tr>
+
+        <tr onclick="playSound('coin')">
           <td data-label="📅 Год">2013</td>
           <td data-label="🎮 Игра"><b>Mario 3D World</b></td>
           <td data-label="👑 Событие">Колокольчик и коты</td>
           <td data-label="🔗 Связь">Кооператив на четверых и Марио-кот.</td>
+        </tr>
+        <tr onclick="playSound('jump')">
+          <td data-label="📅 Год">2015</td>
+          <td data-label="🎮 Игра"><b>Mario Maker</b></td>
+          <td data-label="👑 Событие">Творческая свобода</td>
+          <td data-label="🔗 Связь">Игроки сами создают уровни для Марио.</td>
         </tr>
         <tr onclick="playSound('coin')">
           <td data-label="📅 Год">2017</td>
@@ -215,50 +190,56 @@
           <td data-label="🔗 Связь">Захват врагов с помощью шляпы.</td>
         </tr>
         <tr onclick="playSound('jump')">
+          <td data-label="📅 Год">2021</td>
+          <td data-label="🎮 Игра"><b>Bowser’s Fury</b></td>
+          <td data-label="👑 Событие">Ярость Боузера</td>
+          <td data-label="🔗 Связь">Эксперимент с полностью открытым миром.</td>
+        </tr>
+        <tr onclick="playSound('coin')">
           <td data-label="📅 Год">2023</td>
           <td data-label="🎮 Игра"><b>Mario Wonder</b></td>
           <td data-label="👑 Событие">Эффект Чуда</td>
           <td data-label="🔗 Связь">Марио-слон и изменение реальности.</td>
         </tr>
-        <tr onclick="playSound('coin')">
+        <tr onclick="playSound('jump')">
           <td data-label="📅 Год">2025</td>
-          <td data-label="🎮 Игра"><b>Mario Rumors</b></td>
-          <td data-label="👑 Событие">Новое поколение</td>
-          <td data-label="🔗 Связь">Ожидание новой платформы Nintendo.</td>
+          <td data-label="🎮 Игра"><b>Mario 2025 (Project)</b></td>
+          <td data-label="👑 Событие">Новая консоль</td>
+          <td data-label="🔗 Связь">Слухи о возвращении к формату 3D приключений.</td>
         </tr>
       </tbody>
     </table>
   </div>
 
 <div class="era-box">
-    <h3>🌟 ЭВОЛЮЦИЯ ПРЫЖКА:</h3>
-    
-    <p>
-      <b>• 8/16-BIT: Золотая классика (1981–1995)</b><br>
-      <i>«Эра пикселей»:</i> Рождение икон. От плотника в Donkey Kong до спасителя миров в Super Mario World. Изобретение основ жанра: грибы, трубы, огненные цветы и первые скрытые Warp Zones. 
-      <br><small>🌟 Ключевой дебют: <b>Луиджи и Йоши.</b></small>
-    </p>
+  <h3>🌟 ЭВОЛЮЦИЯ ПРЫЖКА:</h3>
+  
+  <p>
+    <b>• 8/16-BIT: Золотая классика (1981–1995)</b><br>
+    <i>«Эра пикселей»:</i> Рождение икон. От плотника в Donkey Kong до спасителя миров в Super Mario World. Изобретение основ жанра: грибы, трубы, огненные цветы и первые скрытые Warp Zones. 
+    <br><small>🌟 Дебют: <b>Луиджи, Йоши и принцесса Пич.</b></small>
+  </p>
 
-    <p>
-      <b>• 3D-РЕВОЛЮЦИЯ: Эра свободы (1996–2010)</b><br>
-      <i>«Выход в объем»:</i> Марио покидает плоскость. Super Mario 64 задала стандарты для всех 3D-игр мира. Позже серия отправилась на тропические острова и даже в открытый космос, играя с гравитацией.
-      <br><small>🌟 Ключевой дебют: <b>Розалина и Боузер-младший.</b></small>
-    </p>
+  <p>
+    <b>• 3D-РЕВОЛЮЦИЯ: Эра свободы (1996–2010)</b><br>
+    <i>«Выход в объем»:</i> Марио покидает плоскость. Super Mario 64 задала стандарты для всех 3D-игр мира. Серия освоила водные ранцы на тропических островах и покорила открытый космос, играя с гравитацией планет.
+    <br><small>🌟 Дебют: <b>Розалина и Боузер-младший.</b></small>
+  </p>
 
-    <p>
-      <b>• MODERN ERA: Безумные чудеса (2011–2024)</b><br>
-      <i>«HD и гибриды»:</i> Объединение классического 2D-геймплея с современными 3D-движками. Марио научился захватывать разум врагов при помощи Кеппи и превращаться в слона благодаря Цветку Чудес.
-      <br><small>🌟 Ключевой дебют: <b>Кеппи и принц Флориан.</b></small>
-    </p>
+  <p>
+    <b>• MODERN ERA: Безумные чудеса (2011–2026)</b><br>
+    <i>«HD и трансформация»:</i> Эпоха экспериментов. Объединение классического 2D-геймплея с современными движками. Марио захватывает разум врагов шляпой Кеппи и превращается в слона благодаря Цветку Чуда.
+    <br><small>🌟 Дебют: <b>Кеппи и эффект Чуда.</b></small>
+  </p>
 
-    <p>
-      <b>• NEXT GENERATION: Новые горизонты (2025–2026)</b><br>
-      <i>«Будущее рядом»:</i> Переход на мощные платформы нового поколения. Ожидание бесшовных открытых миров и еще более глубокой интеграции с киновселенной после успеха мультфильма.
-      <br><small>🌟 Ожидание: <b>Новая глава легенды.</b></small>
-    </p>
-  </div>
+  <p>
+    <b>• NEXT GEN: Будущее (2025+)</b><br>
+    <i>«Новые горизонты»:</i> Переход на мощные платформы следующего поколения. Ожидание бесшовных открытых миров и более глубокой интеграции с киновселенной после триумфа на больших экранах.
+  </p>
+</div>
 
 <script>
+  // Создаем аудио контекст один раз
   const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
   function spawnCoin(e) {
@@ -270,46 +251,37 @@
     setTimeout(() => coin.remove(), 500);
   }
 
-  <script>
-function marioGrow() {
-  const title = document.getElementById('mario-title');
-  const body = document.body;
-  
-  // 1. Создаем аудио-контекст для синтеза звука "Power Up"
-  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  const notes = [261.63, 329.63, 392.00, 523.25, 659.25, 783.99, 1046.50]; // Ноты роста
-  
-  notes.forEach((freq, i) => {
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
+  function marioGrow(event) {
+    event.stopPropagation(); // Чтобы монета не вылетала при клике на заголовок
+    const title = document.getElementById('mario-title');
+    const body = document.body;
     
-    osc.type = 'square'; // Характерный 8-битный звук
-    osc.frequency.setValueAtTime(freq, audioCtx.currentTime + (i * 0.07));
-    
-    gain.gain.setValueAtTime(0.1, audioCtx.currentTime + (i * 0.07));
-    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + (i * 0.07) + 0.1);
-    
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-    
-    osc.start(audioCtx.currentTime + (i * 0.07));
-    osc.stop(audioCtx.currentTime + (i * 0.07) + 0.1);
-  });
+    // Звук Power Up
+    const notes = [261.63, 329.63, 392.00, 523.25, 659.25, 783.99, 1046.50];
+    notes.forEach((freq, i) => {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime + (i * 0.07));
+      gain.gain.setValueAtTime(0.1, audioCtx.currentTime + (i * 0.07));
+      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + (i * 0.07) + 0.1);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(audioCtx.currentTime + (i * 0.07));
+      osc.stop(audioCtx.currentTime + (i * 0.07) + 0.1);
+    });
 
-  // 2. Визуальный эффект роста (Scale)
-  body.style.transition = "transform 0.4s cubic-bezier(0.17, 0.67, 0.83, 1.5)";
-  body.style.transform = "scale(1.08)"; // Увеличиваем всю страницу
-  title.style.color = "#ffd700"; // Делаем заголовок золотым
-  title.style.textShadow = "0 0 20px #fff";
+    // Эффект роста
+    body.style.transform = "scale(1.08)";
+    title.style.color = "#ffd700";
+    title.style.textShadow = "0 0 20px #fff";
 
-  // 3. Возвращаем в исходное состояние через 1 секунду
-  setTimeout(() => {
-    body.style.transform = "scale(1)";
-    title.style.color = ""; // Возвращаем стандартный цвет из CSS
-    title.style.textShadow = "";
-  }, 1000);
-}
-</script>
+    setTimeout(() => {
+      body.style.transform = "scale(1)";
+      title.style.color = "";
+      title.style.textShadow = "";
+    }, 1000);
+  }
 
   function playSound(type) {
     const osc = audioCtx.createOscillator();
