@@ -198,6 +198,82 @@
       font-size: 1rem;
     }
 
+    /* Эффект глитча для заголовка */
+.glitch {
+    position: relative;
+    display: inline-block;
+}
+
+.glitch::before, .glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: var(--quake-bg);
+}
+
+.glitch::before {
+    left: 2px;
+    text-shadow: -2px 0 #ff00c1;
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim 5s infinite linear alternate-reverse;
+}
+
+.glitch::after {
+    left: -2px;
+    text-shadow: -2px 0 #00fff9;
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim 2s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim {
+    0% { clip: rect(31px, 9999px, 94px, 0); }
+    20% { clip: rect(62px, 9999px, 42px, 0); }
+    40% { clip: rect(16px, 9999px, 78px, 0); }
+    60% { clip: rect(100px, 9999px, 12px, 0); }
+    80% { clip: rect(57px, 9999px, 5px, 0); }
+    100% { clip: rect(2px, 9999px, 110px, 0); }
+}
+
+/* Анимация строк таблицы при появлении */
+tbody tr {
+    opacity: 0;
+    transform: translateX(-20px);
+    animation: slideIn 0.5s forwards;
+}
+
+tbody tr:nth-child(1) { animation-delay: 0.1s; }
+tbody tr:nth-child(2) { animation-delay: 0.2s; }
+tbody tr:nth-child(3) { animation-delay: 0.3s; }
+tbody tr:nth-child(4) { animation-delay: 0.4s; }
+
+@keyframes slideIn {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Пульсация активного портала */
+.active-portal .portal-display {
+    animation: portalPulse 2s infinite ease-in-out;
+}
+
+@keyframes portalPulse {
+    0%, 100% { box-shadow: inset 0 0 30px var(--quake-purple), 0 0 10px var(--quake-purple); }
+    50% { box-shadow: inset 0 0 60px var(--quake-purple), 0 0 30px var(--quake-purple); }
+}
+
+/* Тряска экрана при ошибке */
+.shake {
+    animation: shakeAnim 0.4s;
+}
+
+@keyframes shakeAnim {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
     .era-box {
       margin-top: 25px;
       background: rgba(212, 85, 255, 0.1);
@@ -329,6 +405,54 @@
     osc.connect(gain); gain.connect(audioCtx.destination);
     osc.start(); osc.stop(audioCtx.currentTime + 0.5);
   }
+
+  // 1. Эффект "Печатающейся машинки" для вывода информации
+function typeWriter(element, text, speed = 40) {
+    element.innerHTML = '';
+    let i = 0;
+    function type() {
+        if (i < text.length) {
+            element.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(type, speed);
+        }
+    }
+    type();
+}
+
+// 2. Обновляем функцию портала, чтобы добавить тряску и плавный текст
+const originalRunPortal = window.runPortal; // Сохраняем старую, если нужно
+window.runPortal = function() {
+    const val = document.getElementById('portalInput').value;
+    const txt = document.getElementById('portalText');
+    const panel = document.getElementById('portalPanel');
+    
+    const validYears = {
+        '1996': 'ИЗМЕРЕНИЕ ХАОСА: ОБНАРУЖЕН РЕЙНДЖЕР',
+        '1997': 'СТРОГГОС: ВЫСАДКА ДЕСАНТА ПОДТВЕРЖДЕНА',
+        '1999': 'АРЕНА: ВАДРИГАРЫ СМОТРЯТ НА ВАС',
+        '2005': 'ЗАВОД СТРОГГОВ: ПРОЦЕСС ИДЕТ...'
+    };
+
+    if(validYears[val]) {
+        panel.classList.add('active-portal');
+        typeWriter(txt, "ПЕРЕХОД РАЗРЕШЕН... " + validYears[val]);
+        playWarp();
+    } else {
+        panel.classList.remove('active-portal');
+        // Добавляем тряску при ошибке
+        panel.classList.add('shake');
+        setTimeout(() => panel.classList.remove('shake'), 400);
+        txt.innerHTML = '<span style="color:#ff4444">ОШИБКА КООРДИНАТ</span>';
+    }
+}
+
+// 3. Добавляем глитч-эффект программно к заголовку при загрузке
+document.addEventListener('DOMContentLoaded', () => {
+    const h1 = document.querySelector('header h1');
+    h1.classList.add('glitch');
+    h1.setAttribute('data-text', h1.innerText);
+});
 </script>
 
 </body>
