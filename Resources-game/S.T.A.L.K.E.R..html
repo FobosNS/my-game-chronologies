@@ -45,7 +45,40 @@
       text-shadow: 0 0 15px rgba(255, 153, 0, 0.3);
     }
 
-    /* Адаптивная таблица */
+    /* Навигация вкладок */
+    .tabs-nav {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+
+    .tab-btn {
+      background: #1a2512;
+      border: 1px solid #3a4a2a;
+      color: #ff9900;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.8rem;
+      transition: 0.3s;
+    }
+
+    .tab-btn.active {
+      background: #ff9900;
+      color: #000;
+      box-shadow: 0 0 15px #ff9900;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Таблица */
     table {
       width: 100%;
       border-collapse: collapse;
@@ -74,6 +107,70 @@
         position: absolute; left: 15px; width: 45%; text-align: left;
         font-weight: bold; color: #ff9900;
       }
+    }
+
+    /* Терминал КПК */
+    .pda-terminal {
+        max-width: 500px;
+        margin: 20px auto;
+        background: #1a1a1a;
+        padding: 15px;
+        border: 4px solid #3a4a2a;
+        border-radius: 10px;
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.8), inset 0 0 10px #000;
+    }
+
+    .pda-screen {
+        background: #0d1109;
+        padding: 15px;
+        border: 2px solid #2a3a20;
+        color: #55ff55;
+        min-height: 200px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .pda-screen::after {
+        content: " ";
+        display: block;
+        position: absolute;
+        top: 0; left: 0; bottom: 0; right: 0;
+        background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                    linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+        z-index: 2;
+        background-size: 100% 4px, 3px 100%;
+        pointer-events: none;
+    }
+
+    .pda-header {
+        border-bottom: 1px solid #55ff55;
+        padding-bottom: 5px;
+        margin-bottom: 10px;
+        font-size: 12px;
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+    .pda-output {
+        font-size: 14px;
+        line-height: 1.4;
+        margin-bottom: 10px;
+        text-shadow: 0 0 5px #55ff55;
+    }
+
+    .pda-input-line {
+        display: flex;
+        gap: 10px;
+    }
+
+    #pdaInput {
+        background: transparent;
+        border: none;
+        color: #ff9900;
+        font-family: inherit;
+        font-size: 16px;
+        outline: none;
+        width: 100%;
     }
 
     .card {
@@ -106,6 +203,8 @@
     }
 
     @keyframes blink { 50% { opacity: 0.3; } }
+    .pda-success { color: #ff9900; }
+    .pda-error { color: #ff4444; }
   </style>
 </head>
 <body>
@@ -116,55 +215,78 @@
     <div style="color: #aacc88; font-size: 0.9rem;">АРХИВ СОБЫТИЙ И ПЕРИОДОВ ЗОНЫ</div>
   </header>
 
-  <table>
-    <thead>
-      <tr>
-        <th>ГОД В ЗОНЕ</th>
-        <th>ОПЕРАЦИЯ / ИГРА</th>
-        <th>ОБЪЕКТ</th>
-        <th>СТАТУС СЮЖЕТА</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td data-label="ГОД">2011 (Сентябрь)</td>
-        <td data-label="ИГРА"><b>Clear Sky</b></td>
-        <td data-label="ОБЪЕКТ">Наемник Шрам</td>
-        <td>Большой Выброс. Группировка «Чистое Небо» пытается предотвратить катастрофу, преследуя группу Стрелка.</td>
-      </tr>
-      <tr>
-        <td data-label="ГОД">2012 (Май)</td>
-        <td data-label="ИГРА"><b>Shadow of Chernobyl</b></td>
-        <td data-label="ОБЪЕКТ">Меченый</td>
-        <td>Грузовик смерти. Отключение Выжигателя Мозгов. Раскрытие тайны «О-Сознания» и Монолита.</td>
-      </tr>
-      <tr>
-        <td data-label="ГОД">2012 (Август)</td>
-        <td data-label="ИГРА"><b>Call of Pripyat</b></td>
-        <td data-label="ОБЪЕКТ">Майор Дегтярёв</td>
-        <td>Операция «Фарватер». Расследование падения военных вертолетов. Эвакуация из Припяти.</td>
-      </tr>
-      <tr>
-        <td data-label="ГОД">2021+</td>
-        <td data-label="ИГРА"><b>Heart of Chornobyl</b></td>
-        <td data-label="ОБЪЕКТ">Скиф</td>
-        <td>Зона расширяется. Новые аномалии и угрозы. Попытка заглянуть в самое сердце Чернобыля.</td>
-      </tr>
-    </tbody>
-  </table>
+  <nav class="tabs-nav">
+    <button class="tab-btn active" onclick="openTab('archive')">📂 АРХИВ</button>
+    <button class="tab-btn" onclick="openTab('terminal')">📟 ВЗЛОМ КПК</button>
+  </nav>
 
-  <div class="card">
-    <h3>🌀 ТИПЫ ВОЗДЕЙСТВИЯ:</h3>
-    <ul>
-      <li><b>Пси-излучение:</b> Разрушает личность, превращая человека в зомбированного.</li>
-      <li><b>Выброс:</b> Периодический сброс энергии Ноосферы. Шанс выжить — только в глубоком укрытии.</li>
-      <li><b>Пространственные пузыри:</b> Аномалии-ловушки, из которых нет выхода без специального детектора.</li>
-    </ul>
+  <div id="archive" class="tab-content active">
+    <table>
+      <thead>
+        <tr>
+          <th>ГОД В ЗОНЕ</th>
+          <th>ОПЕРАЦИЯ / ИГРА</th>
+          <th>ОБЪЕКТ</th>
+          <th>СТАТУС СЮЖЕТА</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td data-label="ГОД">2011 (Сентябрь)</td>
+          <td data-label="ИГРА"><b>Clear Sky</b></td>
+          <td data-label="ОБЪЕКТ">Наемник Шрам</td>
+          <td>Большой Выброс. Группировка «Чистое Небо» пытается предотвратить катастрофу, преследуя группу Стрелка.</td>
+        </tr>
+        <tr>
+          <td data-label="ГОД">2012 (Май)</td>
+          <td data-label="ИГРА"><b>Shadow of Chernobyl</b></td>
+          <td data-label="ОБЪЕКТ">Меченый</td>
+          <td>Грузовик смерти. Отключение Выжигателя Мозгов. Раскрытие тайны «О-Сознания» и Монолита.</td>
+        </tr>
+        <tr>
+          <td data-label="ГОД">2012 (Август)</td>
+          <td data-label="ИГРА"><b>Call of Pripyat</b></td>
+          <td data-label="ОБЪЕКТ">Майор Дегтярёв</td>
+          <td>Операция «Фарватер». Расследование падения военных вертолетов. Эвакуация из Припяти.</td>
+        </tr>
+        <tr>
+          <td data-label="ГОД">2021+</td>
+          <td data-label="ИГРА"><b>Heart of Chornobyl</b></td>
+          <td data-label="ОБЪЕКТ">Скиф</td>
+          <td>Зона расширяется. Новые аномалии и угрозы. Попытка заглянуть в самое сердце Чернобыля.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="card">
+      <h3>🌀 ТИПЫ ВОЗДЕЙСТВИЯ:</h3>
+      <ul>
+        <li><b>Пси-излучение:</b> Разрушает личность, превращая человека в зомбированного.</li>
+        <li><b>Выброс:</b> Периодический сброс энергии Ноосферы. Шанс выжить — только в глубоком укрытии.</li>
+        <li><b>Пространственные пузыри:</b> Аномалии-ловушки, из которых нет выхода без специального детектора.</li>
+      </ul>
+    </div>
+
+    <div style="text-align: center; margin-top: 30px;">
+      <p class="warning-blink">⚠️ ВНИМАНИЕ: ЗАФИКСИРОВАНА ВЫСОКАЯ АКТИВНОСТЬ НООСФЕРЫ</p>
+      <button class="btn-pda" onclick="simulateGeiger()">Включить счетчик Гейгера</button>
+    </div>
   </div>
 
-  <div style="text-align: center; margin-top: 30px;">
-    <p class="warning-blink">⚠️ ВНИМАНИЕ: ЗАФИКСИРОВАНА ВЫСОКАЯ АКТИВНОСТЬ НООСФЕРЫ</p>
-    <button class="btn-pda" onclick="simulateGeiger()">Включить счетчик Гейгера</button>
+  <div id="terminal" class="tab-content">
+    <div class="pda-terminal">
+      <div class="pda-screen" id="pdaScreen">
+          <div class="pda-header">PDA v2.0.26 — СВЯЗЬ ПРЕРВАНА</div>
+          <div class="pda-output" id="pdaOutput">
+              > ОШИБКА: ДОСТУП ОГРАНИЧЕН<br>
+              > ВВЕДИТЕ КОД ДЕШИФРОВКИ (ПОДСКАЗКА: ЧИСЛО РЕНТГЕН В БАРЕ)<br>
+          </div>
+          <div class="pda-input-line">
+              <span>></span>
+              <input type="text" id="pdaInput" maxlength="3" placeholder="..." autocomplete="off">
+          </div>
+      </div>
+    </div>
   </div>
 
   <div class="footer-note" style="text-align: center; margin-top: 40px; font-size: 0.8rem; color: #5a6a4a;">
@@ -173,34 +295,78 @@
 </div>
 
 <script>
+  // Логика переключения вкладок
+  function openTab(tabId) {
+    // Скрываем все вкладки
+    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+    // Убираем активный класс у кнопок
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    
+    // Показываем нужную вкладку
+    document.getElementById(tabId).classList.add('active');
+    // Подсвечиваем активную кнопку
+    event.currentTarget.classList.add('active');
+
+    // Если открыли терминал, ставим фокус на инпут
+    if (tabId === 'terminal') {
+        setTimeout(() => document.getElementById('pdaInput').focus(), 100);
+    }
+  }
+
+  // Счетчик Гейгера
   function simulateGeiger() {
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    
     function playClick() {
       const oscillator = audioCtx.createOscillator();
       const gainNode = audioCtx.createGain();
-      
       oscillator.type = 'square';
       oscillator.frequency.setValueAtTime(150, audioCtx.currentTime);
       gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
       gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-      
       oscillator.connect(gainNode);
       gainNode.connect(audioCtx.destination);
-      
       oscillator.start();
       oscillator.stop(audioCtx.currentTime + 0.1);
     }
-
-    // Симуляция треска Гейгера в течение 3 секунд
     let count = 0;
     const interval = setInterval(() => {
       if (Math.random() > 0.3) playClick();
       count++;
       if (count > 50) clearInterval(interval);
     }, 50);
-
     alert("Уровень радиации в норме... пока что.");
+  }
+
+  // Логика терминала
+  const pdaInput = document.getElementById('pdaInput');
+  const pdaOutput = document.getElementById('pdaOutput');
+  const pdaScreen = document.getElementById('pdaScreen');
+
+  pdaInput.addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+          const val = pdaInput.value;
+          processCommand(val);
+          pdaInput.value = '';
+      }
+  });
+
+  function processCommand(cmd) {
+      if (cmd === '100') {
+          pdaOutput.innerHTML = `
+              <span class="pda-success">> ДОСТУП РАЗРЕШЕН...</span><br>
+              > ЗАГРУЗКА ДАННЫХ ПО ГРУППИРОВКАМ:<br><br>
+              • <b>ДОЛГ:</b> Дисциплина и защита мира от Зоны.<br>
+              • <b>СВОБОДА:</b> Исследование и личная свобода.<br>
+              • <b>МОНОЛИТ:</b> <span style="color:#fff">СМЕРТЬ НЕВЕРНЫМ.</span><br><br>
+              > СВЯЗЬ ПОТЕРЯНА. УДАЧИ, СТАЛКЕР.
+          `;
+          pdaScreen.style.boxShadow = "inset 0 0 20px #ff9900";
+      } else {
+          pdaOutput.innerHTML += `<br><span class="pda-error">> ОШИБКА: КОД "${cmd}" НЕВЕРЕН.</span>`;
+          if (pdaOutput.innerHTML.length > 500) {
+              pdaOutput.innerHTML = "> ВВЕДИТЕ КОД ДЕШИФРОВКИ...";
+          }
+      }
   }
 </script>
 
