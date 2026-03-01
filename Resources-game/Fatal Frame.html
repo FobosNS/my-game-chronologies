@@ -3,188 +3,272 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fatal Frame — Chronology</title>
+  <title>Fatal Frame — Spectral Archive</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;700&family=Cinzel:wght@400;700&display=swap');
+
+    :root {
+      --spirit-purple: #8a66ff;
+      --ghost-white: #e0d0ff;
+      --deep-void: #0d0515;
+      --shutter-speed: 0.3s;
+      --filament-red: #ff3333;
+    }
+
     body {
-      font-family: 'Noto Sans JP', 'Cinzel', serif;
-      background: linear-gradient(135deg, #0d0515, #1a0a2a);
-      color: #e0d0ff;
-      padding: 25px;
+      font-family: 'Noto Sans JP', sans-serif;
+      background: var(--deep-void);
+      color: var(--ghost-white);
       margin: 0;
-      line-height: 1.6;
-      font-size: 15px;
+      padding: clamp(10px, 5vw, 40px);
+      background-image: radial-gradient(circle, #1a0a2a 0%, #0d0515 100%);
+      cursor: crosshair;
     }
-    h2 {
+
+    /* --- ИНДИКАТОР ПРИСУТСТВИЯ --- */
+    #ghost-filament {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: #111;
+      border: 2px solid #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    #filament-light {
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: #222;
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+
+    .filament-active {
+      animation: pulse-red 0.5s infinite alternate;
+    }
+
+    @keyframes pulse-red {
+      from { background: #660000; box-shadow: 0 0 5px #ff0000; }
+      to { background: var(--filament-red); box-shadow: 0 0 20px #ff0000; }
+    }
+    /* ---------------------------- */
+
+    .archive-container { max-width: 1100px; margin: 0 auto; border: 1px solid #3a2555; padding: 25px; background: rgba(10, 5, 20, 0.8); position: relative; }
+
+    header { text-align: center; border-bottom: 1px double var(--spirit-purple); padding-bottom: 20px; margin-bottom: 30px; }
+
+    h1 { font-family: 'Cinzel', serif; color: var(--spirit-purple); font-size: 2.5rem; letter-spacing: 4px; margin: 0; text-shadow: 0 0 15px rgba(138, 102, 255, 0.6); }
+
+    .nav-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
+    .tab-btn {
+      background: transparent;
+      border: 1px solid var(--spirit-purple);
+      color: var(--spirit-purple);
+      padding: 10px 20px;
+      font-family: 'Cinzel', serif;
+      cursor: pointer;
+      transition: var(--shutter-speed);
+    }
+    .tab-btn:hover, .tab-btn.active { background: var(--spirit-purple); color: #000; box-shadow: 0 0 15px var(--spirit-purple); }
+
+    .tab-content { display: none; animation: blurIn 0.6s ease; }
+    .tab-content.active { display: block; }
+
+    @keyframes blurIn { from { filter: blur(10px); opacity: 0; } to { filter: blur(0); opacity: 1; } }
+
+    table { width: 100%; border-collapse: collapse; background: rgba(20, 12, 40, 0.6); margin-top: 10px; }
+    th { background: rgba(35, 20, 65, 0.9); color: var(--spirit-purple); padding: 15px; font-family: 'Cinzel'; border-bottom: 2px solid var(--spirit-purple); text-align: left; }
+    td { padding: 15px; border-bottom: 1px solid rgba(138, 102, 255, 0.1); font-size: 0.9rem; }
+
+    .camera-module {
+      margin-top: 40px;
+      padding: 30px;
+      border: 1px dashed var(--spirit-purple);
+      background: rgba(0,0,0,0.5);
       text-align: center;
-      color: #8a66ff;
-      font-size: 28px;
-      margin-bottom: 8px;
-      text-shadow: 0 0 12px rgba(138, 102, 255, 0.4);
-      letter-spacing: 1px;
     }
-    .subtitle {
-      text-align: center;
-      color: #ffb3d9;
-      font-size: 16px;
-      margin-bottom: 24px;
-      font-style: italic;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 0 auto 28px;
-      background: rgba(20, 12, 40, 0.92);
-      border-radius: 12px;
+
+    .viewfinder {
+      width: 280px;
+      height: 180px;
+      margin: 20px auto;
+      border: 2px solid #555;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       overflow: hidden;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
-      border: 1px solid #4a306a;
+      background: #050505;
     }
-    th, td {
-      padding: 14px 12px;
-      text-align: left;
-      border-bottom: 1px solid #3a2555;
+
+    .ghost-target {
+      width: 60px;
+      height: 80px;
+      background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%);
+      filter: blur(5px);
+      position: absolute;
+      transition: 0.2s;
     }
-    th {
-      background: rgba(35, 20, 65, 0.95);
-      color: #c0b0ff;
-      font-weight: 700;
-      font-size: 14px;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
+
+    .shutter-btn {
+      background: var(--spirit-purple);
+      color: #000;
+      border: none;
+      padding: 12px 30px;
+      font-family: 'Cinzel', serif;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 15px;
     }
-    tr:last-child td {
-      border-bottom: none;
+
+    .shutter-btn:active { transform: scale(0.95); background: #fff; }
+
+    .flash-effect {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: #fff; opacity: 0; pointer-events: none; z-index: 999;
     }
-    tr:hover {
-      background: rgba(50, 30, 80, 0.7);
-    }
-    .era-box {
-      background: rgba(30, 20, 60, 0.85);
-      border-left: 4px solid #8a66ff;
-      padding: 18px;
-      border-radius: 0 10px 10px 0;
-      margin: 20px 0;
-      font-size: 14px;
-      line-height: 1.6;
-    }
-    .era-box h3 {
-      color: #a088ff;
-      margin-top: 0;
-      font-size: 19px;
-    }
-    .note {
-      margin-top: 20px;
-      font-size: 13px;
-      color: #b8a8d8;
-      text-align: center;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.5;
-    }
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Cinzel:wght@400;700&display=swap');
+
+    @keyframes flashAnim { 0% { opacity: 1; } 100% { opacity: 0; } }
+
+    .curse-zone { position: relative; display: inline-block; }
   </style>
 </head>
 <body>
-  <h2>📸 FATAL FRAME — ХРОНОЛОГИЯ ДУХОВ И БОЛИ</h2>
-  <div class="subtitle">«Смерть не освобождает. Она запирает»</div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>📅 Год (в игре)</th>
-        <th>🎮 Игра</th>
-        <th>🕹️ Платформы</th>
-        <th>👻 Ключевой призрак</th>
-        <th>🕯️ Ритуал / Тема</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><b>1986</b></td>
-        <td><b>Fatal Frame / Project Zero</b></td>
-        <td>PS2, Xbox, Switch (Remaster)</td>
-        <td>Кирие (Девушка в чёрном)</td>
-        <td>Ритуал Умиротворения — жертва ради спасения деревни.</td>
-      </tr>
-      <tr>
-        <td><b>1952</b></td>
-        <td><b>Fatal Frame II: Crimson Butterfly</b></td>
-        <td>PS2, Xbox, Wii, Switch (Remaster)</td>
-        <td>Сё и Минако (Близнецы)</td>
-        <td>Ритуал Красной Бабочки — жертва невинной души для запечатывания зла.</td>
-      </tr>
-      <tr>
-        <td><b>2005</b></td>
-        <td><b>Fatal Frame III: The Tormented</b></td>
-        <td>PS2, Switch (Remaster)</td>
-        <td>Рейна</td>
-        <td>Кошмар как портал. Смерть близких притягивает духов.</td>
-      </tr>
-      <tr>
-        <td><b>1950-е</b></td>
-        <td><b>Fatal Frame: Mask of the Lunar Eclipse</b></td>
-        <td>Wii, PS4, Xbox, PC, Switch (2023 Remaster)</td>
-        <td>Сёко / Сакуя</td>
-        <td>Лунный ритуал — танец, стирающий память. Вдохновлён театром Но.</td>
-      </tr>
-      <tr>
-        <td><b>2014</b></td>
-        <td><b>Fatal Frame: Maiden of Black Water</b></td>
-        <td>Wii U, PS4, Xbox, PC, Switch (2021 Remaster)</td>
-        <td>Осе Юкико</td>
-        <td>Чёрная вода — символ утопленных душ. Тема: материнская боль и жертва.</td>
-      </tr>
-      <tr>
-        <td><b>2021</b></td>
-        <td><b>Fatal Frame: Maiden of Black Water (Remaster)</b></td>
-        <td>PS4, Xbox, PC, Switch</td>
-        <td>Осе Юкико</td>
-        <td>Полный ремастер с улучшенной графикой и новым костюмом для Аяне.</td>
-      </tr>
-      <tr>
-        <td><b>2023</b></td>
-        <td><b>Mask of the Lunar Eclipse (Remaster)</b></td>
-        <td>PS4, Xbox, PC, Switch</td>
-        <td>Сакуя</td>
-        <td>Первая локализация на запад! Ремастер с новыми костюмами и улучшенным управлением.</td>
-      </tr>
-      <tr>
-        <td><b>2012</b></td>
-        <td><b>Fatal Frame: Spirit Camera (3DS)</b></td>
-        <td>Nintendo 3DS</td>
-        <td>Маса</td>
-        <td>Использует камеру 3DS. Девочка теряет память в мире духов.</td>
-      </tr>
-      <tr>
-        <td><b>2014</b></td>
-        <td><b>Fatal Frame Mobile (Япония)</b></td>
-        <td>iOS, Android</td>
-        <td>Разные</td>
-        <td>Мини-игры с камерой. Неканоничен для запада.</td>
-      </tr>
-    </tbody>
-  </table>
+<div id="ghost-filament" title="Индикатор присутствия">
+  <div id="filament-light"></div>
+</div>
 
-  <div class="era-box">
-    <h3>🕯️ Суть ужаса Fatal Frame:</h3>
-    <p>• <b>Камера Призраков</b> — не оружие, а инструмент искупления. Чем точнее снимок — тем сильнее удар по духу.<br>
-    • <b>Призраки — жертвы</b>, а не монстры. Их боль заставляет их терзать живых.<br>
-    • <b>Женские ритуалы</b> — центральная тема: девушки приносятся в жертву ради «спасения» деревни.<br>
-    • <b>Молчание</b> — звук шагов, шёпот, внезапная тишина… страх рождается в голове игрока.</p>
+<div class="archive-container">
+  <header>
+    <h1 class="ghost-trigger">PROJECT_ZERO_LOG_2026</h1>
+    <div style="font-size: 0.8rem; letter-spacing: 2px; color: #ffb3d9;">«ВЗГЛЯД В НЕИЗБЕЖНОЕ»</div>
+  </header>
+
+  <div class="nav-tabs">
+    <button class="tab-btn active" onclick="openTab(event, 'classic')">Классическая трилогия</button>
+    <button class="tab-btn" onclick="openTab(event, 'modern')">Современные ремастеры</button>
   </div>
 
-  <div class="era-box">
-    <h3>👁️ Хронология по важности:</h3>
-    <p><b>• Обязательно пройти:</b> <i>Crimson Butterfly</i> → <i>Mask of the Lunar Eclipse</i> → <i>Maiden of Black Water</i><br>
-    <b>• Лучший ремастер:</b> <i>Mask of the Lunar Eclipse (2023)</i> — первый официальный перевод на английский.<br>
-    <b>• Самый мрачный:</b> <i>Maiden of Black Water</i> — тема утопления, материнства и безысходности.</p>
+  <div id="classic" class="tab-content active">
+    <table>
+      <thead>
+        <tr><th>Год</th><th>Игра</th><th>Антагонист</th><th>Суть проклятия</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1986</td><td><b>Fatal Frame I</b></td><td class="ghost-trigger">Кириэ Химуро</td><td>Прорыв пустых врат.</td></tr>
+        <tr><td>1952</td><td><b>Fatal Frame II</b></td><td class="ghost-trigger">Саэ Куросава</td><td>Близнецы Бабочки.</td></tr>
+        <tr><td>2005</td><td><b>Fatal Frame III</b></td><td class="ghost-trigger">Рейка Кудзё</td><td>Татуировка из крови.</td></tr>
+      </tbody>
+    </table>
   </div>
 
-  <div class="note">
-    💀 Серия создана Макото Сайто и Кэйсукэ Кикучи. Вдохновлена японскими легендами и фильмами ужасов (Ringu, Ju-On).<br>
-    <i>Fatal Frame III</i> — единственная игра, где действие происходит в современности.<br>
-    Все ремастеры (2021–2023) — часть проекта «Возрождение ужаса» от Koei Tecmo.
+  <div id="modern" class="tab-content">
+    <table>
+      <thead>
+        <tr><th>Релиз</th><th>Название</th><th>Платформа</th><th>Особенности</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>2021</td><td><b>Maiden of Black Water</b></td><td>Multiplatform</td><td>Улучшенные текстуры.</td></tr>
+        <tr><td>2023</td><td><b>Mask of the Lunar Eclipse</b></td><td>Multiplatform</td><td>Первый глобальный релиз.</td></tr>
+      </tbody>
+    </table>
   </div>
+
+  <div class="camera-module">
+    <h3 style="font-family: 'Cinzel'; margin: 0; color: var(--spirit-purple);">📸 ТРЕНИРОВКА CAMERA OBSCURA</h3>
+    <div class="viewfinder" id="screen">
+      <div id="ghost" class="ghost-target"></div>
+      <div style="border: 1px solid rgba(138, 102, 255, 0.3); width: 80px; height: 80px; border-radius: 50%;"></div>
+    </div>
+    <button class="shutter-btn" onclick="takeShot()">SHUTTER RELEASE</button>
+    <div id="damage-log" style="margin-top: 10px; font-weight: bold; color: #ffb3d9;"></div>
+  </div>
+</div>
+
+<div id="flash" class="flash-effect"></div>
+
+<script>
+  // Навигация
+  function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tab-content");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+      tabcontent[i].classList.remove("active");
+    }
+    tablinks = document.getElementsByClassName("tab-btn");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].classList.remove("active");
+    }
+    document.getElementById(tabName).style.display = "block";
+    document.getElementById(tabName).classList.add("active");
+    evt.currentTarget.classList.add("active");
+  }
+
+  // --- ЛОГИКА ИНДИКАТОРА ---
+  const filament = document.getElementById('filament-light');
+  const triggers = document.querySelectorAll('.ghost-trigger');
+
+  document.addEventListener('mousemove', (e) => {
+    let nearGhost = false;
+    let minDistance = 300; // Радиус обнаружения в пикселях
+
+    triggers.forEach(trigger => {
+      const rect = trigger.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const distance = Math.sqrt(Math.pow(e.clientX - centerX, 2) + Math.pow(e.clientY - centerY, 2));
+
+      if (distance < minDistance) {
+        nearGhost = true;
+        minDistance = distance;
+      }
+    });
+
+    if (nearGhost) {
+      filament.classList.add('filament-active');
+      // Чем ближе, тем быстрее пульсация
+      const speed = Math.max(0.1, minDistance / 300);
+      filament.style.animationDuration = `${speed}s`;
+    } else {
+      filament.classList.remove('filament-active');
+      filament.style.background = '#222';
+    }
+  });
+
+  // Логика камеры
+  const ghost = document.getElementById('ghost');
+  let ghostX = 0, ghostY = 0;
+
+  function moveGhost() {
+    ghostX = Math.random() * 200;
+    ghostY = Math.random() * 100;
+    ghost.style.left = ghostX + 'px';
+    ghost.style.top = ghostY + 'px';
+  }
+  setInterval(moveGhost, 1000);
+
+  function takeShot() {
+    const flash = document.getElementById('flash');
+    const log = document.getElementById('damage-log');
+    flash.style.animation = 'none';
+    void flash.offsetWidth;
+    flash.style.animation = 'flashAnim 0.3s ease-out';
+
+    const dist = Math.sqrt(Math.pow(ghostX - 110, 2) + Math.pow(ghostY - 50, 2));
+    if (dist < 30) { log.innerText = "⚡ FATAL FRAME! ⚡"; log.style.color = "#fff"; }
+    else if (dist < 70) { log.innerText = "CORE SHOT"; log.style.color = "var(--spirit-purple)"; }
+    else { log.innerText = "MISS"; log.style.color = "#555"; }
+  }
+</script>
+
 </body>
 </html>
