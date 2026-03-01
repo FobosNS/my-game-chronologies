@@ -253,6 +253,67 @@
       font-style: italic;
     }
 
+    /* Адаптивность таблицы */
+    @media screen and (max-width: 768px) {
+      #timeline table, 
+      #timeline thead, 
+      #timeline tbody, 
+      #timeline th, 
+      #timeline td, 
+      #timeline tr { 
+        display: block; 
+      }
+
+      /* Скрываем заголовок таблицы на мобильных */
+      #timeline thead tr { 
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+      }
+
+      #timeline tr {
+        margin-bottom: 20px;
+        border: 1px solid #d4af37;
+        background: rgba(40, 30, 20, 0.6);
+        border-radius: 8px;
+        padding: 10px;
+      }
+
+      #timeline td { 
+        border: none;
+        position: relative;
+        padding-left: 50% !important; 
+        text-align: right;
+        border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+      }
+
+      /* Добавляем названия колонок перед контентом */
+      #timeline td:before { 
+        position: absolute;
+        left: 15px;
+        width: 45%; 
+        padding-right: 10px; 
+        white-space: nowrap;
+        text-align: left;
+        font-weight: bold;
+        color: #d4af37;
+        content: attr(data-label); /* Берем название из атрибута */
+      }
+
+      #timeline td:last-child {
+        border-bottom: none;
+        text-align: left;
+        padding-left: 15px !important;
+        margin-top: 10px;
+      }
+
+      #timeline td:last-child:before {
+        position: static;
+        display: block;
+        margin-bottom: 5px;
+      }
+    }
+
     .footer-note {
       text-align: center;
       margin-top: 40px;
@@ -299,73 +360,73 @@
       </thead>
       <tbody>
         <tr>
-          <td>1989 — 1999</td>
-          <td><b>Classic Trilogy</b></td>
-          <td>Сын Шаха</td>
-          <td>От спасения принцессы в подземельях до битвы с Тенью и перехода в 3D. Основа жанра «кинематографический платформер».</td>
+          <td data-label="ПЕРИОД">1989 — 1999</td>
+          <td data-label="НАЗВАНИЕ"><b>Classic Trilogy</b></td>
+          <td data-label="ГЕРОЙ">Сын Шаха</td>
+          <td data-label="СУТЬ">От спасения принцессы в подземельях до битвы с Тенью и перехода в 3D. Основа жанра «кинематографический платформер».</td>
         </tr>
         
         <tr>
-          <td>IX век</td>
-          <td><b>The Sands of Time</b></td>
-          <td>Принц</td>
-          <td>Осада Азада. Наивный герой совершает роковую ошибку, открыв песочные часы, и учится ценить время и любовь Фары.</td>
+          <td data-label="ПЕРИОД">IX век</td>
+          <td data-label="НАЗВАНИЕ"><b>The Sands of Time</b></td>
+          <td data-label="ГЕРОЙ">Принц</td>
+          <td data-label="СУТЬ">Осада Азада. Наивный герой совершает роковую ошибку, открыв песочные часы, и учится ценить время и любовь Фары.</td>
         </tr>
 
         <tr>
-          <td>Между SoT и WW</td>
-          <td><b>The Forgotten Sands</b></td>
-          <td>Принц</td>
-          <td>Принц навещает королевство брата Малика и сталкивается с древней армией Соломона. Здесь он обретает власть над водой.</td>
+          <td data-label="ПЕРИОД">Между SoT и WW</td>
+          <td data-label="НАЗВАНИЕ"><b>The Forgotten Sands</b></td>
+          <td data-label="ГЕРОЙ">Принц</td>
+          <td data-label="СУТЬ">Принц навещает королевство брата Малика и сталкивается с древней армией Соломона. Здесь он обретает власть над водой.</td>
         </tr>
 
         <tr>
-          <td>Спустя 3 года</td>
-          <td><b>Battles of PoP</b></td>
-          <td>Принц / Кили</td>
-          <td>Портативная стратегия о конфликте Персии и Индии. Раскрывает, как Принц узнал о Дахаке и начал сходить с ума.</td>
+          <td data-label="ПЕРИОД">Спустя 3 года</td>
+          <td data-label="НАЗВАНИЕ"><b>Battles of PoP</b></td>
+          <td data-label="ГЕРОЙ">Принц / Кили</td>
+          <td data-label="СУТЬ">Портативная стратегия о конфликте Персии и Индии. Раскрывает, как Принц узнал о Дахаке и начал сходить с ума.</td>
         </tr>
 
         <tr>
-          <td>Спустя 7 лет</td>
-          <td><b>Warrior Within</b></td>
-          <td>Скиталец</td>
-          <td>Самая мрачная глава. Принц пытается стереть саму возможность создания Песков на Острове Времени, чтобы спастись от Дахака.</td>
+          <td data-label="ПЕРИОД">Спустя 7 лет</td>
+          <td data-label="НАЗВАНИЕ"><b>Warrior Within</b></td>
+          <td data-label="ГЕРОЙ">Скиталец</td>
+          <td data-label="СУТЬ">Самая мрачная глава. Принц пытается стереть саму возможность создания Песков на Острове Времени, чтобы спастись от Дахака.</td>
         </tr>
 
         <tr>
-          <td>Сразу после WW</td>
-          <td><b>The Two Thrones</b></td>
-          <td>Принц + Тень</td>
-          <td>Возвращение в горящий Вавилон. Финальная схватка с Визирем и внутренним демоном за право быть истинным королем.</td>
+          <td data-label="ПЕРИОД">Сразу после WW</td>
+          <td data-label="НАЗВАНИЕ"><b>The Two Thrones</b></td>
+          <td data-label="ГЕРОЙ">Принц + Тень</td>
+          <td data-label="СУТЬ">Возвращение в горящий Вавилон. Финальная схватка с Визирем и внутренним демоном за право быть истинным королем.</td>
         </tr>
 
         <tr>
-          <td>2008</td>
-          <td><b>Prince of Persia</b></td>
-          <td>Авантюрист</td>
-          <td>Забытая эпоха. Поиск потерянного осла приводит к освобождению бога тьмы Ахримана. Исцеление земель вместе с Эликой.</td>
+          <td data-label="ПЕРИОД">2008</td>
+          <td data-label="НАЗВАНИЕ"><b>Prince of Persia</b></td>
+          <td data-label="ГЕРОЙ">Авантюрист</td>
+          <td data-label="СУТЬ">Забытая эпоха. Поиск потерянного осла приводит к освобождению бога тьмы Ахримана. Исцеление земель вместе с Эликой.</td>
         </tr>
 
         <tr>
-          <td>2008 (DS)</td>
-          <td><b>The Fallen King</b></td>
-          <td>Авантюрист</td>
-          <td>Прямое продолжение игры 2008 года. Принц объединяется с магом Залом, чтобы остановить распространение Скверны.</td>
+          <td data-label="ПЕРИОД">2008 (DS)</td>
+          <td data-label="НАЗВАНИЕ"><b>The Fallen King</b></td>
+          <td data-label="ГЕРОЙ">Авантюрист</td>
+          <td data-label="СУТЬ">Прямое продолжение игры 2008 года. Принц объединяется с магом Залом, чтобы остановить распространение Скверны.</td>
         </tr>
 
         <tr>
-          <td>2024</td>
-          <td><b>The Lost Crown</b></td>
-          <td>Саргон</td>
-          <td>Метроидвания о «Бессмертных». Поиск похищенного принца Гассана в проклятой цитадели на горе Каф, где время сошло с ума.</td>
+          <td data-label="ПЕРИОД">2024</td>
+          <td data-label="НАЗВАНИЕ"><b>The Lost Crown</b></td>
+          <td data-label="ГЕРОЙ">Саргон</td>
+          <td data-label="СУТЬ">Метроидвания о «Бессмертных». Поиск похищенного принца Гассана в проклятой цитадели на горе Каф, где время сошло с ума.</td>
         </tr>
 
         <tr>
-          <td>2024+</td>
-          <td><b>The Rogue PoP</b></td>
-          <td>Принц</td>
-          <td>Экшен-рогалик. Нашествие гуннов, владеющих темной магией. Принц использует магический медальон для бесконечного возрождения.</td>
+          <td data-label="ПЕРИОД">2024+</td>
+          <td data-label="НАЗВАНИЕ"><b>The Rogue PoP</b></td>
+          <td data-label="ГЕРОЙ">Принц</td>
+          <td data-label="СУТЬ">Экшен-рогалик. Нашествие гуннов, владеющих темной магией. Принц использует магический медальон для бесконечного возрождения.</td>
         </tr>
       </tbody>
     </table>
