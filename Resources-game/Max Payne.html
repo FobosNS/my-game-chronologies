@@ -3,152 +3,260 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Max Payne — Chronology</title>
+  <title>Max Payne — Full Archive</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap');
+
     body {
-      font-family: 'Orbitron', 'Share Tech Mono', monospace;
-      background: linear-gradient(135deg, #0f1218, #1a1f28);
-      color: #d0e0ff;
-      padding: 25px;
+      font-family: 'Share Tech Mono', monospace;
+      background: #0a0c10;
+      color: #cfd8dc;
+      padding: clamp(10px, 5vw, 30px);
       margin: 0;
       line-height: 1.6;
-      font-size: 15px;
     }
-    h2 {
+
+    .archive-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: rgba(15, 20, 30, 0.95);
+      border: 1px solid #303f9f;
+      padding: 25px;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(48, 63, 159, 0.1);
+      border-radius: 4px;
+    }
+
+    header {
       text-align: center;
+      border-bottom: 2px solid #ff3366;
+      margin-bottom: 30px;
+      padding-bottom: 15px;
+    }
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
       color: #ff3366;
-      font-size: 28px;
-      margin-bottom: 8px;
-      text-shadow: 0 0 12px rgba(255, 51, 102, 0.5);
-      letter-spacing: 1px;
+      font-size: clamp(1.5rem, 6vw, 2.5rem);
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 5px;
+      text-shadow: 2px 2px 0px #303f9f;
     }
-    .subtitle {
+
+    .status-line {
+      font-size: 0.8rem;
+      color: #4fc3f7;
+      text-transform: uppercase;
+      margin-top: 5px;
+    }
+
+    h2 {
+      font-family: 'Orbitron', sans-serif;
+      color: #ff3366;
+      font-size: 1.4rem;
+      margin-top: 40px;
+      border-bottom: 1px solid #1c2331;
+      padding-bottom: 10px;
+    }
+
+    /* Таблица */
+    .table-wrapper { overflow-x: auto; margin-bottom: 30px; }
+    table { width: 100%; border-collapse: collapse; background: rgba(0,0,0,0.3); }
+    th { 
+      background: #1a237e; color: #fff; padding: 12px; 
+      text-align: left; font-family: 'Orbitron'; font-size: 0.75rem;
+    }
+    td { padding: 12px; border-bottom: 1px solid #1c2331; font-size: 0.9rem; }
+    tr:hover { background: rgba(255, 51, 102, 0.05); }
+
+    /* Досье */
+    .dossier-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .dossier-card {
+      background: #10141d;
+      border-left: 4px solid #ff3366;
+      padding: 15px;
+      border: 1px solid #263238;
+    }
+    .dossier-card h3 {
+      margin: 0 0 10px 0;
+      font-family: 'Orbitron';
+      color: #4fc3f7;
+      font-size: 1.1rem;
+    }
+    .dossier-card b { color: #ff3366; }
+
+    /* Цитаты */
+    .quotes-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .quote-item {
+      background: rgba(48, 63, 159, 0.05);
+      border: 1px solid #1c2331;
+      padding: 15px;
+      font-style: italic;
+      position: relative;
+    }
+    .quote-item::before {
+      content: '"';
+      position: absolute;
+      top: 5px;
+      left: 10px;
+      font-size: 2rem;
+      color: #ff3366;
+      opacity: 0.3;
+    }
+    .quote-item span {
+      display: block;
+      margin-top: 10px;
+      font-style: normal;
+      color: #ff3366;
+      font-weight: bold;
+      font-size: 0.8rem;
+      text-align: right;
+    }
+
+    .bullet-time-box {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px dashed #4fc3f7;
+      padding: 20px;
+      margin: 30px 0;
       text-align: center;
-      color: #88ccff;
-      font-size: 16px;
-      margin-bottom: 24px;
       font-style: italic;
     }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 0 auto 28px;
-      background: rgba(20, 25, 40, 0.92);
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
-      border: 1px solid #3a405a;
-    }
-    th, td {
-      padding: 14px 12px;
-      text-align: left;
-      border-bottom: 1px solid #2a3045;
-    }
-    th {
-      background: rgba(35, 40, 60, 0.95);
-      color: #a0d0ff;
-      font-weight: bold;
-      font-size: 14px;
-      letter-spacing: 0.8px;
-      text-transform: uppercase;
-    }
-    tr:last-child td {
-      border-bottom: none;
-    }
-    tr:hover {
-      background: rgba(45, 50, 75, 0.7);
-    }
-    .era-box {
-      background: rgba(30, 35, 55, 0.85);
-      border-left: 4px solid #ff3366;
-      padding: 18px;
-      border-radius: 0 10px 10px 0;
-      margin: 20px 0;
-      font-size: 14px;
-      line-height: 1.6;
-    }
-    .era-box h3 {
-      color: #ff6699;
-      margin-top: 0;
-      font-size: 19px;
-    }
-    .note {
-      margin-top: 20px;
-      font-size: 13px;
-      color: #b0c0e0;
+
+    .footer-note {
       text-align: center;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.5;
+      font-size: 0.8rem;
+      color: #546e7a;
+      border-top: 1px solid #263238;
+      padding-top: 20px;
+      margin-top: 40px;
     }
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap');
+
+    @media (max-width: 768px) {
+      .quotes-container { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
-  <h2>🩸 MAX PAYNE — ХРОНОЛОГИЯ БОЛИ И ВОЗМЕЗДИЯ</h2>
-  <div class="subtitle">«Я плыл в реке боли. И она несла меня к мести»</div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>📅 Год</th>
-        <th>🎮 Игра</th>
-        <th>🌧️ Город</th>
-        <th>💀 Трагедия</th>
-        <th>🔗 Сюжетная связь</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><b>1998</b></td>
-        <td><b>Max Payne</b></td>
-        <td>Нью-Йорк</td>
-        <td>Убийство жены Мишель и дочери Роуз</td>
-        <td>Макс — детектив NYPD. После трагедии он уходит в DEA под прикрытие, чтобы раскрыть заговор с наркотиком «Валькирия».</td>
-      </tr>
-      <tr>
-        <td><b>2001–2003</b></td>
-        <td><b>Max Payne 2: The Fall of Max Payne</b></td>
-        <td>Нью-Йорк</td>
-        <td>Возвращение прошлого<br>Любовь к Моне</td>
-        <td>Макс работает в NYPD. Встречает Мону Сакс — наёмницу из прошлого. Их любовь обречена. Конспирология, коррупция, финал в больнице.</td>
-      </tr>
-      <tr>
-        <td><b>2012</b></td>
-        <td><b>Max Payne 3</b></td>
-        <td>Сан-Паулу, Бразилия</td>
-        <td>Изгнание, алкоголь, вина</td>
-        <td>Макс — сломленный, пьёт и работает телохранителем. Втянут в войну кланов. Спасает Лизу, но теряет друга Родриго.</td>
-      </tr>
-    </tbody>
-  </table>
+<div class="archive-container">
+  <header>
+    <h1>MAX_PAYNE_DOSSIER</h1>
+    <div class="status-line">CASE_STATUS: COLD_CASE // DEPT: NYPD_INTERNAL_AFFAIRS</div>
+  </header>
 
-  <div class="era-box">
-    <h3>🌧️ Три акта трагедии:</h3>
-    <p><b>• Акт I: Месть (2001)</b><br>
-    — Стиль: нуар + комиксы + «пулевая замедленка».<br>
-    — Тема: «Как боль превращается в ярость».</p>
-    <p><b>• Акт II: Любовь и падение (2003)</b><br>
-    — Более кинематографичен. Макс и Мона — Ромео и Джульетта в мире наёмников.<br>
-    — Финал: Мона умирает в его руках. «Я не герой. Я просто человек с пистолетом».</p>
-    <p><b>• Акт III: Искупление (2012)</b><br>
-    — Макс в изгнании. Нет надежды — только выживание.<br>
-    — Последние слова: «Я не верю в искупление. Но я всё ещё здесь».</p>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Период</th>
+          <th>Операция / Игра</th>
+          <th>Локация</th>
+          <th>Ключевой Антагонист</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1998-2001</td>
+          <td><b>Max Payne (Valkyr Case)</b></td>
+          <td>Нью-Йорк (Снежная буря)</td>
+          <td>Николь Хорн (Aesir Corp)</td>
+        </tr>
+        <tr>
+          <td>2003</td>
+          <td><b>The Fall of Max Payne</b></td>
+          <td>Нью-Йорк (Дождь)</td>
+          <td>Владимир Лем / Внутренний Круг</td>
+        </tr>
+        <tr>
+          <td>2012</td>
+          <td><b>Max Payne 3</b></td>
+          <td>Сан-Паулу / Панама</td>
+          <td>Виктор Бронко / UFE</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
-  <div class="era-box">
-    <h3>🎭 Ключевые элементы стиля:</h3>
-    <p>• <b>Комикс-панели</b> — повествование через статичные кадры с монологами.<br>
-    • <b>Bullet Time</b> — замедление времени в бою, ставшее культовым.<br>
-    • <b>Нуар-монологи</b>: «Сон был как тёплое одеяло… пока не превратился в саван».<br>
-    • <b>Дождь</b> — постоянный символ тоски, грязи и неизбежности.</p>
+  <h2>👤 ПЕРСОНАЖИ И ФАКТЫ</h2>
+  <div class="dossier-grid">
+    <div class="dossier-card">
+      <h3>Макс Пейн</h3>
+      <p><b>Статус:</b> В отставке. <br>
+      Бывший детектив, потерявший всё. Обладает феноменальной реакцией (Bullet Time), вызванной, по одной из версий, побочным влиянием наркотика V в системе или чистым адреналином горя.</p>
+    </div>
+    <div class="dossier-card">
+      <h3>Мона Сакс</h3>
+      <p><b>Статус:</b> Неизвестен (зависит от сложности). <br>
+      Профессиональный киллер. В MP2 становится единственным лучом света для Макса. В канонической концовке на «Hard-boiled» она выживает.</p>
+    </div>
+    <div class="dossier-card">
+      <h3>Альфред Уоден</h3>
+      <p><b>Статус:</b> Мертв. <br>
+      Сенатор и член «Внутреннего Круга». Манипулировал Максом, чтобы уничтожить своих врагов. Умер от рака и пули Владимира Лема.</p>
+    </div>
+    <div class="dossier-card">
+      <h3>Владимир Лем</h3>
+      <p><b>Статус:</b> Мертв. <br>
+      Харизматичный лидер русской мафии. Прошел путь от «друга» Макса до главного предателя, жаждущего власти над Внутренним Кругом.</p>
+    </div>
   </div>
 
-  <div class="note">
-    💀 Трилогия завершена. Remedy и Rockstar подтвердили: <b>больше не будет Max Payne 4</b>.<br>
-    В 2022 году вышли <b>ремастеры всех трёх игр</b> — с улучшенной графикой и поддержкой 4K.<br>
-    Max Payne — не просто шутер. Это <b>игра-фильм-поэма о боли</b>.
+  <div class="bullet-time-box">
+    «Я не был уверен, что смогу выбраться отсюда живым. Но в этом-то и заключалась прелесть ситуации: мне было нечего терять.»
   </div>
+
+  <h2>📜 ЦИТАТЫ: ЭХО ПРОШЛОГО</h2>
+  <div class="quotes-container">
+    <div class="quote-item">
+      «Я по крупицам собирал воспоминания, но они были словно битое стекло. Каждое из них резало до крови.»
+      <span>— Max Payne 1</span>
+    </div>
+    <div class="quote-item">
+      «Любовь — это когда тебе дают возможность уничтожить человека, а ты этого не делаешь.»
+      <span>— Max Payne 2</span>
+    </div>
+    <div class="quote-item">
+      «Прошлое — это дыра, в которую ты падаешь. Чем дольше ты в ней находишься, тем темнее становится.»
+      <span>— Max Payne 2</span>
+    </div>
+    <div class="quote-item">
+      «Смерть близких — это не шрам. Это открытая рана, которая начинает гнить, если ты пытаешься её игнорировать.»
+      <span>— Max Payne 3</span>
+    </div>
+    <div class="quote-item">
+      «Я не был героем. Я просто был человеком, у которого закончились патроны и варианты.»
+      <span>— Max Payne 1</span>
+    </div>
+    <div class="quote-item">
+      «В жизни бывают моменты, когда ты понимаешь, что стоишь на краю пропасти. И единственный путь — прыгнуть.»
+      <span>— Max Payne 3</span>
+    </div>
+  </div>
+
+  <div class="dossier-card" style="width: 100%; box-sizing: border-box; margin-top: 30px;">
+    <h3>🔬 Проект «Вальхалла» (Project Valhalla)</h3>
+    <p>Секретная правительственная программа США по созданию сверхсолдат. Наркотик «Валькирия» (V) вызывал галлюцинации и ярость. Семья Пейна стала случайной жертвой заговора корпорации Aesir.</p>
+  </div>
+
+  <div class="footer-note">
+    💡 <b>ТЕКУЩИЙ СТАТУС:</b> Студия Remedy Entertainment официально разрабатывает <b>полные ремейки</b> Max Payne 1 & 2. <br>
+    «Все они были мертвы. Последний выстрел поставил точку в этой истории.»
+  </div>
+</div>
+
+<script>
+  console.log("Bullet Time: Active. Frame rate stabilized.");
+</script>
+
 </body>
 </html>
