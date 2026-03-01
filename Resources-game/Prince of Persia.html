@@ -17,9 +17,9 @@
       padding: clamp(10px, 5vw, 30px);
       margin: 0;
       line-height: 1.6;
+      transition: filter 0.5s ease;
     }
 
-    /* Эффект текущего песка на фоне */
     .sand-drift {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
@@ -103,7 +103,7 @@
     }
 
     td { padding: 15px; border-bottom: 1px solid #3a2a15; }
-    tr:hover { background: rgba(212, 175, 55, 0.03); }
+    tr:hover { background: rgba(212, 175, 55, 0.05); }
 
     .grid {
       display: grid;
@@ -117,6 +117,12 @@
       padding: 20px;
       position: relative;
       overflow: hidden;
+      transition: 0.3s ease;
+    }
+
+    .card:hover {
+      box-shadow: inset 0 0 15px rgba(212, 175, 55, 0.2);
+      transform: translateY(-5px);
     }
 
     .card::before {
@@ -143,6 +149,49 @@
       text-transform: uppercase;
     }
 
+    .interactive-zone {
+      text-align: center;
+      margin: 20px auto;
+      padding: 20px;
+      border: 1px dashed #d4af37;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 8px;
+    }
+
+    .hourglass {
+      font-size: 3rem;
+      display: inline-block;
+      transition: transform 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    .rewind-btn {
+      display: block;
+      margin: 15px auto;
+      background: linear-gradient(45deg, #d4af37, #f3e5ab);
+      color: #000;
+      border: none;
+      padding: 12px 25px;
+      font-family: 'Cinzel', serif;
+      font-weight: bold;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+      transition: 0.3s;
+    }
+
+    .rewind-btn:active { transform: scale(0.95); }
+
+    .rewinding {
+      filter: invert(1) hue-rotate(180deg) blur(2px) contrast(1.5) !important;
+    }
+
+    #time-status {
+      font-size: 0.85rem;
+      font-style: italic;
+      color: #c19a6b;
+      min-height: 1.2em;
+    }
+
     .footer-note {
       text-align: center;
       margin-top: 40px;
@@ -150,55 +199,9 @@
       border-top: 1px solid #3a2a15;
       font-size: 0.8rem;
       color: #8a7a60;
-      font-style: italic;
     }
 
-    b { color: #ffd780; }
-
-    .interactive-zone {
-      text-align: center;
-      margin-top: 50px;
-      padding: 30px;
-      border: 2px dashed #d4af37;
-      background: rgba(0, 0, 0, 0.4);
-    }
-
-    .hourglass {
-      font-size: 4rem;
-      display: inline-block;
-      transition: transform 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    }
-
-    .rewind-btn {
-      display: block;
-      margin: 20px auto;
-      background: linear-gradient(45deg, #d4af37, #f3e5ab);
-      color: #000;
-      border: none;
-      padding: 15px 30px;
-      font-family: 'Cinzel', serif;
-      font-weight: bold;
-      text-transform: uppercase;
-      cursor: pointer;
-      box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
-      transition: 0.3s;
-    }
-
-    .rewind-btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 30px rgba(212, 175, 55, 0.8);
-    }
-
-    /* Эффект перемотки */
-    .rewinding {
-      filter: invert(1) hue-rotate(180deg) blur(2px) !important;
-      transition: 0.5s ease-in-out;
-    }
-
-    #time-status {
-      font-style: italic;
-      color: #c19a6b;
-    }
+    #life-counter { color: #ffd780; font-weight: bold; }
   </style>
 </head>
 <body>
@@ -208,12 +211,13 @@
 <div class="container">
   <header>
     <h1>PRINCE OF PERSIA</h1>
-    <div style="color: #c19a6b; letter-spacing: 3px; font-size: 0.8rem;">CHRONOLOGY OF TIME & FATE</div>
+    <div style="color: #c19a6b; letter-spacing: 3px; font-size: 0.8rem; margin-bottom: 20px;">CHRONOLOGY OF TIME & FATE</div>
+    
     <div class="interactive-zone">
-    <div id="hourglass" class="hourglass">⏳</div>
-    <button class="rewind-btn" onclick="rewindTime()">Использовать Кинжал Времени</button>
-    <p id="time-status">Время течет своим чередом...</p>
-  </div>
+      <div id="hourglass" class="hourglass">⏳</div>
+      <button class="rewind-btn" onclick="rewindTime()">Использовать Кинжал Времени</button>
+      <p id="time-status">Время течет своим чередом...</p>
+    </div>
   </header>
 
   <nav class="tabs-nav">
@@ -244,10 +248,10 @@
 
   <div id="artifacts" class="tab-content">
     <div class="grid">
-      <div class="card">
+      <div class="card" onclick="this.style.borderColor='#ffd780'">
         <h3>⏳ КИНЖАЛ ВРЕМЕНИ</h3>
         <p><span class="tag">Magic</span> <span class="tag">Core</span></p>
-        <p>Единственное оружие, способное удерживать Пески. Позволяет отматывать время назад, замедлять его и уничтожать песчаных монстров.</p>
+        <p>Единственное оружие, способное удерживать Пески. Позволяет отматывать время назад и уничтожать песчаных монстров.</p>
       </div>
       <div class="card">
         <h3>🗡️ МЕЧ ВОДЫ</h3>
@@ -257,7 +261,7 @@
       <div class="card">
         <h3>🏺 ПЕСОЧНЫЕ ЧАСЫ</h3>
         <p><span class="tag">Relic</span> <span class="tag">Danger</span></p>
-        <p>Источник проклятия. Тот, кто откроет их без Кинжала, превратится в песчаное чудовище, лишенное воли.</p>
+        <p>Источник проклятия. Тот, кто откроет их без Кинжала, превратится в песчаное чудовище.</p>
       </div>
     </div>
   </div>
@@ -265,49 +269,60 @@
   <div id="lore" class="tab-content">
     <div class="card" style="border-left: 4px solid #d4af37;">
       <h3>📜 МУДРОСТЬ ВРЕМЕНИ</h3>
-      <p>• <b>Большинство людей верит</b>, что время — это река, которая течет всегда в одном направлении. Но я видел лицо времени, и я могу сказать тебе: они ошибаются.</p>
-      <p>• <b>Дахака</b> — это не злодей, а сила природы. Он приходит за теми, кто нарушил временную линию. Его нельзя победить силой, только хитростью или древней магией.</p>
-      <p>• <b>Тёмный Принц</b> — это воплощение эгоизма и ярости, которые Пески Времени пробудили в герое. Он шепчет, что мир должен принадлежать только тебе.</p>
+      <p>• <b>Время — это не река</b>, текущая в одном направлении. Это бушующий океан, где можно изменить течение, если у тебя есть воля.</p>
+      <p>• <b>Дахака</b> олицетворяет неизбежность. Нельзя просто стереть свои ошибки — за каждую попытку изменить прошлое придется платить в настоящем.</p>
     </div>
   </div>
 
   <div class="footer-note">
-    «Время — не враг. Оно — испытание, которое проходят лишь достойные».
+    <p>«Время — не враг. Оно — испытание, которое проходят лишь достойные».</p>
+    <p>Использовано попыток изменить судьбу: <span id="life-counter">0</span></p>
   </div>
 </div>
 
-function rewindTime() {
+<script>
+  let lifeCount = 0;
+
+  function rewindTime() {
     const body = document.body;
     const hourglass = document.getElementById('hourglass');
     const status = document.getElementById('time-status');
+    const counter = document.getElementById('life-counter');
 
-    // Поворачиваем часы
+    // 1. Анимация часов
     hourglass.style.transform = "rotate(180deg)";
     
-    // Включаем визуальный эффект перемотки
+    // 2. Эффект перемотки
     body.classList.add('rewinding');
     status.innerText = "ВРЕМЯ ОТМАТЫВАЕТСЯ НАЗАД...";
     status.style.color = "#ffd780";
 
-    // Возвращаем всё в норму через 1.5 секунды
+    // 3. Завершение эффекта
     setTimeout(() => {
       body.classList.remove('rewinding');
       hourglass.style.transform = "rotate(0deg)";
       status.innerText = "Вы изменили свою судьбу. Но пески не прощают ошибок.";
       status.style.color = "#d4af37";
-    }, 1500);
+      
+      // Обновляем счетчик
+      lifeCount++;
+      counter.innerText = lifeCount;
+      
+      if(lifeCount > 5) {
+        status.innerText = "Дахака уже близко... Вы слишком часто играете со временем.";
+        status.style.color = "#ff4444";
+      }
+    }, 1200);
   }
-  
-<script>
+
   function openTab(evt, tabName) {
-    var i, tabcontent, tablinks;
-    tabcontent = document.getElementsByClassName("tab-content");
-    for (i = 0; i < tabcontent.length; i++) {
+    const tabcontent = document.getElementsByClassName("tab-content");
+    for (let i = 0; i < tabcontent.length; i++) {
       tabcontent[i].style.display = "none";
       tabcontent[i].classList.remove("active");
     }
-    tablinks = document.getElementsByClassName("tab-btn");
-    for (i = 0; i < tablinks.length; i++) {
+    const tablinks = document.getElementsByClassName("tab-btn");
+    for (let i = 0; i < tablinks.length; i++) {
       tablinks[i].classList.remove("active");
     }
     document.getElementById(tabName).style.display = "block";
