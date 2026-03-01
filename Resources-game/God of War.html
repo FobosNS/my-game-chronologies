@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>God of War — Full Chronology</title>
+  <title>God of War — Spartan Rage Edition</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&display=swap');
 
@@ -12,18 +12,44 @@
       --gow-gold: #ffd7a0;
       --fire: #ff4500;
       --rage-width: 0%;
-      --bg-dark: #1a0a0a;
+      --bg-color: #1a0a0a;
     }
 
     body {
       font-family: 'Cinzel', 'Noto Sans JP', serif;
-      background: linear-gradient(135deg, #1a0a0a, #2a0f15);
-      background-attachment: fixed;
+      background: var(--bg-color);
       color: #f8f0e0;
       padding: clamp(15px, 5vw, 40px);
       margin: 0;
       line-height: 1.6;
+      overflow-x: hidden;
+      transition: background 0.5s ease;
+      user-select: none;
     }
+
+    /* Огненный след */
+    .particle {
+      position: fixed;
+      width: 4px; height: 4px;
+      background: var(--fire);
+      pointer-events: none;
+      border-radius: 50%;
+      z-index: 9999;
+      animation: fadeOut 0.5s forwards;
+    }
+    @keyframes fadeOut { to { opacity: 0; transform: scale(3) translateY(-20px); } }
+
+    /* Пятна крови */
+    .blood {
+      position: absolute;
+      width: 50px; height: 50px;
+      background: rgba(180, 0, 0, 0.7);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 5;
+      animation: splash 0.6s ease-out forwards;
+    }
+    @keyframes splash { to { transform: scale(3); opacity: 0; } }
 
     #rage-overlay {
       position: fixed;
@@ -33,27 +59,27 @@
       transition: box-shadow 0.2s;
     }
 
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-    }
+    .container { max-width: 1100px; margin: 0 auto; position: relative; }
 
     h2 {
       text-align: center;
       color: var(--gow-red);
       font-size: clamp(1.8rem, 6vw, 2.5rem);
       text-shadow: 0 0 15px rgba(212, 85, 85, 0.6);
-      margin-bottom: 5px;
+      transition: all 0.3s;
     }
 
-    .subtitle {
-      text-align: center;
-      color: #e0c0a0;
-      margin-bottom: 30px;
-      font-style: italic;
+    #combo-meter {
+      position: fixed;
+      left: 20px; top: 50%;
+      transform: translateY(-50%);
+      font-size: 3rem;
+      color: var(--gow-gold);
+      opacity: 0;
+      z-index: 1100;
+      text-shadow: 0 0 20px var(--fire);
     }
 
-    /* АДАПТИВНАЯ ТАБЛИЦА */
     .table-wrapper {
       border: 1px solid #5a2a2a;
       background: rgba(30, 12, 18, 0.95);
@@ -62,113 +88,54 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.7);
     }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
+    table { width: 100%; border-collapse: collapse; }
+    th { background: #321219; color: var(--gow-gold); padding: 18px 15px; text-transform: uppercase; border-bottom: 2px solid var(--gow-red); }
+    td { padding: 18px 15px; border-bottom: 1px solid #4a2525; transition: color 0.1s; }
+
+    /* Состояние "Ярости" для текста */
+    .rage-active-text {
+      color: #ff0000 !important;
+      text-shadow: 0 0 10px #ff0000;
+      font-weight: bold;
+      filter: blur(0.5px);
     }
 
-    th {
-      background: #321219;
-      color: var(--gow-gold);
-      padding: 18px 15px;
-      text-transform: uppercase;
-      font-size: 0.8rem;
-      letter-spacing: 1px;
-      border-bottom: 2px solid var(--gow-red);
-      text-align: left;
+    .rage-ui {
+      position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+      width: 280px; text-align: center; z-index: 1100;
+    }
+    .rage-bar-bg { height: 14px; background: rgba(0,0,0,0.8); border: 2px solid #555; border-radius: 7px; overflow: hidden; }
+    #rage-fill { width: var(--rage-width); height: 100%; background: linear-gradient(90deg, #800, #f00, #ffae00); box-shadow: 0 0 20px #f00; transition: width 0.2s; }
+
+    .screen-shake { animation: shake 0.1s infinite; }
+    @keyframes shake {
+      0% { transform: translate(2px, 2px); }
+      50% { transform: translate(-3px, -2px); }
+      100% { transform: translate(2px, 2px); }
     }
 
-    td {
-      padding: 18px 15px;
-      border-bottom: 1px solid #4a2525;
-      font-size: 0.95rem;
-      font-family: 'Noto Sans JP', sans-serif;
-    }
-
-    tr:hover td {
-      background: rgba(212, 85, 85, 0.1);
-      box-shadow: inset 4px 0 0 var(--gow-red);
-    }
-
-    /* МОБИЛЬНЫЙ ВИД (Трансформация в карточки) */
     @media screen and (max-width: 900px) {
       table, thead, tbody, th, td, tr { display: block; }
       thead { display: none; }
-      tr {
-        border-bottom: 5px solid var(--gow-red);
-        margin-bottom: 20px;
-      }
-      td {
-        display: flex;
-        justify-content: space-between;
-        padding: 12px 20px;
-        text-align: right;
-        border-bottom: 1px solid #3a1a1a;
-      }
-      td::before {
-        content: attr(data-label);
-        font-family: 'Cinzel';
-        color: var(--gow-gold);
-        font-weight: bold;
-        text-align: left;
-        padding-right: 15px;
-      }
-    }
-
-    /* ЭФФЕКТЫ ЯРОСТИ */
-    .rage-ui {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 280px;
-      text-align: center;
-      z-index: 1100;
-    }
-
-    .rage-bar-bg {
-      height: 12px;
-      background: rgba(0,0,0,0.8);
-      border: 1px solid #555;
-      border-radius: 6px;
-      overflow: hidden;
-    }
-
-    #rage-fill {
-      width: var(--rage-width);
-      height: 100%;
-      background: linear-gradient(90deg, #800, #f00, #ff4500);
-      box-shadow: 0 0 15px #f00;
-      transition: width 0.3s;
-    }
-
-    .era-box {
-      background: rgba(40, 15, 22, 0.85);
-      border-left: 4px solid var(--gow-red);
-      padding: 20px;
-      margin: 25px 0;
-    }
-
-    .screen-shake { animation: shake 0.2s infinite; }
-    @keyframes shake {
-      0% { transform: translate(1px, 1px); }
-      50% { transform: translate(-2px, -1px); }
-      100% { transform: translate(1px, 1px); }
+      tr { border-bottom: 5px solid var(--gow-red); margin-bottom: 15px; }
+      td { display: flex; justify-content: space-between; padding: 12px 20px; border-bottom: 1px solid #3a1a1a; }
+      td::before { content: attr(data-label); font-family: 'Cinzel'; color: var(--gow-gold); }
     }
   </style>
 </head>
-<body onmousedown="vibratePhone()">
+<body onmousemove="createFire(event)">
 
 <div id="rage-overlay"></div>
+<div id="combo-meter">0 HIT</div>
 
 <div class="rage-ui">
-  <div style="font-size: 10px; margin-bottom: 5px; letter-spacing: 2px;">SPARTAN RAGE</div>
+  <div id="rage-text" style="font-size: 11px; margin-bottom: 5px; letter-spacing: 2px; color: var(--gow-gold);">SPARTAN RAGE</div>
   <div class="rage-bar-bg"><div id="rage-fill"></div></div>
 </div>
 
 <div class="container" id="main-content">
-  <h2>⚔️ GOD OF WAR — CHRONOLOGY</h2>
-  <div class="subtitle">«Боги падают. Отец остаётся»</div>
+  <h2 id="main-title">⚔️ GOD OF WAR — CHRONOLOGY</h2>
+  <div class="subtitle" id="main-subtitle">«Don't be sorry. Be better.»</div>
 
   <div class="table-wrapper">
     <table>
@@ -178,102 +145,141 @@
           <th>🎮 Игра</th>
           <th>👤 Герой</th>
           <th>🩸 Конфликт</th>
-          <th>🔗 Сюжетная связь</th>
         </tr>
       </thead>
-      <tbody>
-        <tr onclick="gainRage(15)">
-          <td data-label="Эпоха">Греция<br><small>До Олимпа</small></td>
-          <td data-label="Игра"><b>Ascension</b></td>
+      <tbody id="game-table-body">
+        <tr onclick="strike(event, 20)">
+          <td data-label="Эпоха">Греция</td>
+          <td class="game-name" data-original="Ascension">Ascension</td>
           <td data-label="Герой">Кратос</td>
           <td data-label="Конфликт">Фурии</td>
-          <td data-label="Связь">Разрыв клятвы с Аресом. Кратос ещё смертен.</td>
         </tr>
-        <tr onclick="gainRage(15)">
-          <td data-label="Эпоха">Греция<br><small>Восхождение</small></td>
-          <td data-label="Игра"><b>GoW (2005)</b></td>
+        <tr onclick="strike(event, 20)">
+          <td data-label="Эпоха">Греция</td>
+          <td class="game-name" data-original="God of War (2005)">God of War (2005)</td>
           <td data-label="Герой">Кратос</td>
           <td data-label="Конфликт">Арес</td>
-          <td data-label="Связь">Месть за семью. Кратос становится Богом Войны.</td>
         </tr>
-        <tr onclick="gainRage(15)">
-          <td data-label="Эпоха">Греция<br><small>Искупление</small></td>
-          <td data-label="Игра"><b>Ghost of Sparta</b></td>
+        <tr onclick="strike(event, 20)">
+          <td data-label="Эпоха">Греция</td>
+          <td class="game-name" data-original="God of War II & III">God of War II & III</td>
           <td data-label="Герой">Кратос</td>
-          <td data-label="Конфликт">Танатос</td>
-          <td data-label="Связь">Поиск брата Деимоса. Кратос узнает правду о матери.</td>
+          <td data-label="Конфликт">Зевс / Олимп</td>
         </tr>
-        <tr onclick="gainRage(15)">
-          <td data-label="Эпоха">Греция<br><small>Падение</small></td>
-          <td data-label="Игра"><b>God of War II</b></td>
-          <td data-label="Герой">Кратос</td>
-          <td data-label="Конфликт">Зевс</td>
-          <td data-label="Связь">Предательство богов. Кратос ведет Титанов на Олимп.</td>
-        </tr>
-        <tr onclick="gainRage(20)">
-          <td data-label="Эпоха">Греция<br><small>Апокалипсис</small></td>
-          <td data-label="Игра"><b>God of War III</b></td>
-          <td data-label="Герой">Кратос</td>
-          <td data-label="Конфликт">Олимп</td>
-          <td data-label="Связь">Финал греческой саги. Смерть богов и хаос мира.</td>
-        </tr>
-        <tr onclick="gainRage(15)">
-          <td data-label="Эпоха">Мидгард<br><small>Перерождение</small></td>
-          <td data-label="Игра"><b>GoW (2018)</b></td>
+        <tr onclick="strike(event, 20)">
+          <td data-label="Эпоха">Мидгард</td>
+          <td class="game-name" data-original="God of War (2018)">God of War (2018)</td>
           <td data-label="Герой">Кратос + Атрей</td>
           <td data-label="Конфликт">Бальдр</td>
-          <td data-label="Связь">Путь отца. Начало скандинавской мифологии.</td>
         </tr>
-        <tr onclick="gainRage(25)">
-          <td data-label="Эпоха">Девять миров<br><small>Рагнарёк</small></td>
-          <td data-label="Игра"><b>Ragnarök</b></td>
+        <tr onclick="strike(event, 20)">
+          <td data-label="Эпоха">Девять миров</td>
+          <td class="game-name" data-original="Ragnarök">Ragnarök</td>
           <td data-label="Герой">Кратос + Атрей</td>
           <td data-label="Конфликт">Один</td>
-          <td data-label="Связь">Конец циклов. Кратос находит путь мудрого правителя.</td>
         </tr>
       </tbody>
     </table>
-  </div>
-
-  <div class="era-box">
-    <h3>🔥 Путь Воина:</h3>
-    <p>Нажимай на записи хронологии, чтобы наносить удары. Наполни шкалу ярости внизу экрана, чтобы высвободить Гнев Спарты!</p>
-  </div>
-
-  <div class="note">
-    💀 <i>"The hands of death could not defeat me. The sisters of fate could not hold me."</i>
   </div>
 </div>
 
 <script>
   let rage = 0;
+  let combo = 0;
+  let comboTimer;
   let isActive = false;
 
-  function gainRage(val) {
-    if (isActive) return;
-    rage = Math.min(rage + val, 100);
-    document.documentElement.style.setProperty('--rage-width', rage + '%');
-    
-    if (rage >= 100) {
-      isActive = true;
-      const overlay = document.getElementById('rage-overlay');
-      const content = document.getElementById('main-content');
-      
-      overlay.style.boxShadow = "inset 0 0 150px rgba(255, 0, 0, 0.9)";
-      content.classList.add('screen-shake');
-      
-      setTimeout(() => {
-        overlay.style.boxShadow = "none";
-        content.classList.remove('screen-shake');
-        rage = 0;
-        isActive = false;
-        document.documentElement.style.setProperty('--rage-width', '0%');
-      }, 3000);
-    }
+  function createFire(e) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = e.clientX + 'px'; p.style.top = e.clientY + 'px';
+    document.body.appendChild(p);
+    setTimeout(() => p.remove(), 500);
   }
 
-  function vibratePhone() {
-    if ("vibrate" in navigator) navigator.vibrate(60);
+  function strike(e, val) {
+    if (isActive) return;
+
+    const blood = document.createElement('div');
+    blood.className = 'blood';
+    blood.style.left = (e.pageX - 25) + 'px'; blood.style.top = (e.pageY - 25) + 'px';
+    document.body.appendChild(blood);
+    setTimeout(() => blood.remove(), 600);
+
+    combo++;
+    const meter = document.getElementById('combo-meter');
+    meter.style.opacity = '1';
+    meter.innerText = combo + ' HIT';
+    clearTimeout(comboTimer);
+    comboTimer = setTimeout(() => { combo = 0; meter.style.opacity = '0'; }, 1500);
+
+    playHitSound(200 - (combo * 10));
+    gainRage(val);
+  }
+
+  function gainRage(val) {
+    rage = Math.min(rage + val, 100);
+    document.documentElement.style.setProperty('--rage-width', rage + '%');
+    if (rage >= 100) activateRage();
+  }
+
+  function activateRage() {
+    isActive = true;
+    const overlay = document.getElementById('rage-overlay');
+    const content = document.getElementById('main-content');
+    const games = document.querySelectorAll('.game-name');
+    const title = document.getElementById('main-title');
+    const subtitle = document.getElementById('main-subtitle');
+
+    overlay.style.boxShadow = "inset 0 0 250px rgba(255, 0, 0, 1)";
+    content.classList.add('screen-shake');
+    title.innerText = "!!! DEATH IS HERE !!!";
+    
+    // МЕНЯЕМ НАЗВАНИЯ НА DIE!
+    games.forEach(g => {
+      g.innerText = "DIE!";
+      g.classList.add('rage-active-text');
+    });
+
+    if ("vibrate" in navigator) navigator.vibrate([100, 50, 100, 50, 500]);
+
+    setTimeout(() => {
+      overlay.style.boxShadow = "none";
+      content.classList.remove('screen-shake');
+      
+      // ВОЗВРАЩАЕМ ВСЕ НАЗАД
+      games.forEach(g => {
+        g.innerText = g.getAttribute('data-original');
+        g.classList.remove('rage-active-text');
+      });
+      
+      title.innerText = "⚔️ GOD OF WAR — CHRONOLOGY";
+      subtitle.innerText = "«BOY...»"; // Голос Кратоса после ярости
+      
+      // Говорим "Boy" через синтез речи
+      const msg = new SpeechSynthesisUtterance("Boy");
+      msg.lang = 'en-US';
+      msg.pitch = 0.1;
+      msg.rate = 0.6;
+      window.speechSynthesis.speak(msg);
+
+      rage = 0;
+      isActive = false;
+      document.documentElement.style.setProperty('--rage-width', '0%');
+    }, 3000);
+  }
+
+  function playHitSound(freq) {
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(Math.max(freq, 40), audioCtx.currentTime);
+    gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.1);
   }
 </script>
 </body>
