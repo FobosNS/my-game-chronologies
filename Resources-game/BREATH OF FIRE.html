@@ -3,247 +3,263 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Breath of Fire — Хронология</title>
+  <title>Breath of Fire — Архивы Драконов</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+
   <style>
+    :root {
+      --gold: #d4af37;
+      --gold-glow: rgba(212, 175, 55, 0.4);
+      --bg-dark: #1a0a0a;
+      --bg-gradient: linear-gradient(135deg, #1a0a0a, #2a121a);
+      --card-bg: rgba(30, 15, 25, 0.95);
+      --text-light: #f0e0d0;
+      --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { box-sizing: border-box; }
+
     body {
-      font-family: 'Cinzel', 'Noto Sans JP', serif;
-      background: linear-gradient(135deg, #1a0a0a, #2a121a);
-      color: #f0e0d0;
-      padding: 15px;
+      font-family: 'Noto Sans JP', sans-serif;
+      background: var(--bg-gradient);
+      background-attachment: fixed;
+      color: var(--text-light);
       margin: 0;
-      line-height: 1.6;
-      font-size: 15px;
+      padding: clamp(10px, 5vw, 40px);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
-    h2 {
+
+    .container {
+      width: 100%;
+      max-width: 1000px;
+    }
+
+    h1 {
+      font-family: 'Cinzel', serif;
       text-align: center;
-      color: #d4af37;
-      font-size: 24px;
-      margin: 15px 0 10px;
-      text-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
-      letter-spacing: 1px;
+      color: var(--gold);
+      font-size: clamp(1.5rem, 6vw, 2.5rem);
+      margin-bottom: 0.5rem;
+      text-shadow: 0 0 15px var(--gold-glow);
+      letter-spacing: 2px;
     }
+
     .subtitle {
       text-align: center;
       color: #88ccff;
-      font-size: 14px;
-      margin-bottom: 15px;
       font-style: italic;
-      font-family: 'Noto Sans JP', sans-serif;
+      margin-bottom: 2rem;
+      opacity: 0.8;
     }
 
-    /* Фильтры */
+    /* Filters Section */
     .filters {
       display: flex;
-      flex-wrap: wrap;
       justify-content: center;
-      gap: 8px;
-      margin: 15px 0;
-    }
-    .filter-btn {
-      background: rgba(50, 25, 35, 0.8);
-      color: #ffd780;
-      border: 1px solid #d4af37;
-      padding: 6px 12px;
-      font-family: 'Noto Sans JP', sans-serif;
-      font-size: 13px;
-      cursor: pointer;
-      border-radius: 20px;
-      transition: all 0.2s;
-    }
-    .filter-btn:hover {
-      background: rgba(70, 35, 45, 0.9);
-    }
-    .filter-btn.active {
-      background: #d4af37;
-      color: #1a0a0a;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 2rem;
     }
 
-    /* Таблица */
-    .table-container {
-      overflow-x: auto;
-      width: 100%;
-      margin: 15px 0;
+    .filter-btn {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      padding: 8px 20px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 700;
+      transition: var(--transition);
+      outline: none;
     }
+
+    .filter-btn:hover {
+      background: rgba(212, 175, 55, 0.1);
+      box-shadow: 0 0 10px var(--gold-glow);
+    }
+
+    .filter-btn.active {
+      background: var(--gold);
+      color: var(--bg-dark);
+      box-shadow: 0 0 20px var(--gold-glow);
+    }
+
+    /* Table System */
+    .table-wrapper {
+      background: var(--card-bg);
+      border: 1px solid #4a3020;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      backdrop-filter: blur(8px);
+    }
+
+    .scroll-hint {
+      display: none;
+      text-align: center;
+      font-size: 0.7rem;
+      color: var(--gold);
+      margin-bottom: 5px;
+    }
+
     table {
       width: 100%;
-      min-width: 600px;
       border-collapse: collapse;
-      background: rgba(30, 15, 25, 0.92);
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
-      border: 1px solid #4a3020;
     }
-    th, td {
-      padding: 12px 10px;
-      text-align: left;
-      border-bottom: 1px solid #3a2518;
-    }
+
     th {
-      background: rgba(50, 25, 35, 0.95);
-      color: #ffd780;
-      font-weight: 700;
-      font-size: 13px;
-      letter-spacing: 0.5px;
+      background: rgba(0, 0, 0, 0.3);
+      color: var(--gold);
+      text-align: left;
+      padding: 16px;
+      font-size: 0.8rem;
       text-transform: uppercase;
-    }
-    tr:last-child td {
-      border-bottom: none;
-    }
-    tr:hover {
-      background: rgba(60, 35, 45, 0.7);
+      letter-spacing: 1px;
+      border-bottom: 2px solid #3a2518;
     }
 
-    /* Эра-боксы */
-    .era-box {
-      background: rgba(40, 25, 35, 0.85);
-      border-left: 4px solid #d4af37;
-      padding: 15px;
-      border-radius: 0 8px 8px 0;
-      margin: 15px 0;
-      font-size: 14px;
-      line-height: 1.5;
-      font-family: 'Noto Sans JP', sans-serif;
-    }
-    .era-box h3 {
-      color: #d4af37;
-      margin-top: 0;
-      font-size: 18px;
-      font-family: 'Cinzel', serif;
+    td {
+      padding: 14px 16px;
+      border-bottom: 1px solid #3a2518;
+      transition: var(--transition);
     }
 
-    .note {
-      margin-top: 15px;
-      font-size: 12px;
-      color: #c8b8a0;
-      text-align: center;
-      line-height: 1.5;
-      font-family: 'Noto Sans JP', sans-serif;
+    tr:last-child td { border-bottom: none; }
+    
+    tr:hover td {
+      background: rgba(212, 175, 55, 0.05);
     }
 
-    /* Мобильные улучшения */
-    @media (max-width: 600px) {
-      h2 { font-size: 20px; }
-      .subtitle { font-size: 13px; }
-      .filter-btn { padding: 5px 10px; font-size: 12px; }
-      th, td { padding: 10px 8px; font-size: 13px; }
-      .era-box { padding: 12px; font-size: 13px; }
+    .type-badge {
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      margin-left: 8px;
+    }
+
+    @media (max-width: 768px) {
+      .table-wrapper { overflow-x: auto; }
+      .scroll-hint { display: block; }
+      table { min-width: 700px; }
     }
   </style>
 </head>
 <body>
-  <h2>🐉 BREATH OF FIRE — ХРОНОЛОГИЯ ДРАКОНЬИХ СУДЕБ</h2>
-  <div class="subtitle">«Сила дракона — в сердце героя»</div>
 
-  <!-- Фильтры -->
-  <div class="filters">
-    <button class="filter-btn active" data-filter="all">Все</button>
-    <button class="filter-btn" data-filter="main">Основные игры</button>
-    <button class="filter-btn" data-filter="remaster">Ремастеры</button>
-    <button class="filter-btn" data-filter="spinoff">Спин-оффы</button>
+  <div class="container">
+    <header>
+      <h1>🐉 Breath of Fire Archives</h1>
+      <div class="subtitle">«Хронология Драконьих Судеб: Наследие Клана Света»</div>
+    </header>
+
+    <nav class="filters" id="filterContainer">
+      <button class="filter-btn active" data-filter="all">Все записи</button>
+      <button class="filter-btn" data-filter="main">Канон</button>
+      <button class="filter-btn" data-filter="remaster">Издания</button>
+      <button class="filter-btn" data-filter="spinoff">Архивы</button>
+    </nav>
+
+    <div class="scroll-hint">↔ Листайте таблицу вправо</div>
+    <div class="table-wrapper">
+      <table id="gamesTable">
+        <thead>
+          <tr>
+            <th>Эра</th>
+            <th>Проект</th>
+            <th>Системы</th>
+            <th>Протагонист</th>
+            <th>Суть</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+          </tbody>
+      </table>
+    </div>
   </div>
 
-  <!-- Таблица в контейнере для скролла -->
-  <div class="table-container">
-    <table id="gamesTable">
-      <thead>
-        <tr>
-          <th>📅 Год</th>
-          <th>🎮 Игра</th>
-          <th>🕹️ Платформы</th>
-          <th>👤 Герой</th>
-          <th>🐉 Тема</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr data-type="main">
-          <td><b>1993</b></td>
-          <td><b>Breath of Fire</b></td>
-          <td>SNES, GBA</td>
-          <td>Рю</td>
-          <td>Фэнтези, империя Десток</td>
-        </tr>
-        <tr data-type="main">
-          <td><b>1994</b></td>
-          <td><b>Breath of Fire II</b></td>
-          <td>SNES, GBA</td>
-          <td>Рю</td>
-          <td>Вера vs. истина</td>
-        </tr>
-        <tr data-type="main">
-          <td><b>1997</b></td>
-          <td><b>Breath of Fire III</b></td>
-          <td>PS1, PSP</td>
-          <td>Рю (ребёнок)</td>
-          <td>Дружба, рост</td>
-        </tr>
-        <tr data-type="main">
-          <td><b>2000</b></td>
-          <td><b>Breath of Fire IV</b></td>
-          <td>PS1, PC</td>
-          <td>Рю + Фури</td>
-          <td>Судьба, двойственность</td>
-        </tr>
-        <tr data-type="main">
-          <td><b>2003</b></td>
-          <td><b>Dragon Quarter</b></td>
-          <td>PS2</td>
-          <td>Рю (солдат)</td>
-          <td>Постапокалипсис</td>
-        </tr>
-        <tr data-type="remaster">
-          <td><b>2021</b></td>
-          <td><b>BoF I & II (Fan Remaster)</b></td>
-          <td>PC (неофиц.)</td>
-          <td>—</td>
-          <td>HD-графика, улучшенный геймплей</td>
-        </tr>
-        <tr data-type="spinoff">
-          <td><b>1994</b></td>
-          <td><b>Breath of Fire: Official Guide</b></td>
-          <td>Книга</td>
-          <td>—</td>
-          <td>Каноничный лор</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="era-box">
-    <h3>🐉 Эволюция драконьей силы</h3>
-    <p><b>• I–II</b>: Классика SNES. Простой сюжет, чистый геймплей.<br>
-    <b>• III–IV</b>: Эмоциональные драмы, взросление героев.<br>
-    <b>• Dragon Quarter</b>: Мрачный эксперимент — риск ради силы.</p>
-  </div>
-
-  <div class="note">
-    💡 Все основные игры — отдельные вселенные. Нет прямой хронологии.<br>
-    Capcom не анонсировала BoF VI, но фанаты не теряют надежду.
-  </div>
-
-  <!-- JavaScript для фильтрации -->
   <script>
-    document.querySelectorAll('.filter-btn').forEach(button => {
-      button.addEventListener('click', () => {
-        // Убираем активный класс у всех
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-          btn.classList.remove('active');
-        });
-        // Добавляем активный к нажатому
-        button.classList.add('active');
+    /**
+     * @typedef {Object} GameEntry
+     * @property {string} year
+     * @property {string} title
+     * @property {string} platforms
+     * @property {string} hero
+     * @property {string} theme
+     * @property {string} type
+     */
 
-        const filter = button.getAttribute('data-filter');
-        const rows = document.querySelectorAll('#gamesTable tbody tr');
+    const DATABASE = [
+      { year: "1993", title: "Breath of Fire", platforms: "SNES, GBA", hero: "Рю", theme: "Фэнтези, империя Десток", type: "main" },
+      { year: "1994", title: "Breath of Fire II", platforms: "SNES, GBA", hero: "Рю", theme: "Вера vs. Истина", type: "main" },
+      { year: "1997", title: "Breath of Fire III", platforms: "PS1, PSP", hero: "Рю (Клан Света)", theme: "Генезис и Дружба", type: "main" },
+      { year: "2000", title: "Breath of Fire IV", platforms: "PS1, PC", hero: "Рю / Фу-Лу", theme: "Двойственность богов", type: "main" },
+      { year: "2003", title: "Dragon Quarter", platforms: "PS2", hero: "Рю (1/8192)", theme: "Антиутопия, Выживание", type: "main" },
+      { year: "2021", title: "Fan Remasters", platforms: "PC", hero: "—", theme: "Техническое обновление", type: "remaster" },
+      { year: "1994", title: "Official Guide", platforms: "Book", hero: "—", theme: "Мифология мира", type: "spinoff" }
+    ];
 
-        rows.forEach(row => {
-          if (filter === 'all' || row.getAttribute('data-type') === filter) {
-            row.style.display = '';
-          } else {
-            row.style.display = 'none';
-          }
+    class TableManager {
+      constructor(data) {
+        this.data = data;
+        this.tbody = document.getElementById('tableBody');
+        this.filterContainer = document.getElementById('filterContainer');
+        this.activeFilter = 'all';
+
+        this.init();
+      }
+
+      init() {
+        this.render();
+        // Используем делегирование событий вместо навешивания обработчика на каждую кнопку
+        this.filterContainer.addEventListener('click', (e) => {
+          const btn = e.target.closest('.filter-btn');
+          if (!btn) return;
+          
+          this.setFilter(btn);
         });
-      });
-    });
+      }
+
+      setFilter(targetBtn) {
+        // Оптимизация: не перерисовывать, если фильтр не изменился
+        const newFilter = targetBtn.dataset.filter;
+        if (this.activeFilter === newFilter) return;
+
+        // UI Update
+        this.filterContainer.querySelector('.active').classList.remove('active');
+        targetBtn.classList.add('active');
+        
+        this.activeFilter = newFilter;
+        this.render();
+      }
+
+      render() {
+        const filtered = this.activeFilter === 'all' 
+          ? this.data 
+          : this.data.filter(item => item.type === this.activeFilter);
+
+        // Использование фрагмента или join для минимизации перерисовок (Reflow)
+        this.tbody.innerHTML = filtered.map(game => `
+          <tr>
+            <td><strong>${game.year}</strong></td>
+            <td><strong>${game.title}</strong></td>
+            <td><small>${game.platforms}</small></td>
+            <td>${game.hero}</td>
+            <td>${game.theme}</td>
+          </tr>
+        `).join('');
+      }
+    }
+
+    // Запуск приложения
+    new TableManager(DATABASE);
   </script>
 </body>
 </html>
