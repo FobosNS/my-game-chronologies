@@ -7,133 +7,208 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap');
 
+    :root {
+      --quake-purple: #d455ff;
+      --quake-bg: #0a050f;
+      --quake-dark: #1a0a20;
+      --quake-accent: #ffb3d9;
+    }
+
     body {
       font-family: 'Share Tech Mono', monospace;
-      background: #0a050f;
+      background: var(--quake-bg);
       background-image: 
         radial-gradient(circle at 50% 50%, rgba(212, 85, 255, 0.05) 0%, transparent 80%),
         url('https://www.transparenttextures.com/patterns/dark-matter.png');
       color: #f0e0ff;
-      padding: clamp(10px, 5vw, 30px);
+      padding: clamp(10px, 3vw, 30px);
       margin: 0;
-      line-height: 1.6;
     }
 
     .container {
-      max-width: 1100px;
+      max-width: 1000px;
       margin: 0 auto;
       border: 1px solid #4a205a;
       background: rgba(20, 10, 30, 0.95);
-      padding: 25px;
+      padding: clamp(15px, 4vw, 25px);
       box-shadow: 0 0 40px rgba(0, 0, 0, 0.9);
     }
 
-    header {
-      text-align: center;
-      border-bottom: 2px solid #d455ff;
-      margin-bottom: 30px;
-      padding-bottom: 20px;
-    }
-
-    h1 {
+    header h1 {
       font-family: 'Orbitron', sans-serif;
-      color: #d455ff;
-      font-size: clamp(1.5rem, 6vw, 2.5rem);
-      margin: 0;
-      letter-spacing: 4px;
+      color: var(--quake-purple);
+      text-align: center;
+      font-size: clamp(1.4rem, 5vw, 2.5rem);
       text-shadow: 0 0 15px rgba(212, 85, 255, 0.5);
+      margin-bottom: 5px;
     }
 
     .tabs-nav {
       display: flex;
       justify-content: center;
       gap: 10px;
-      margin-bottom: 30px;
+      margin-bottom: 25px;
       flex-wrap: wrap;
     }
 
     .tab-btn {
+      flex: 1;
+      min-width: 140px;
       background: #2d0f46;
-      border: 1px solid #d455ff;
+      border: 2px solid var(--quake-purple);
       color: #f0e0ff;
-      padding: 10px 20px;
+      padding: 12px;
       cursor: pointer;
       font-family: 'Orbitron';
-      transition: 0.3s;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
     }
 
     .tab-btn.active {
-      background: #d455ff;
+      background: var(--quake-purple);
       color: #000;
-      box-shadow: 0 0 15px #d455ff;
+      box-shadow: 0 0 15px var(--quake-purple);
     }
 
-    .tab-content { display: none; animation: fadeIn 0.4s ease; }
-    .tab-content.active { display: block; }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    /* Мобильная Таблица */
+    .table-wrapper { width: 100%; }
 
-    /* Таблица */
-    table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
-    th { background: #2d0f46; color: #d455ff; padding: 15px; text-align: left; border-bottom: 2px solid #4a205a; }
-    td { padding: 15px; border-bottom: 1px solid #3a1845; }
-
-    /* Интерактив Портала */
-    .slipgate-panel {
-        max-width: 600px;
-        margin: 0 auto;
-        text-align: center;
-        background: rgba(30, 10, 50, 0.5);
-        padding: 30px;
-        border: 2px solid #d455ff;
-        border-radius: 20px;
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
     }
-    .portal-display {
-        height: 250px;
+
+    thead { background: #2d0f46; }
+
+    th {
+      color: var(--quake-purple);
+      padding: 15px;
+      text-align: left;
+      font-family: 'Orbitron';
+      font-size: 0.85rem;
+      border-bottom: 2px solid #4a205a;
+    }
+
+    td {
+      padding: 15px;
+      border-bottom: 1px solid #3a1845;
+      font-size: 0.95rem;
+    }
+
+    @media screen and (max-width: 768px) {
+      table, thead, tbody, th, td, tr { display: block; }
+      thead tr { position: absolute; top: -9999px; left: -9999px; }
+      tr {
+        margin-bottom: 20px;
+        border: 1px solid var(--quake-purple);
+        background: rgba(45, 15, 70, 0.2);
+        border-radius: 4px;
+        padding: 5px;
+      }
+      td {
+        border: none;
         position: relative;
+        padding-left: 45% !important;
+        text-align: right;
+        min-height: 40px;
         display: flex;
         align-items: center;
-        justify-content: center;
-        margin-bottom: 20px;
-        background: #000;
-        border-radius: 50%;
-        border: 5px double #4a205a;
-        overflow: hidden;
-        box-shadow: inset 0 0 50px #d455ff;
-    }
-    .portal-ring {
+        justify-content: flex-end;
+      }
+      td::before {
+        content: attr(data-label);
         position: absolute;
-        width: 100%; height: 100%;
-        border: 8px dashed #d455ff;
-        border-radius: 50%;
-        opacity: 0.2;
-        transition: 0.5s;
-    }
-    .active-portal .portal-ring {
-        animation: rotateRing 2s linear infinite;
-        opacity: 0.8;
-        box-shadow: 0 0 30px #d455ff;
-    }
-    @keyframes rotateRing { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-    
-    .portal-info { z-index: 2; color: #f0e0ff; font-family: 'Orbitron'; font-size: 0.9rem; padding: 20px; }
-    
-    .portal-controls input {
-        background: #1a0a20;
-        border: 1px solid #d455ff;
-        color: #fff;
-        padding: 10px;
+        left: 12px;
+        width: 40%;
+        text-align: left;
+        font-weight: bold;
+        color: var(--quake-purple);
         font-family: 'Orbitron';
-        width: 120px;
-        text-align: center;
-        margin-bottom: 10px;
+        font-size: 0.7rem;
+      }
+      td:last-child {
+        text-align: left;
+        padding: 15px !important;
+        border-top: 1px solid #3a1845;
+        display: block;
+      }
+      td:last-child::before { display: none; }
     }
 
-    /* Консоль */
-    .pda-terminal { max-width: 600px; margin: 20px auto; background: #1a0a20; padding: 15px; border: 4px solid #4a205a; }
-    .pda-screen { background: #0a0210; padding: 20px; color: #d455ff; min-height: 250px; border: 1px solid #3a1845; }
-    #pdaInput { background: transparent; border: none; color: #fff; font-family: inherit; outline: none; width: 100%; }
+    /* Интерактив Slipgate */
+    .slipgate-panel {
+      background: rgba(30, 10, 50, 0.5);
+      padding: 30px 20px;
+      border: 1px solid var(--quake-purple);
+      text-align: center;
+      border-radius: 8px;
+    }
+    
+    .portal-display {
+      height: 200px;
+      width: 200px;
+      margin: 0 auto 25px;
+      border-radius: 50%;
+      border: 4px solid var(--quake-purple);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #000;
+      position: relative;
+      overflow: hidden;
+      box-shadow: inset 0 0 30px var(--quake-purple);
+    }
 
-    .era-box { background: rgba(45, 15, 70, 0.4); border-left: 4px solid #d455ff; padding: 20px; margin: 20px 0; }
+    .portal-ring {
+      position: absolute;
+      width: 100%; height: 100%;
+      border: 6px dashed var(--quake-purple);
+      border-radius: 50%;
+      animation: rotateRing 15s linear infinite;
+      opacity: 0.2;
+    }
+
+    .active-portal .portal-ring {
+      animation-duration: 1.5s;
+      opacity: 1;
+      box-shadow: 0 0 25px var(--quake-purple);
+    }
+
+    @keyframes rotateRing { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+    .portal-info { font-size: 0.85rem; z-index: 5; padding: 15px; font-family: 'Orbitron'; line-height: 1.4; }
+
+    .controls-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+
+    input[type="number"] {
+      background: #1a0a20;
+      border: 1px solid var(--quake-purple);
+      color: #fff;
+      padding: 12px;
+      width: 100px;
+      font-family: 'Orbitron';
+      text-align: center;
+      font-size: 1rem;
+    }
+
+    .era-box {
+      margin-top: 25px;
+      background: rgba(212, 85, 255, 0.1);
+      border-left: 4px solid var(--quake-purple);
+      padding: 15px;
+      font-size: 0.9rem;
+    }
+
+    .tab-content { display: none; animation: fadeIn 0.3s ease-in-out; }
+    .tab-content.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
@@ -141,61 +216,67 @@
 <div class="container">
   <header>
     <h1>QUAKE: DIMENSIONS</h1>
-    <div style="color: #ffb3d9; font-size: 0.9rem;">ХРОНОЛОГИЯ ИЗМЕРЕНИЙ И ХАОСА</div>
+    <p style="text-align:center; color: var(--quake-accent); margin-top:0; font-size: 0.8rem;">DATABASE v2.0 // SLIPGATE ACCESS</p>
   </header>
 
   <nav class="tabs-nav">
-    <button class="tab-btn active" onclick="openTab('archive')">📂 АРХИВ</button>
-    <button class="tab-btn" onclick="openTab('slipgate')">🌀 SLIPGATE</button>
-    <button class="tab-btn" onclick="openTab('terminal')">📟 КОНСОЛЬ</button>
+    <button class="tab-btn active" onclick="openTab('archive')">📂 АРХИВ ДАННЫХ</button>
+    <button class="tab-btn" onclick="openTab('slipgate')">🌀 SLIPGATE ПОРТАЛ</button>
   </nav>
 
   <div id="archive" class="tab-content active">
-    <table>
-      <thead>
-        <tr><th>ЭПОХА</th><th>ИГРА</th><th>ГЕРОЙ</th><th>СЮЖЕТ</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>1996</td><td><b>Quake</b></td><td>Рейнджер</td><td>Вторжение Шаб-Ниггурат через порталы.</td></tr>
-        <tr><td>1997</td><td><b>Quake II</b></td><td>Биттерман</td><td>Контратака на планету Строггос.</td></tr>
-        <tr><td>1999</td><td><b>Quake III</b></td><td>Легион</td><td>Арены Вечности для лучших воинов.</td></tr>
-        <tr><td>2005</td><td><b>Quake 4</b></td><td>М. Кейн</td><td>Окончательное решение вопроса Строггов.</td></tr>
-      </tbody>
-    </table>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>ГОД</th>
+            <th>ИГРА</th>
+            <th>ГЕРОЙ</th>
+            <th>ОПИСАНИЕ ОБЪЕКТА</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="ГОД">1996</td>
+            <td data-label="ИГРА"><b>Quake</b></td>
+            <td data-label="ГЕРОЙ">Рейнджер</td>
+            <td>Ликвидация Шаб-Ниггурат. Операция в готических измерениях завершена успешно.</td>
+          </tr>
+          <tr>
+            <td data-label="ГОД">1997</td>
+            <td data-label="ИГРА"><b>Quake II</b></td>
+            <td data-label="ГЕРОЙ">Биттерман</td>
+            <td>Подавление системы ПВО «Большой Пушки» на планете Строггос.</td>
+          </tr>
+          <tr>
+            <td data-label="ГОД">1999</td>
+            <td data-label="ИГРА"><b>Quake III</b></td>
+            <td data-label="ГЕРОЙ">Гладиатор</td>
+            <td>Зацикленные сражения на Аренах Вечности под надзором Вадригаров.</td>
+          </tr>
+          <tr>
+            <td data-label="ГОД">2005</td>
+            <td data-label="ИГРА"><b>Quake 4</b></td>
+            <td data-label="ГЕРОЙ">Мэттью Кейн</td>
+            <td>Уничтожение Макрона. Объект подвергся частичной строггификации.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <div class="era-box">
-      <h3 style="color: #d455ff;">🌀 Особенности вселенной:</h3>
-      <p>• Переход от готического хоррора к индустриальному Sci-Fi.</p>
+      <strong>ПРИМЕЧАНИЕ:</strong> Все измерения связаны сетью Слипгейтов. Вход без защитного костюма запрещен.
     </div>
   </div>
 
   <div id="slipgate" class="tab-content">
-    <div class="slipgate-panel">
-        <div class="portal-display" id="portalDisplay">
-            <div class="portal-ring" id="portalRing"></div>
-            <div class="portal-info" id="portalInfo">
-                ВВЕДИТЕ ГОД ЗАПУСКА ПРОТОКОЛА<br>
-                (Напр: 1996, 1997, 1999)
-            </div>
-        </div>
-        <div class="portal-controls">
-            <input type="number" id="portalYear" placeholder="ГОД" min="1990">
-            <button class="tab-btn" onclick="activatePortal()">АКТИВИРОВАТЬ</button>
-        </div>
-    </div>
-  </div>
-
-  <div id="terminal" class="tab-content">
-    <div class="pda-terminal">
-      <div class="pda-screen">
-          <div class="pda-output" id="pdaOutput">
-              QUAKE CONSOLE v1.66<br>
-              > STATUS: ENCRYPTED<br>
-              > ENTER AUTH CODE (Hint: IDKFA):<br>
-          </div>
-          <div class="pda-input-line" style="display:flex;">
-              <span>]</span>
-              <input type="text" id="pdaInput" maxlength="10" autocomplete="off">
-          </div>
+    <div class="slipgate-panel" id="portalPanel">
+      <div class="portal-display">
+        <div class="portal-ring"></div>
+        <div class="portal-info" id="portalText">ОЖИДАНИЕ КООРДИНАТ...</div>
+      </div>
+      <div class="controls-group">
+        <input type="number" id="portalInput" placeholder="ГОД" min="1990" max="2025">
+        <button class="tab-btn" onclick="runPortal()" style="max-width: 250px;">АКТИВИРОВАТЬ ПЕРЕХОД</button>
       </div>
     </div>
   </div>
@@ -206,30 +287,33 @@
     document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.getElementById(tabId).classList.add('active');
-    event.currentTarget.classList.add('active');
-    if(tabId === 'terminal') setTimeout(() => document.getElementById('pdaInput').focus(), 100);
+    // Поиск кнопки, которая была нажата
+    const btns = document.querySelectorAll('.tab-btn');
+    btns.forEach(btn => {
+        if(btn.getAttribute('onclick').includes(tabId)) btn.classList.add('active');
+    });
   }
 
-  // Логика Портала
-  const portalData = {
-    "1996": "ИЗМЕРЕНИЕ: DIMENSION OF THE DOOMED. Статус: Прорыв Хаоса.",
-    "1997": "ПЛАНЕТА: СТРОГГОС. Статус: Обнаружен Биттерман.",
-    "1999": "ЛОКАЦИЯ: АРЕНА ВЕЧНОСТИ. Статус: Гладиаторские бои.",
-    "2005": "ОПЕРАЦИЯ: ПРЕВОСХОДСТВО. Статус: Кейн строггифицирован."
-  };
-
-  function activatePortal() {
-    const year = document.getElementById('portalYear').value;
-    const info = document.getElementById('portalInfo');
-    const panel = document.querySelector('.slipgate-panel');
+  function runPortal() {
+    const val = document.getElementById('portalInput').value;
+    const txt = document.getElementById('portalText');
+    const panel = document.getElementById('portalPanel');
+    const ring = document.querySelector('.portal-ring');
     
-    if (portalData[year]) {
+    const validYears = {
+        '1996': 'ИЗМЕРЕНИЕ ХАОСА: ОБНАРУЖЕН РЕЙНДЖЕР',
+        '1997': 'СТРОГГОС: ВЫСАДКА ДЕСАНТА ПОДТВЕРЖДЕНА',
+        '1999': 'АРЕНА: ВАДРИГАРЫ СМОТРЯТ НА ВАС',
+        '2005': 'ЗАВОД СТРОГГОВ: ПРОЦЕСС ИДЕТ...'
+    };
+    
+    if(validYears[val]) {
       panel.classList.add('active-portal');
-      info.innerHTML = `<span style="color:#d455ff">СВЯЗЬ УСТАНОВЛЕНА...</span><br><br>${portalData[year]}`;
+      txt.innerHTML = `<span style="color:var(--quake-purple)">ПЕРЕХОД РАЗРЕШЕН</span><br><br>${validYears[val]}`;
       playWarp();
     } else {
       panel.classList.remove('active-portal');
-      info.innerHTML = `<span style="color:#ff4444">ОШИБКА:</span> Год ${year} не найден в архиве Slipgate.`;
+      txt.innerHTML = `<span style="color:#ff4444">ОШИБКА:</span><br>КООРДИНАТЫ НЕ ВЕРНЫ`;
     }
   }
 
@@ -238,29 +322,13 @@
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
     osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(50, audioCtx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.6);
+    osc.frequency.setValueAtTime(60, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(1000, audioCtx.currentTime + 0.5);
     gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.6);
+    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
     osc.connect(gain); gain.connect(audioCtx.destination);
-    osc.start(); osc.stop(audioCtx.currentTime + 0.6);
+    osc.start(); osc.stop(audioCtx.currentTime + 0.5);
   }
-
-  // Логика Консоли
-  const pdaInput = document.getElementById('pdaInput');
-  const pdaOutput = document.getElementById('pdaOutput');
-
-  pdaInput.addEventListener('keypress', function (e) {
-    if (e.key === 'Enter') {
-      const val = pdaInput.value.toUpperCase();
-      if (val === 'IDKFA') {
-        pdaOutput.innerHTML = `<span style="color:#0f0">> ACCESS GRANTED...</span><br>SECRET UNLOCKED: Slipgates were built by the Vadrigars.`;
-      } else {
-        pdaOutput.innerHTML += `<br><span style="color:#f00">> UNKNOWN: ${val}</span>`;
-      }
-      pdaInput.value = '';
-    }
-  });
 </script>
 
 </body>
