@@ -22,6 +22,32 @@
       padding: clamp(10px, 3vw, 25px);
       margin: 0;
       transition: all 0.5s ease;
+      overflow-x: hidden;
+    }
+
+    /* ЭФФЕКТЫ СОБЫТИЯ */
+    .flash-effect {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: white;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 10000;
+    }
+    .animate-flash { animation: flashTrigger 0.8s ease-out; }
+    @keyframes flashTrigger {
+      0% { opacity: 0; }
+      50% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    .shake-anim { animation: shake 0.5s infinite; }
+    @keyframes shake {
+      0% { transform: translate(1px, 1px) rotate(0deg); }
+      20% { transform: translate(-3px, 0px) rotate(-1deg); }
+      40% { transform: translate(3px, 2px) rotate(1deg); }
+      60% { transform: translate(-1px, -1px) rotate(1deg); }
+      100% { transform: translate(1px, -2px) rotate(0deg); }
     }
 
     .container {
@@ -52,53 +78,6 @@
       font-style: italic;
     }
 
-    /* АДАПТИВНАЯ ТАБЛИЦА */
-    .table-wrapper { width: 100%; overflow: hidden; }
-    
-    table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
-    
-    th { 
-      background: rgba(45, 15, 70, 0.95); 
-      color: #e0c0ff; 
-      padding: 15px; 
-      text-align: left; 
-      font-family: 'Orbitron'; 
-      font-size: 0.8rem;
-      border-bottom: 2px solid var(--accent);
-    }
-
-    td { 
-      padding: 15px; 
-      border-bottom: 1px solid #3a1845; 
-      font-size: 0.9rem; 
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    tr:hover td { background: rgba(212, 85, 255, 0.1); color: #fff; }
-
-    @media (max-width: 850px) {
-      table, thead, tbody, th, td, tr { display: block; }
-      thead { display: none; }
-      tr { 
-        margin-bottom: 20px; 
-        border: 1px solid var(--accent); 
-        background: rgba(0,0,0,0.3);
-      }
-      td { 
-        text-align: right; 
-        padding-left: 45% !important; 
-        position: relative; 
-        border-bottom: 1px solid rgba(212, 85, 255, 0.1);
-      }
-      td::before {
-        content: attr(data-label);
-        position: absolute; left: 15px; color: var(--accent); 
-        font-weight: bold; font-family: 'Orbitron'; font-size: 0.7rem;
-      }
-    }
-
-    /* ИНТЕРАКТИВНЫЕ ЭЛЕМЕНТЫ */
     .soul-counter {
       text-align: center;
       background: #000;
@@ -109,57 +88,71 @@
     }
 
     #counter-val { color: var(--accent); font-size: 1.5rem; text-shadow: 0 0 10px var(--accent); }
+    
+    #victory-msg {
+      display: none;
+      color: var(--pk-red);
+      font-size: 0.9rem;
+      margin-top: 10px;
+      text-shadow: 0 0 10px red;
+      animation: pulse 1s infinite;
+    }
+    @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+
+    /* ТАБЛИЦА */
+    .table-wrapper { width: 100%; overflow: hidden; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+    th { 
+      background: rgba(45, 15, 70, 0.95); 
+      color: #e0c0ff; 
+      padding: 15px; 
+      text-align: left; 
+      font-family: 'Orbitron'; 
+      font-size: 0.8rem;
+      border-bottom: 2px solid var(--accent);
+    }
+    td { padding: 15px; border-bottom: 1px solid #3a1845; font-size: 0.9rem; cursor: pointer; transition: 0.3s; }
+    tr:hover td { background: rgba(212, 85, 255, 0.1); color: #fff; }
+
+    @media (max-width: 850px) {
+      table, thead, tbody, th, td, tr { display: block; }
+      thead { display: none; }
+      tr { margin-bottom: 20px; border: 1px solid var(--accent); background: rgba(0,0,0,0.3); }
+      td { text-align: right; padding-left: 45% !important; position: relative; border-bottom: 1px solid rgba(212, 85, 255, 0.1); }
+      td::before {
+        content: attr(data-label);
+        position: absolute; left: 15px; color: var(--accent); 
+        font-weight: bold; font-family: 'Orbitron'; font-size: 0.7rem;
+      }
+    }
 
     .btn-action {
-      display: block;
-      width: 200px;
-      margin: 20px auto;
-      padding: 12px;
-      background: transparent;
-      border: 2px solid var(--accent);
-      color: var(--accent);
-      font-family: 'Orbitron';
-      cursor: pointer;
-      transition: 0.3s;
+      display: block; width: 200px; margin: 20px auto; padding: 12px;
+      background: transparent; border: 2px solid var(--accent);
+      color: var(--accent); font-family: 'Orbitron'; cursor: pointer; transition: 0.3s;
     }
-
     .btn-action:hover { background: var(--accent); color: #000; box-shadow: 0 0 20px var(--accent); }
 
-    .era-box {
-      background: rgba(40, 15, 60, 0.85);
-      border-left: 4px solid var(--accent);
-      padding: 18px;
-      margin: 20px 0;
-    }
-
+    .era-box { background: rgba(40, 15, 60, 0.85); border-left: 4px solid var(--accent); padding: 18px; margin: 20px 0; }
     .era-box h3 { color: #ff88cc; margin-top: 0; font-family: 'Orbitron'; font-size: 1.1rem; }
 
-    /* Эффект поглощения души */
-    .soul-anim {
-      position: fixed;
-      pointer-events: none;
-      color: var(--accent);
-      font-weight: bold;
-      animation: soulUp 1s forwards;
-      z-index: 9999;
-    }
-
-    @keyframes soulUp {
-      0% { transform: translateY(0); opacity: 1; }
-      100% { transform: translateY(-100px); opacity: 0; }
-    }
+    .soul-anim { position: fixed; pointer-events: none; color: var(--accent); font-weight: bold; animation: soulUp 1s forwards; z-index: 9999; }
+    @keyframes soulUp { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(-100px); opacity: 0; } }
   </style>
 </head>
 <body>
 
-<div class="container">
+<div id="flash" class="flash-effect"></div>
+
+<div class="container" id="main-container">
   <header>
     <h2 id="main-title">🔥 PAINKILLER: PURGATORY ARCHIVE</h2>
     <div class="subtitle">«Ты не герой. Ты наказание»</div>
   </header>
 
   <div class="soul-counter">
-    СОБРАНО ДУШ: <span id="counter-val">6660</span> / 7777
+    СОБРАНО ДУШ: <span id="counter-val">666</span> / 7777
+    <div id="victory-msg">ИСКУПЛЕНИЕ ДОСТИГНУТО. ВРАТА ОТКРЫТЫ.</div>
   </div>
 
   <div class="table-wrapper">
@@ -172,7 +165,7 @@
           <th>🔗 Суть</th>
         </tr>
       </thead>
-      <tbody id="game-table">
+      <tbody>
         <tr onclick="collectSoul(this)">
           <td data-label="📅 Год">2004</td>
           <td data-label="🎮 Игра"><b>Painkiller</b></td>
@@ -208,36 +201,61 @@
     <p>• <b>Дэниел Гарнер</b> — застрял между мирами, пока не очистит ад.</p>
     <p>• <b>Painkiller (Оружие)</b> — многофункциональный инструмент смерти.</p>
   </div>
-
-  <div class="note">
-    💀 Каноническая хронология: Painkiller → Battle Out of Hell → Hell & Damnation.
-  </div>
 </div>
 
 <script>
-  let souls = 6660;
+  let souls = 666;
+  let rage = false;
 
   function collectSoul(row) {
     if (souls < 7777) {
-      souls += 29;
-      if (souls > 7777) souls = 7777;
+      // Шаг сбора (можно увеличить для теста)
+      souls += 140; 
+      
+      if (souls >= 7777) {
+        souls = 7777;
+        triggerFinalEvent();
+      }
+      
       document.getElementById('counter-val').innerText = souls;
       
-      // Визуальный эффект
       const soul = document.createElement('div');
       soul.className = 'soul-anim';
-      soul.innerText = '+SOUL';
+      soul.innerText = souls === 7777 ? 'MAX SOULS' : '+SOUL';
       soul.style.left = event.pageX + 'px';
       soul.style.top = event.pageY + 'px';
       document.body.appendChild(soul);
       setTimeout(() => soul.remove(), 1000);
 
-      // Звук (короткий гул)
-      playHiss(souls === 7777 ? 800 : 200);
+      playHiss(souls === 7777 ? 150 : 200 + (souls/15));
     }
   }
 
-  let rage = false;
+  function triggerFinalEvent() {
+    // Вспышка
+    const flash = document.getElementById('flash');
+    flash.classList.add('animate-flash');
+    
+    // Переход в режим демона
+    if(!rage) toggleRage();
+    
+    // Сообщение и тряска
+    document.getElementById('victory-msg').style.display = 'block';
+    document.getElementById('main-container').classList.add('shake-anim');
+    
+    // Финальный инфернальный звук
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(80, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(1, audioCtx.currentTime + 3);
+    g.gain.setValueAtTime(0.3, audioCtx.currentTime);
+    g.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 3);
+    osc.connect(g); g.connect(audioCtx.destination);
+    osc.start(); osc.stop(audioCtx.currentTime + 3);
+  }
+
   function toggleRage() {
     rage = !rage;
     const root = document.documentElement;
