@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Super Mario — Full Chronology</title>
+  <h2 id="mario-title" onclick="marioGrow()">🍄 SUPER MARIO — ХРОНОЛОГИЯ</h2>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
@@ -269,6 +269,47 @@
     document.body.appendChild(coin);
     setTimeout(() => coin.remove(), 500);
   }
+
+  <script>
+function marioGrow() {
+  const title = document.getElementById('mario-title');
+  const body = document.body;
+  
+  // 1. Создаем аудио-контекст для синтеза звука "Power Up"
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  const notes = [261.63, 329.63, 392.00, 523.25, 659.25, 783.99, 1046.50]; // Ноты роста
+  
+  notes.forEach((freq, i) => {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    
+    osc.type = 'square'; // Характерный 8-битный звук
+    osc.frequency.setValueAtTime(freq, audioCtx.currentTime + (i * 0.07));
+    
+    gain.gain.setValueAtTime(0.1, audioCtx.currentTime + (i * 0.07));
+    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + (i * 0.07) + 0.1);
+    
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    
+    osc.start(audioCtx.currentTime + (i * 0.07));
+    osc.stop(audioCtx.currentTime + (i * 0.07) + 0.1);
+  });
+
+  // 2. Визуальный эффект роста (Scale)
+  body.style.transition = "transform 0.4s cubic-bezier(0.17, 0.67, 0.83, 1.5)";
+  body.style.transform = "scale(1.08)"; // Увеличиваем всю страницу
+  title.style.color = "#ffd700"; // Делаем заголовок золотым
+  title.style.textShadow = "0 0 20px #fff";
+
+  // 3. Возвращаем в исходное состояние через 1 секунду
+  setTimeout(() => {
+    body.style.transform = "scale(1)";
+    title.style.color = ""; // Возвращаем стандартный цвет из CSS
+    title.style.textShadow = "";
+  }, 1000);
+}
+</script>
 
   function playSound(type) {
     const osc = audioCtx.createOscillator();
