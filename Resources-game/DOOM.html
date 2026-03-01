@@ -3,174 +3,210 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DOOM — Chronology</title>
+  <title>DOOM — Tactical Database</title>
   <style>
-    body {
-      font-family: 'Orbitron', 'Share Tech Mono', monospace;
-      background: linear-gradient(135deg, #1a0505, #2a0808);
-      color: #ffd7b0;
-      padding: 25px;
-      margin: 0;
-      line-height: 1.6;
-      font-size: 15px;
-    }
-    h2 {
-      text-align: center;
-      color: #ff4500;
-      font-size: 28px;
-      margin-bottom: 8px;
-      text-shadow: 0 0 12px rgba(255, 69, 0, 0.5);
-      letter-spacing: 1px;
-    }
-    .subtitle {
-      text-align: center;
-      color: #ffb880;
-      font-size: 16px;
-      margin-bottom: 24px;
-      font-style: italic;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 0 auto 28px;
-      background: rgba(30, 8, 8, 0.92);
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
-      border: 1px solid #5a1a1a;
-    }
-    th, td {
-      padding: 14px 12px;
-      text-align: left;
-      border-bottom: 1px solid #4a1515;
-    }
-    th {
-      background: rgba(50, 12, 12, 0.95);
-      color: #ffcc80;
-      font-weight: bold;
-      font-size: 14px;
-      letter-spacing: 0.8px;
-      text-transform: uppercase;
-    }
-    tr:last-child td {
-      border-bottom: none;
-    }
-    tr:hover {
-      background: rgba(60, 18, 18, 0.7);
-    }
-    .era-box {
-      background: rgba(40, 10, 10, 0.85);
-      border-left: 4px solid #ff4500;
-      padding: 18px;
-      border-radius: 0 10px 10px 0;
-      margin: 20px 0;
-      font-size: 14px;
-      line-height: 1.6;
-    }
-    .era-box h3 {
-      color: #ff6b35;
-      margin-top: 0;
-      font-size: 19px;
-    }
-    .note {
-      margin-top: 20px;
-      font-size: 13px;
-      color: #d8a080;
-      text-align: center;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.5;
-    }
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap');
+
+    :root {
+      --blood: #ce1111;
+      --hell-fire: #ff4500;
+      --uac-cyan: #00f2ff;
+      --bg-dark: #0a0505;
+      --panel-rgba: rgba(40, 10, 10, 0.9);
+    }
+
+    body {
+      font-family: 'Share Tech Mono', monospace;
+      background: var(--bg-dark);
+      color: #ffd7b0;
+      margin: 0;
+      padding: clamp(10px, 5vw, 40px);
+      overflow-x: hidden;
+    }
+
+    .uac-container { max-width: 1200px; margin: 0 auto; border: 1px solid #441111; padding: 20px; background: rgba(15, 5, 5, 0.8); }
+
+    header { text-align: center; border-bottom: 2px solid var(--blood); padding-bottom: 20px; margin-bottom: 30px; }
+
+    h1 { font-family: 'Orbitron', sans-serif; color: var(--hell-fire); font-size: 2.5rem; text-transform: uppercase; letter-spacing: 5px; margin: 0; text-shadow: 0 0 15px var(--blood); }
+
+    /* Навигация */
+    .nav-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
+    .tab-btn {
+      background: #2a0808;
+      border: 1px solid var(--blood);
+      color: var(--hell-fire);
+      padding: 12px 20px;
+      font-family: 'Orbitron', sans-serif;
+      cursor: pointer;
+      transition: 0.3s;
+      font-size: 0.8rem;
+    }
+    .tab-btn:hover, .tab-btn.active { background: var(--blood); color: #fff; box-shadow: 0 0 15px var(--blood); }
+
+    .tab-content { display: none; animation: terminalBoot 0.4s ease-out; }
+    .tab-content.active { display: block; }
+
+    @keyframes terminalBoot { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+
+    table { width: 100%; border-collapse: collapse; background: var(--panel-rgba); margin-bottom: 20px; }
+    th { background: #3d0c0c; color: var(--hell-fire); padding: 15px; text-align: left; font-family: 'Orbitron'; border-bottom: 2px solid var(--blood); }
+    td { padding: 15px; border-bottom: 1px solid #4a1515; vertical-align: top; }
+
+    .highlight-red { color: var(--hell-fire); font-weight: bold; }
+
+    /* Калькулятор Ярости */
+    .rage-module {
+      border: 1px solid var(--blood);
+      padding: 25px;
+      background: linear-gradient(180deg, #1a0505, #2a0808);
+      margin-top: 30px;
+    }
+
+    .rage-meter {
+      height: 30px;
+      background: #111;
+      border: 1px solid #444;
+      margin: 20px 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #rage-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #550000, #ff0000, #ff8800); transition: 0.5s; }
+
+    .rage-controls select {
+      background: #000; color: var(--hell-fire); border: 1px solid var(--blood); padding: 10px; font-family: inherit; width: 100%;
+    }
+
+    .status-msg { font-size: 0.8rem; color: #888; text-transform: uppercase; margin-top: 10px; }
+
+    @media (max-width: 768px) { th:nth-child(4), td:nth-child(4) { display: none; } }
   </style>
 </head>
 <body>
-  <h2>🔥 DOOM — ХРОНОЛОГИЯ АДА И ВОЗМЕЗДИЯ</h2>
-  <div class="subtitle">«Рип энд тир. Никаких компромиссов»</div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>📅 Год</th>
-        <th>🎮 Игра</th>
-        <th>👤 Герой</th>
-        <th>👹 Угроза</th>
-        <th>🔗 Сюжетная связь</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><b>2140-е</b></td>
-        <td><b>DOOM (1993)</b></td>
-        <td>Думгай (оригинал)</td>
-        <td>Демоны Ада<br>Утечка на базе на Марсе</td>
-        <td>Первая атака Ада на человечество. Думгай уничтожает демонов в одиночку. Нет сюжета — только ярость.</td>
-      </tr>
-      <tr>
-        <td><b>2140-е</b></td>
-        <td><b>DOOM II: Hell on Earth</b></td>
-        <td>Думгай</td>
-        <td>Ад на Земле<br>Икона Греха</td>
-        <td>Демоны захватывают Землю. Думгай возвращается — и убивает Икону Греха. Спасает человечество.</td>
-      </tr>
-      <tr>
-        <td><b>2140-е</b></td>
-        <td><b>DOOM 64</b></td>
-        <td>Думгай</td>
-        <td>Мать Демонов<br>Последний оплот Ада</td>
-        <td>Каноничное завершение классической эры. Думгай уничтожает Ад изнутри… но не умирает.</td>
-      </tr>
-      <tr>
-        <td><b>2145–2147</b></td>
-        <td><b>DOOM 3</b></td>
-        <td>Солдат UAC</td>
-        <td>Эксперименты UAC<br>Врата в Ад</td>
-        <td>Римейк происхождения. UAC открывает порталы → демоны вторгаются. Более хоррор-ориентировано. Спорная каноничность.</td>
-      </tr>
-      <tr>
-        <td><b>Неизвестно</b><br><i>До времени</i></td>
-        <td><b>DOOM (2016)</b></td>
-        <td>Дум Слейер</td>
-        <td>Повелители Ада<br>Энергия Арджента</td>
-        <td>Древний воин, запечатанный за убийство ангелов. Пробуждается, чтобы остановить эксплуатацию Ада корпорацией UAC.</td>
-      </tr>
-      <tr>
-        <td><b>Сразу после 2016</b></td>
-        <td><b>DOOM Eternal</b></td>
-        <td>Дум Слейер</td>
-        <td>Тёмная Троица<br>Вторжение на Землю</td>
-        <td>Ад объявляет войну всем мирам. Слейер путешествует по вселенной, убивает Повелителей и становится… богом уничтожения.</td>
-      </tr>
-      <tr>
-        <td><b>После Eternal</b></td>
-        <td><b>The Ancient Gods – Part I & II</b></td>
-        <td>Дум Слейер</td>
-        <td>Первый Демон<br>Конец всего сущего</td>
-        <td>Финал саги. Слейер убивает Первого Демона и разрывает цикл жизни и смерти. Становится стражем баланса.</td>
-      </tr>
-    </tbody>
-  </table>
+<div class="uac-container">
+  <header>
+    <h1>DOOM_CHRONICLE_v2.026</h1>
+    <div class="status-msg">Статус: Объект "Слейер" активен // Уровень угрозы: МАКСИМАЛЬНЫЙ</div>
+  </header>
 
-  <div class="era-box">
-    <h3>⚔️ Две эпохи Думгая:</h3>
-    <p><b>• Классическая эра (1993–1997)</b> — безымянный солдат против Ада. Нет слов, только оружие и демоны.</p>
-    <p><b>• Современная эра (2016–2021)</b> — Дум Слейер как мифологическая фигура: древний воин, созданный ангелами, предавший их ради защиты жизни.</p>
-    <p>Обе эпохи связаны: современный Слейер — <b>тот же самый герой</b>, проснувшийся спустя тысячелетия.</p>
+  <div class="nav-tabs">
+    <button class="tab-btn active" onclick="openTab(event, 'classic')">Классика (1993-97)</button>
+    <button class="tab-btn" onclick="openTab(event, 'horror')">Doom 3 (Alternate)</button>
+    <button class="tab-btn" onclick="openTab(event, 'modern')">Эра Слейера (2016-25)</button>
+    <button class="tab-btn" onclick="openTab(event, 'rage')">Измеритель Ярости</button>
+  </div>
+
+  <div id="classic" class="tab-content active">
+    <table>
+      <thead>
+        <tr><th>Дата</th><th>Операция</th><th>Локация</th><th>Сводка</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="highlight-red">1993</span></td><td><b>DOOM I</b></td><td>Фобос / Деймос</td><td>Первый контакт. Думгай выживает там, где пали все.</td></tr>
+        <tr><td><span class="highlight-red">1994</span></td><td><b>DOOM II</b></td><td>Земля / Ад</td><td>Икона Греха повержена. Земля очищена.</td></tr>
+        <tr><td><span class="highlight-red">1996</span></td><td><b>Final Doom</b></td><td>Ио / Плутония</td><td>Две сложнейшие кампании (TNT/Plutonia).</td></tr>
+        <tr><td><span class="highlight-red">1997</span></td><td><b>DOOM 64</b></td><td>Ад (Глубины)</td><td>Думгай остается в Аду навечно, чтобы демоны не вышли.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div id="horror" class="tab-content">
+    <div style="border-left: 4px solid var(--uac-cyan); padding-left: 15px;">
+      <h2 style="text-align:left; color: var(--uac-cyan);">DATA_ERROR: ALTERNATE TIMELINE</h2>
+      <p><b>DOOM 3 (2004)</b> и <b>Resurrection of Evil</b> — это переосмысление событий. Здесь герой — обычный морпех UAC, а не мифический Слейер. Акцент на хорроре и паранормальных исследованиях доктора Бетругера.</p>
+    </div>
+  </div>
+
+  <div id="modern" class="tab-content">
+    <table>
+      <thead>
+        <tr><th>Дата</th><th>Операция</th><th>Статус</th><th>Примечание</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="highlight-red">2025</span></td><td><b>The Dark Ages</b></td><td>Приквел</td><td>Средневековье Ада. Слейер использует щит и мех.</td></tr>
+        <tr><td><span class="highlight-red">2016</span></td><td><b>DOOM (Reboot)</b></td><td>Пробуждение</td><td>Марсианская база. "Разрыв и терзание" начались снова.</td></tr>
+        <tr><td><span class="highlight-red">2020</span></td><td><b>DOOM Eternal</b></td><td>Возмездие</td><td>Слейер возвращает Землю. Лидеры Мэйкра упали.</td></tr>
+        <tr><td><span class="highlight-red">2021</span></td><td><b>The Ancient Gods</b></td><td>Финал</td><td>Битва с Темным Лордом (Давиотом). Цикл разорван.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div id="rage" class="tab-content">
+    <div class="rage-module">
+      <h3 style="font-family: 'Orbitron'; color: var(--hell-fire); margin-top:0;">🛑 АНАЛИЗАТОР УРОВНЯ ЯРОСТИ (BFG-DATA)</h3>
+      <p style="font-size: 0.9rem;">Выберите текущую ситуацию для расчета готовности BFG-9000:</p>
+      
+      <div class="rage-controls">
+        <select id="rage-scenario" onchange="updateRage()">
+          <option value="0">Покой (На базе)</option>
+          <option value="25">Увидел импа (Раздражение)</option>
+          <option value="50">Зажали в углу (Адреналин)</option>
+          <option value="80">Мародер заблокировал удар (Гнев)</option>
+          <option value="100">Убили кролика Дейзи (БЕРСЕРК)</option>
+        </select>
+      </div>
+
+      <div class="rage-meter"><div id="rage-fill"></div></div>
+      <div id="rage-status" style="font-weight: bold; text-align: center;">Статус: Спокойствие</div>
+    </div>
   </div>
 
   <div class="era-box">
-    <h3>🌌 Ключевые концепции:</h3>
-    <p><b>• Арджент-энергия</b> — топливо будущего, добываемое из плоти демонов.<br>
-    <b>• Повелители Ада</b> — богоподобные сущности (Джордан, Син, Давион и др.).<br>
-    <b>• UAC</b> — корпорация, ставшая новым злом: жадность вместо веры.<br>
-    <b>• Glory Kills</b> — не просто геймплей: ритуал уничтожения, лишающий демонов силы воскрешаться.</p>
+    <h3>📢 Техническая связь 1997 → 2025:</h3>
+    <p>Согласно архивам <i>The Ancient Gods</i>, после финала <b>DOOM 64</b> Думгай попал в Аргент Д'Нур, где прошел путь от гладиатора до <b>Дум Слейера</b>. Грядущая часть <b>The Dark Ages (2025)</b> как раз покажет этот период "темного средневековья".</p>
   </div>
 
   <div class="note">
-    💀 <i>DOOM 3</i> считается <b>альтернативной временной линией</b> — не частью основного канона 2016+.<br>
-    В <i>DOOM Eternal</i> подтверждено: классический Думгай и Дум Слейер — один и тот же персонаж.<br>
-    Слоган новой эры: «They are rage. Beast takes form. They are DOOM.»
+    ID_SOFTWARE SYSTEM // ВЕРСИЯ 6.66 // 2026 // RIP AND TEAR
   </div>
+</div>
+
+<script>
+  function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tab-content");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+      tabcontent[i].classList.remove("active");
+    }
+    tablinks = document.getElementsByClassName("tab-btn");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].classList.remove("active");
+    }
+    document.getElementById(tabName).style.display = "block";
+    document.getElementById(tabName).classList.add("active");
+    evt.currentTarget.classList.add("active");
+  }
+
+  function updateRage() {
+    const val = document.getElementById('rage-scenario').value;
+    const fill = document.getElementById('rage-fill');
+    const status = document.getElementById('rage-status');
+    
+    fill.style.width = val + '%';
+    
+    if (val == 0) status.innerText = "Статус: Спокойствие";
+    else if (val <= 25) status.innerText = "Статус: Истребление начато";
+    else if (val <= 50) status.innerText = "Статус: Найти бензопилу";
+    else if (val <= 80) status.innerText = "Статус: ТЯЖЕЛЫЙ МЕТАЛЛ УСИЛИВАЕТСЯ";
+    else status.innerText = "СТАТУС: УНИЧТОЖИТЬ ВСЁ. РАЗРЫВАТЬ И ТЕРЗАТЬ.";
+    
+    if (val == 100) {
+      document.body.style.animation = "shake 0.1s infinite";
+      setTimeout(() => { document.body.style.animation = "none"; }, 500);
+    }
+  }
+</script>
+
+<style>
+  @keyframes shake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    50% { transform: translate(-1px, -2px) rotate(-1deg); }
+    100% { transform: translate(1px, 1px) rotate(0deg); }
+  }
+</style>
+
 </body>
 </html>
