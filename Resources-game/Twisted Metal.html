@@ -3,186 +3,269 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Twisted Metal — Chronology</title>
+  <title>Twisted Metal — Chronology of Chaos</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap');
+
+    :root {
+      --tm-red: #ff3333;
+      --tm-fire: #ff6600;
+      --tm-gold: #ffcc00;
+      --tm-bg: #1a0505;
+    }
+
     body {
-      font-family: 'Orbitron', 'Share Tech Mono', monospace;
-      background: linear-gradient(135deg, #1a0505, #2a0808);
+      font-family: 'Share Tech Mono', monospace;
+      background: linear-gradient(135deg, var(--tm-bg), #2a0808);
+      background-attachment: fixed;
       color: #ffff99;
-      padding: 25px;
+      padding: clamp(10px, 5vw, 25px);
       margin: 0;
       line-height: 1.6;
-      font-size: 15px;
+      overflow-x: hidden;
     }
+
+    /* Эффект помех на фоне */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: repeating-linear-gradient(0deg, rgba(0,0,0,0.05) 0px, rgba(0,0,0,0.05) 1px, transparent 1px, transparent 2px);
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+    }
+
     h2 {
+      font-family: 'Orbitron', sans-serif;
       text-align: center;
-      color: #ff3333;
-      font-size: 28px;
+      color: var(--tm-red);
+      font-size: clamp(1.5rem, 5vw, 28px);
       margin-bottom: 8px;
-      text-shadow: 0 0 12px rgba(255, 51, 51, 0.5);
-      letter-spacing: 1px;
+      text-shadow: 0 0 15px rgba(255, 51, 51, 0.7);
+      text-transform: uppercase;
     }
+
     .subtitle {
       text-align: center;
-      color: #ffcc00;
+      color: var(--tm-gold);
       font-size: 16px;
       margin-bottom: 24px;
       font-style: italic;
+      letter-spacing: 2px;
     }
+
+    /* ТАБЛИЦА СМЕРТИ */
+    .table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      border-radius: 10px;
+      box-shadow: 0 0 30px rgba(0,0,0,0.8);
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
-      margin: 0 auto 28px;
-      background: rgba(30, 10, 10, 0.92);
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
-      border: 1px solid #5a1a1a;
+      background: rgba(30, 10, 10, 0.95);
+      border: 2px solid #5a1a1a;
     }
-    th, td {
-      padding: 14px 12px;
-      text-align: left;
-      border-bottom: 1px solid #4a1515;
-    }
+
     th {
-      background: rgba(50, 15, 15, 0.95);
-      color: #ffffaa;
-      font-weight: bold;
+      background: #320f0f;
+      color: var(--tm-gold);
+      padding: 15px;
+      text-align: left;
+      font-family: 'Orbitron';
+      font-size: 13px;
+      border-bottom: 3px solid var(--tm-red);
+    }
+
+    td {
+      padding: 14px 12px;
+      border-bottom: 1px solid #4a1515;
       font-size: 14px;
-      letter-spacing: 0.8px;
-      text-transform: uppercase;
+      transition: all 0.2s ease;
     }
-    tr:last-child td {
-      border-bottom: none;
+
+    tr { cursor: pointer; }
+    tr:hover td {
+      background: rgba(255, 51, 51, 0.1);
+      color: #fff;
     }
-    tr:hover {
-      background: rgba(60, 20, 20, 0.7);
+
+    /* ИНФО-БОКСЫ */
+    .era-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
     }
+
     .era-box {
       background: rgba(40, 15, 15, 0.85);
-      border-left: 4px solid #ff3333;
-      padding: 18px;
+      border-left: 5px solid var(--tm-red);
+      padding: 20px;
       border-radius: 0 10px 10px 0;
-      margin: 20px 0;
-      font-size: 14px;
-      line-height: 1.6;
+      transition: transform 0.3s ease;
     }
+
+    .era-box:hover { transform: translateY(-5px); }
+
     .era-box h3 {
-      color: #ff6600;
+      color: var(--tm-fire);
       margin-top: 0;
-      font-size: 19px;
+      font-family: 'Orbitron';
+      font-size: 18px;
+      border-bottom: 1px solid rgba(255, 102, 0, 0.3);
+      padding-bottom: 10px;
     }
+
+    .risk-level {
+      font-size: 10px;
+      padding: 2px 6px;
+      background: var(--tm-red);
+      color: white;
+      border-radius: 3px;
+      margin-left: 10px;
+      vertical-align: middle;
+    }
+
     .note {
-      margin-top: 20px;
+      margin-top: 30px;
       font-size: 13px;
       color: #d8a080;
       text-align: center;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.5;
+      padding: 20px;
+      border-top: 1px solid #4a1515;
     }
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap');
+
+    /* АНИМАЦИЯ ВЗРЫВА */
+    @keyframes shake {
+      0% { transform: translate(1px, 1px) rotate(0deg); }
+      20% { transform: translate(-3px, 0px) rotate(-1deg); }
+      40% { transform: translate(3px, 2px) rotate(1deg); }
+      60% { transform: translate(1px, -1px) rotate(1deg); }
+      80% { transform: translate(-1px, 2px) rotate(-1deg); }
+      100% { transform: translate(1px, 1px) rotate(0deg); }
+    }
+    .shake { animation: shake 0.4s; }
   </style>
 </head>
-<body>
-  <h2>🚗 TWISTED METAL — ХРОНОЛОГИЯ ЖЕЛАНИЙ И РАЗРУШЕНИЯ</h2>
-  <div class="subtitle">«Одно желание. Бесконечный ад»</div>
+<body id="mainBody">
 
-  <table>
-    <thead>
-      <tr>
-        <th>📅 Год</th>
-        <th>🎮 Игра</th>
-        <th>🌆 Город</th>
-        <th>😈 Организатор</th>
-        <th>🔗 Сюжет и связь</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><b>1995</b></td>
-        <td><b>Twisted Metal</b></td>
-        <td>Лос-Анджелес</td>
-        <td>Калпс</td>
-        <td>Первый турнир. Безумцы сражаются за встречу с Калпсом и исполнение желания.</td>
-      </tr>
-      <tr>
-        <td><b>1996</b></td>
-        <td><b>Twisted Metal 2</b></td>
-        <td>Глобальный турнир</td>
-        <td>Калпс</td>
-        <td>Золотой век. Бои в Париже, Москве, Антарктиде. Введение любимых персонажей: Свит Туф, Мистер Браун.</td>
-      </tr>
-      <tr>
-        <td><b>1998</b></td>
-        <td><b>Twisted Metal III</b></td>
-        <td>Космос, Луна</td>
-        <td>Мини-Калпс</td>
-        <td>Спорная часть. Калпс «умер», его наследник — клоун в космосе. Неканонична для многих фанатов.</td>
-      </tr>
-      <tr>
-        <td><b>1999</b></td>
-        <td><b>Twisted Metal 4</b></td>
-        <td>Ад</td>
-        <td>Мини-Калпс → Калпс</td>
-        <td>Калпс возвращается, убивает наследника. Возвращение к корням, но с дешёвой графикой.</td>
-      </tr>
-      <tr>
-        <td><b>2001</b></td>
-        <td><b>Twisted Metal: Black</b></td>
-        <td>Тюрьма «Чернота»</td>
-        <td>Калпс</td>
-        <td>Тёмный перезапуск. Глубокие, мрачные истории персонажей. Считается лучшей частью.</td>
-      </tr>
-      <tr>
-        <td><b>2005</b></td>
-        <td><b>Twisted Metal: Head-On</b></td>
-        <td>Разные локации</td>
-        <td>Калпс</td>
-        <td>Возвращение к стилю TM2. Прямое продолжение Black. Каноничный финал: Калпс побеждён.</td>
-      </tr>
-      <tr>
-        <td><b>2008</b></td>
-        <td><b>Twisted Metal (PSP)</b></td>
-        <td>Пустоши</td>
-        <td>Калпс</td>
-        <td>Спин-офф. Мост между Black и Head-On.</td>
-      </tr>
-      <tr>
-        <td><b>2012</b></td>
-        <td><b>Twisted Metal (перезапуск)</b></td>
-        <td>Пост-апокалипсис</td>
-        <td>Калпс</td>
-        <td>Новая вселенная. Более кинематографична. Свит Туф ищет дочь. Финал: Калпс убит, но… он бессмертен?</td>
-      </tr>
-    </tbody>
-  </table>
+<div class="container">
+  <h2>🚗 TWISTED METAL — CHRONOLOGY OF DESTRUCTION</h2>
+  <div class="subtitle">«ТВОЕ ЖЕЛАНИЕ — МОЁ ПРОКЛЯТИЕ»</div>
 
-  <div class="era-box">
-    <h3>🔥 Две эпохи хаоса:</h3>
-    <p><b>• Классическая эра (1995–2008)</b>:<br>
-    — От аркадного безумия (TM2) → к психологическому ужасу (Black).<br>
-    — Калпс — загадочный демон, манипулирующий людьми через их желания.<br>
-    — В <i>Head-On</i> Калпс наконец побеждён… но его природа остаётся тайной.</p>
-    <p><b>• Перезапуск (2012)</b>:<br>
-    — Более серьёзный тон, но с фирменным юмором.<br>
-    — Акцент на мотивациях персонажей: месть, любовь, спасение.<br>
-    — Открытый финал: возможно, продолжение… но оно так и не вышло.</p>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>📅 Год</th>
+          <th>🎮 Операция</th>
+          <th>🌆 Локация</th>
+          <th>😈 Хозяин</th>
+          <th>🔗 Итог</th>
+        </tr>
+      </thead>
+      <tbody id="game-list">
+        <tr onclick="detonate(this)">
+          <td><b>1995</b></td>
+          <td><b>Twisted Metal</b></td>
+          <td>Лос-Анджелес</td>
+          <td>Калипсо</td>
+          <td>Первое явление Свит Туфа. Калипсо исполняет желания буквально.</td>
+        </tr>
+        <tr onclick="detonate(this)">
+          <td><b>1996</b></td>
+          <td><b>Twisted Metal 2</b></td>
+          <td>Весь мир</td>
+          <td>Калипсо</td>
+          <td>Пик серии. Эйфелева башня разрушена, Статуя Свободы в бикини.</td>
+        </tr>
+        <tr onclick="detonate(this)">
+          <td><b>2001</b></td>
+          <td><b>Twisted Metal: Black</b></td>
+          <td>Мидвэйв</td>
+          <td>Калипсо</td>
+          <td>Мрачный шедевр. Самый высокий уровень безумия участников.</td>
+        </tr>
+        <tr onclick="detonate(this)">
+          <td><b>2005</b></td>
+          <td><b>Head-On</b></td>
+          <td>Глобально</td>
+          <td>Калипсо</td>
+          <td>Прямой сиквел TM2, игнорирующий 3 и 4 части.</td>
+        </tr>
+        <tr onclick="detonate(this)">
+          <td><b>2012</b></td>
+          <td><b>Twisted Metal (PS3)</b></td>
+          <td>Сан-Паулу</td>
+          <td>Калипсо</td>
+          <td>Кинематографичный перезапуск. Акцент на бандах.</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
-  <div class="era-box">
-    <h3>😈 Кто такой Калпс?</h3>
-    <p>Загадочный организатор турниров. Носит маску клоуна, говорит загадками.<br>
-    Его цель — не просто развлечение. Он <b>питается человеческими желаниями</b>.<br>
-    В <i>Black</i> раскрывается: он — дух, прикованный к земле из-за собственного проклятия.<br>
-    «Ты хочешь желание? Ты его получишь… но не так, как думаешь».</p>
+  <div class="era-grid">
+    <div class="era-box">
+      <h3>🔥 ПРАВИЛА ТУРНИРА</h3>
+      <p>• <b>Победитель получает всё</b>: Одно любое желание, каким бы невозможным оно ни было.</p>
+      <p>• <b>Цена победы</b>: Калипсо — трикстер. Он всегда находит способ извратить твою мечту против тебя.</p>
+      <p>• <b>Транспорт</b>: Твое авто — это твой гроб. Модифицируй его или сгори в огне.</p>
+    </div>
+
+    <div class="era-box">
+      <h3>😈 КТО ТАКОЙ КАЛИПСО?</h3>
+      <p>Загадочный организатор с обожженным лицом. Обладает божественной силой исполнять желания, которую он получил, украв души из ада.</p>
+      <p><i>«Я — Калипсо, и я приветствую вас в самом Twisted Metal в истории!»</i></p>
+    </div>
   </div>
 
   <div class="note">
-    💀 <i>Twisted Metal: Black</i> — культовый шедевр: мрачные бэкстори персонажей, атмосфера отчаяния.<br>
-    В 2022 году вышел сериал на **Peacock** — но он не связан с играми.<br>
-    Франшиза заморожена, но фанаты ждут <b>Twisted Metal 2025</b>.
+    💀 <b>СОВЕТ АГЕНТА:</b> Не проси Калипсо о бессмертии — проведешь вечность в виде манекена для краш-тестов.<br>
+    Франшиза ждет своего часа. Ходят слухи о возрождении на движке <b>Unreal Engine 5</b> в 2026 году.
   </div>
+</div>
+
+<script>
+  // Эффект взрыва при клике на строку
+  function detonate(row) {
+    const body = document.getElementById('mainBody');
+    body.classList.add('shake');
+    
+    // Подсветка строки "огнем"
+    const originalColor = row.style.backgroundColor;
+    row.style.backgroundColor = 'rgba(255, 102, 0, 0.4)';
+    
+    setTimeout(() => {
+      body.classList.remove('shake');
+      row.style.backgroundColor = originalColor;
+    }, 400);
+    
+    // Звуковой эффект (синтезированный "взрыв")
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(100, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5);
+    gain.gain.setValueAtTime(0.1, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.5);
+  }
+
+  console.log("Welcome to Twisted Metal. Good luck, you'll need it.");
+</script>
+
 </body>
 </html>
