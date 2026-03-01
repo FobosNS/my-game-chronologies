@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>God of War — Chronology</title>
+  <title>God of War — Full Chronology</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&display=swap');
 
@@ -12,14 +12,15 @@
       --gow-gold: #ffd7a0;
       --fire: #ff4500;
       --rage-width: 0%;
+      --bg-dark: #1a0a0a;
     }
 
     body {
       font-family: 'Cinzel', 'Noto Sans JP', serif;
       background: linear-gradient(135deg, #1a0a0a, #2a0f15);
       background-attachment: fixed;
-      color: #f8e0d0;
-      padding: clamp(10px, 3vw, 25px);
+      color: #f8f0e0;
+      padding: clamp(15px, 5vw, 40px);
       margin: 0;
       line-height: 1.6;
     }
@@ -33,31 +34,32 @@
     }
 
     .container {
-      max-width: 1000px;
+      max-width: 1100px;
       margin: 0 auto;
     }
 
     h2 {
       text-align: center;
       color: var(--gow-red);
-      font-size: clamp(1.4rem, 5vw, 2rem);
+      font-size: clamp(1.8rem, 6vw, 2.5rem);
       text-shadow: 0 0 15px rgba(212, 85, 85, 0.6);
-      margin-top: 0;
+      margin-bottom: 5px;
     }
 
     .subtitle {
       text-align: center;
       color: #e0c0a0;
-      font-size: clamp(0.9rem, 3vw, 1.1rem);
-      margin-bottom: 2rem;
+      margin-bottom: 30px;
+      font-style: italic;
     }
 
-    /* ТАБЛИЦА / МОБИЛЬНАЯ АДАПТАЦИЯ */
+    /* АДАПТИВНАЯ ТАБЛИЦА */
     .table-wrapper {
-      border-radius: 12px;
-      overflow: hidden;
       border: 1px solid #5a2a2a;
       background: rgba(30, 12, 18, 0.95);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.7);
     }
 
     table {
@@ -65,100 +67,89 @@
       border-collapse: collapse;
     }
 
-    thead {
-      background: rgba(50, 18, 25, 1);
-    }
-
     th {
+      background: #321219;
       color: var(--gow-gold);
-      padding: 15px;
+      padding: 18px 15px;
       text-transform: uppercase;
       font-size: 0.8rem;
-      text-align: left;
+      letter-spacing: 1px;
       border-bottom: 2px solid var(--gow-red);
+      text-align: left;
     }
 
     td {
-      padding: 15px;
+      padding: 18px 15px;
       border-bottom: 1px solid #4a2525;
-      font-size: 0.9rem;
-    }
-
-    /* Стили для мобильных устройств */
-    @media screen and (max-width: 768px) {
-      table, thead, tbody, th, td, tr {
-        display: block;
-      }
-
-      thead {
-        display: none; /* Скрываем заголовки на мобилках */
-      }
-
-      tr {
-        margin-bottom: 15px;
-        border-bottom: 3px solid var(--gow-red);
-        background: rgba(60, 22, 30, 0.4);
-      }
-
-      td {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        text-align: right;
-        border-bottom: 1px solid #3a1a1a;
-        padding: 12px 15px;
-      }
-
-      /* Добавляем подписи перед данными из атрибута data-label */
-      td::before {
-        content: attr(data-label);
-        font-family: 'Cinzel';
-        font-weight: bold;
-        color: var(--gow-gold);
-        text-align: left;
-        font-size: 0.75rem;
-        margin-right: 10px;
-        flex-shrink: 0;
-      }
+      font-size: 0.95rem;
+      font-family: 'Noto Sans JP', sans-serif;
     }
 
     tr:hover td {
       background: rgba(212, 85, 85, 0.1);
+      box-shadow: inset 4px 0 0 var(--gow-red);
     }
 
-    /* ШКАЛА ЯРОСТИ */
-    .rage-container {
+    /* МОБИЛЬНЫЙ ВИД (Трансформация в карточки) */
+    @media screen and (max-width: 900px) {
+      table, thead, tbody, th, td, tr { display: block; }
+      thead { display: none; }
+      tr {
+        border-bottom: 5px solid var(--gow-red);
+        margin-bottom: 20px;
+      }
+      td {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 20px;
+        text-align: right;
+        border-bottom: 1px solid #3a1a1a;
+      }
+      td::before {
+        content: attr(data-label);
+        font-family: 'Cinzel';
+        color: var(--gow-gold);
+        font-weight: bold;
+        text-align: left;
+        padding-right: 15px;
+      }
+    }
+
+    /* ЭФФЕКТЫ ЯРОСТИ */
+    .rage-ui {
       position: fixed;
-      bottom: 10px;
+      bottom: 20px;
       left: 50%;
       transform: translateX(-50%);
-      width: 90%;
-      max-width: 300px;
-      height: 12px;
-      background: rgba(0,0,0,0.7);
-      border: 1px solid #555;
-      border-radius: 6px;
-      z-index: 1001;
+      width: 280px;
+      text-align: center;
+      z-index: 1100;
     }
 
-    #rage-bar {
+    .rage-bar-bg {
+      height: 12px;
+      background: rgba(0,0,0,0.8);
+      border: 1px solid #555;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    #rage-fill {
       width: var(--rage-width);
       height: 100%;
-      background: linear-gradient(90deg, #800, #f00);
-      box-shadow: 0 0 10px #f00;
-      transition: width 0.2s;
+      background: linear-gradient(90deg, #800, #f00, #ff4500);
+      box-shadow: 0 0 15px #f00;
+      transition: width 0.3s;
     }
 
     .era-box {
       background: rgba(40, 15, 22, 0.85);
       border-left: 4px solid var(--gow-red);
-      padding: 15px;
-      margin: 20px 0;
+      padding: 20px;
+      margin: 25px 0;
     }
 
-    .screen-shake {
-      animation: shake 0.2s infinite;
-    }
+    .screen-shake { animation: shake 0.2s infinite; }
     @keyframes shake {
       0% { transform: translate(1px, 1px); }
       50% { transform: translate(-2px, -1px); }
@@ -166,13 +157,13 @@
     }
   </style>
 </head>
-<body onmousedown="attackEffect()">
+<body onmousedown="vibratePhone()">
 
 <div id="rage-overlay"></div>
 
-<div class="rage-container">
-  <div id="rage-bar"></div>
-  <div style="position: absolute; top: -18px; width: 100%; text-align: center; font-size: 9px; color: white; letter-spacing: 1px;">SPARTAN RAGE</div>
+<div class="rage-ui">
+  <div style="font-size: 10px; margin-bottom: 5px; letter-spacing: 2px;">SPARTAN RAGE</div>
+  <div class="rage-bar-bg"><div id="rage-fill"></div></div>
 </div>
 
 <div class="container" id="main-content">
@@ -187,88 +178,103 @@
           <th>🎮 Игра</th>
           <th>👤 Герой</th>
           <th>🩸 Конфликт</th>
-          <th>🔗 Связь</th>
+          <th>🔗 Сюжетная связь</th>
         </tr>
       </thead>
       <tbody>
-        <tr onclick="addRage(20)">
-          <td data-label="Эпоха">Греция (Начало)</td>
+        <tr onclick="gainRage(15)">
+          <td data-label="Эпоха">Греция<br><small>До Олимпа</small></td>
           <td data-label="Игра"><b>Ascension</b></td>
           <td data-label="Герой">Кратос</td>
           <td data-label="Конфликт">Фурии</td>
-          <td data-label="Связь">Разрыв клятвы Ареса</td>
+          <td data-label="Связь">Разрыв клятвы с Аресом. Кратос ещё смертен.</td>
         </tr>
-        <tr onclick="addRage(20)">
-          <td data-label="Эпоха">Греция</td>
+        <tr onclick="gainRage(15)">
+          <td data-label="Эпоха">Греция<br><small>Восхождение</small></td>
           <td data-label="Игра"><b>GoW (2005)</b></td>
           <td data-label="Герой">Кратос</td>
           <td data-label="Конфликт">Арес</td>
-          <td data-label="Связь">Месть за семью</td>
+          <td data-label="Связь">Месть за семью. Кратос становится Богом Войны.</td>
         </tr>
-        <tr onclick="addRage(20)">
-          <td data-label="Эпоха">Греция</td>
-          <td data-label="Игра"><b>GoW II & III</b></td>
+        <tr onclick="gainRage(15)">
+          <td data-label="Эпоха">Греция<br><small>Искупление</small></td>
+          <td data-label="Игра"><b>Ghost of Sparta</b></td>
+          <td data-label="Герой">Кратос</td>
+          <td data-label="Конфликт">Танатос</td>
+          <td data-label="Связь">Поиск брата Деимоса. Кратос узнает правду о матери.</td>
+        </tr>
+        <tr onclick="gainRage(15)">
+          <td data-label="Эпоха">Греция<br><small>Падение</small></td>
+          <td data-label="Игра"><b>God of War II</b></td>
           <td data-label="Герой">Кратос</td>
           <td data-label="Конфликт">Зевс</td>
-          <td data-label="Связь">Гибель Олимпа</td>
+          <td data-label="Связь">Предательство богов. Кратос ведет Титанов на Олимп.</td>
         </tr>
-        <tr onclick="addRage(20)">
-          <td data-label="Эпоха">Мидгард</td>
+        <tr onclick="gainRage(20)">
+          <td data-label="Эпоха">Греция<br><small>Апокалипсис</small></td>
+          <td data-label="Игра"><b>God of War III</b></td>
+          <td data-label="Герой">Кратос</td>
+          <td data-label="Конфликт">Олимп</td>
+          <td data-label="Связь">Финал греческой саги. Смерть богов и хаос мира.</td>
+        </tr>
+        <tr onclick="gainRage(15)">
+          <td data-label="Эпоха">Мидгард<br><small>Перерождение</small></td>
           <td data-label="Игра"><b>GoW (2018)</b></td>
           <td data-label="Герой">Кратос + Атрей</td>
           <td data-label="Конфликт">Бальдр</td>
-          <td data-label="Связь">Новое начало</td>
+          <td data-label="Связь">Путь отца. Начало скандинавской мифологии.</td>
         </tr>
-        <tr onclick="addRage(20)">
-          <td data-label="Эпоха">Девять миров</td>
+        <tr onclick="gainRage(25)">
+          <td data-label="Эпоха">Девять миров<br><small>Рагнарёк</small></td>
           <td data-label="Игра"><b>Ragnarök</b></td>
           <td data-label="Герой">Кратос + Атрей</td>
           <td data-label="Конфликт">Один</td>
-          <td data-label="Связь">Финал саги</td>
+          <td data-label="Связь">Конец циклов. Кратос находит путь мудрого правителя.</td>
         </tr>
       </tbody>
     </table>
   </div>
 
   <div class="era-box">
-    <h3>🔥 Мобильный режим активен</h3>
-    <p>Нажми на игру, чтобы атаковать и заполнить ярость. Когда шкала будет полной, ты познаешь гнев спартанца!</p>
+    <h3>🔥 Путь Воина:</h3>
+    <p>Нажимай на записи хронологии, чтобы наносить удары. Наполни шкалу ярости внизу экрана, чтобы высвободить Гнев Спарты!</p>
+  </div>
+
+  <div class="note">
+    💀 <i>"The hands of death could not defeat me. The sisters of fate could not hold me."</i>
   </div>
 </div>
 
 <script>
   let rage = 0;
-  let isRageActive = false;
+  let isActive = false;
 
-  function addRage(amount) {
-    if (isRageActive) return;
-    rage = Math.min(rage + amount, 100);
+  function gainRage(val) {
+    if (isActive) return;
+    rage = Math.min(rage + val, 100);
     document.documentElement.style.setProperty('--rage-width', rage + '%');
-    if (rage >= 100) activateSpartanRage();
+    
+    if (rage >= 100) {
+      isActive = true;
+      const overlay = document.getElementById('rage-overlay');
+      const content = document.getElementById('main-content');
+      
+      overlay.style.boxShadow = "inset 0 0 150px rgba(255, 0, 0, 0.9)";
+      content.classList.add('screen-shake');
+      
+      setTimeout(() => {
+        overlay.style.boxShadow = "none";
+        content.classList.remove('screen-shake');
+        rage = 0;
+        isActive = false;
+        document.documentElement.style.setProperty('--rage-width', '0%');
+      }, 3000);
+    }
   }
 
-  function activateSpartanRage() {
-    isRageActive = true;
-    const overlay = document.getElementById('rage-overlay');
-    const content = document.getElementById('main-content');
-    
-    overlay.style.boxShadow = "inset 0 0 100px rgba(255, 0, 0, 0.8)";
-    content.classList.add('screen-shake');
-    
-    setTimeout(() => {
-      overlay.style.boxShadow = "none";
-      content.classList.remove('screen-shake');
-      rage = 0;
-      isRageActive = false;
-      document.documentElement.style.setProperty('--rage-width', '0%');
-    }, 2500);
-  }
-
-  function attackEffect() {
-    // Легкая вибрация телефона (если поддерживается)
-    if ("vibrate" in navigator) navigator.vibrate(50);
+  function vibratePhone() {
+    if ("vibrate" in navigator) navigator.vibrate(60);
   }
 </script>
-
 </body>
 </html>
