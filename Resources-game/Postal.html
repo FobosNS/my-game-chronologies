@@ -3,167 +3,188 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Postal — Chronology</title>
+  <title>POSTAL — Tactical Chaos Archive</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap');
+
     body {
-      font-family: 'Share Tech Mono', 'Courier New', monospace;
-      background: linear-gradient(135deg, #1a0a0a, #251515);
+      font-family: 'Share Tech Mono', monospace;
+      background: #0d0d0d;
+      background-image: 
+        radial-gradient(circle at 20% 30%, rgba(255, 50, 50, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(255, 200, 0, 0.05) 0%, transparent 40%);
       color: #ffff99;
-      padding: 25px;
+      padding: clamp(10px, 5vw, 30px);
       margin: 0;
-      line-height: 1.6;
-      font-size: 15px;
+      line-height: 1.4;
+      overflow-x: hidden;
     }
-    h2 {
+
+    /* Эффект помех (Глитч) */
+    .bg-glitch {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: url('https://upload.wikimedia.org/wikipedia/commons/7/76/1k_p_Noisy_Texture.png');
+      opacity: 0.03;
+      pointer-events: none;
+      z-index: 999;
+      animation: noise-anim 0.2s infinite;
+    }
+
+    @keyframes noise-anim {
+      0% { transform: translate(0,0); }
+      50% { transform: translate(-1%, 1%); }
+      100% { transform: translate(1%, -1%); }
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      border: 1px solid #5a1a1a;
+      background: rgba(25, 10, 10, 0.95);
+      padding: 20px;
+      box-shadow: 0 0 40px rgba(255, 0, 0, 0.15);
+      position: relative;
+    }
+
+    .container::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: repeating-linear-gradient(0deg, rgba(0,0,0,0.1) 0px, rgba(0,0,0,0.1) 1px, transparent 1px, transparent 2px);
+      pointer-events: none;
+    }
+
+    header {
       text-align: center;
+      border-bottom: 2px solid #ff3333;
+      margin-bottom: 30px;
+      padding-bottom: 15px;
+    }
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
       color: #ff3333;
-      font-size: 28px;
-      margin-bottom: 8px;
-      text-shadow: 0 0 12px rgba(255, 51, 51, 0.5);
-      letter-spacing: 1px;
+      font-size: clamp(1.5rem, 6vw, 2.5rem);
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      text-shadow: 0 0 15px #ff0000;
     }
-    .subtitle {
-      text-align: center;
+
+    .status-bar {
+      font-size: 0.7rem;
       color: #ffcc00;
-      font-size: 16px;
-      margin-bottom: 24px;
-      font-style: italic;
+      letter-spacing: 2px;
+      margin-top: 10px;
     }
+
     table {
       width: 100%;
       border-collapse: collapse;
-      margin: 0 auto 28px;
-      background: rgba(30, 15, 15, 0.92);
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
-      border: 1px solid #5a1a1a;
+      background: rgba(0,0,0,0.5);
+      font-size: 0.9rem;
+      margin-bottom: 30px;
     }
-    th, td {
-      padding: 14px 12px;
-      text-align: left;
-      border-bottom: 1px solid #4a1515;
-    }
-    th {
-      background: rgba(50, 20, 20, 0.95);
-      color: #ffffaa;
-      font-weight: bold;
-      font-size: 14px;
-      letter-spacing: 0.8px;
+
+    th { 
+      background: #3a1010; 
+      color: #ffcc00; 
+      padding: 15px; 
+      text-align: left; 
+      border-bottom: 2px solid #ff3333;
       text-transform: uppercase;
     }
-    tr:last-child td {
-      border-bottom: none;
+
+    td { padding: 12px; border-bottom: 1px solid #4a1515; }
+    tr:hover { background: rgba(255, 51, 51, 0.05); }
+
+    .era-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
     }
-    tr:hover {
-      background: rgba(60, 25, 25, 0.7);
+
+    .card {
+      background: rgba(40, 15, 15, 0.8);
+      border: 1px solid #5a1a1a;
+      padding: 15px;
+      border-left: 4px solid #ffcc00;
     }
-    .era-box {
-      background: rgba(40, 20, 20, 0.85);
-      border-left: 4px solid #ff3333;
-      padding: 18px;
-      border-radius: 0 10px 10px 0;
-      margin: 20px 0;
-      font-size: 14px;
-      line-height: 1.6;
+
+    .card h3 {
+      margin: 0 0 10px 0;
+      color: #ff3333;
+      font-family: 'Orbitron';
+      font-size: 1.1rem;
+      border-bottom: 1px solid #5a1a1a;
     }
-    .era-box h3 {
-      color: #ff6600;
-      margin-top: 0;
-      font-size: 19px;
-    }
-    .note {
-      margin-top: 20px;
-      font-size: 13px;
-      color: #d8a080;
+
+    .highlight { color: #ffcc00; font-weight: bold; }
+    
+    .footer-note {
       text-align: center;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.5;
+      margin-top: 40px;
+      font-size: 0.8rem;
+      color: #8a5a5a;
+      border-top: 1px solid #5a1a1a;
+      padding-top: 20px;
     }
-    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+    b { color: #fff; }
   </style>
 </head>
 <body>
-  <h2>📮 POSTAL — ХРОНОЛОГИЯ ХАОСА</h2>
-  <div class="subtitle">«Всё разрешено. Ничто не свято»</div>
+
+<div class="bg-glitch"></div>
+
+<div class="container">
+  <header>
+    <h1>POSTAL_SYSTEM_CORRUPTION</h1>
+    <div class="status-bar">STATUS: GOING_POSTAL // MENTAL_STATE: CRITICAL // 1997-2026</div>
+  </header>
 
   <table>
     <thead>
       <tr>
-        <th>📅 Год</th>
-        <th>🎮 Игра</th>
-        <th>🌆 Локация</th>
-        <th>🧠 Состояние мира</th>
-        <th>🔗 Сюжетная связь</th>
+        <th>ГОД</th>
+        <th>ОБЪЕКТ</th>
+        <th>ЛОКАЦИЯ</th>
+        <th>СУТЬ ИНЦИДЕНТА</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td><b>1997</b></td>
-        <td><b>Postal</b></td>
-        <td>Парадайз, Аризона</td>
-        <td>Социальный коллапс<br>Экономический кризис</td>
-        <td>Почтальон, страдающий от голосов в голове, устраивает резню по приказу «Они». Начало безумия.</td>
-      </tr>
-      <tr>
-        <td><b>2003</b></td>
-        <td><b>Postal 2</b></td>
-        <td>Парадайз, Аризона</td>
-        <td>Абсурд повседневности<br>Политкорректность vs. анархия</td>
-        <td>«Just a day in the life…» — игрок выполняет бытовые задачи, но всё заканчивается кровью. Кульминация: восстание и пожар города.</td>
-      </tr>
-      <tr>
-        <td><b>2007</b></td>
-        <td><b>Postal III</b></td>
-        <td>Катарсис, Россия</td>
-        <td>Постапокалипсис<br>Культ личности</td>
-        <td>Почтальон бежит из США в вымышленную Россию. Служит диктатору… или устраивает переворот? (Выбор игрока.)</td>
-      </tr>
-      <tr>
-        <td><b>2015</b></td>
-        <td><b>Postal Redux</b></td>
-        <td>Парадайз (ремейк)</td>
-        <td>Ретро-хаос с современным движком</td>
-        <td>Полный ремейк оригинальной Postal с улучшенной графикой и геймплеем. Канон сохранён.</td>
-      </tr>
-      <tr>
-        <td><b>2023</b></td>
-        <td><b>Postal: Brain Damaged</b></td>
-        <td>Психбольница / Ад</td>
-        <td>Психоделический кошмар</td>
-        <td>Спин-офф в стиле ретро-шутера (как Doom). Почтальон сражается с проекциями своего разума.</td>
-      </tr>
-      <tr>
-        <td><b>Альтернатива</b></td>
-        <td><b>Postal 4: No Regerts</b></td>
-        <td>Парадайз (возвращение)</td>
-        <td>Игровой ад<br>Мемы как реальность</td>
-        <td>Прямое продолжение Postal 2. Почтальон возвращается домой… чтобы устроить ещё больший бардак. Полный абсурд и отсылки.</td>
-      </tr>
+      <tr><td>1997</td><td><b>Postal / Redux</b></td><td>Paradise, AZ</td><td>Начало резни. Чувак (Sr.) слышит «Их». Штурм авиабазы.</td></tr>
+      <tr><td>2003</td><td><b>Postal 2</b></td><td>Paradise</td><td>5 дней из жизни Чувака (Jr.). Поход за молоком стал геноцидом.</td></tr>
+      <tr><td>2005</td><td><b>Apocalypse Weekend</b></td><td>Paradise Labs</td><td>Выходные в дурдоме. Появление зомби-коров и мачете.</td></tr>
+      <tr><td>2009</td><td><b>Postal Babes</b></td><td>University</td><td>Мобильный инцидент (J2ME). Почтальон спасает заложниц.</td></tr>
+      <tr><td>2011</td><td><b>Postal III</b></td><td>Catharsis</td><td>Позор семьи. Чувак в России (технически). Считается «дурным сном».</td></tr>
+      <tr><td>2015</td><td><b>Paradise Lost</b></td><td>Nuclear Wasteland</td><td>11 лет спустя. Поиск собаки Чампа в радиоактивных руинах.</td></tr>
+      <tr><td>2022</td><td><b>Postal 4: No Regerts</b></td><td>Edensin, AZ</td><td>Новый город, новые грехи. Истинный сиквел второй части.</td></tr>
+      <tr><td>2022</td><td><b>Brain Damaged</b></td><td>Mindscape</td><td>Психоделический бумер-шутер. Война внутри головы Чувака.</td></tr>
+      <tr><td>2026</td><td><b>Postal: Project X</b></td><td>Unknown</td><td>[ДАННЫЕ ЗАСЕКРЕЧЕНЫ] — Ожидание следующей фазы безумия.</td></tr>
     </tbody>
   </table>
 
-  <div class="era-box">
-    <h3>🌀 Эволюция безумия:</h3>
-    <p><b>• Postal (1997)</b> — простой шутер с сатирой на американскую жизнь.<br>
-    <b>• Postal 2 (2003)</b> — шедевр абсурда: «купить молоко» → «устроить революцию».<br>
-    <b>• Postal III (2007)</b> — провал из-за смены разработчика, но каноничен.<br>
-    <b>• Postal 4 (2023)</b> — возвращение к корням с мемами, юмором и любовью к фанатам.</p>
+  <div class="era-grid">
+    <div class="card">
+      <h3>🧬 ЭВОЛЮЦИЯ ГНЕВА</h3>
+      <p>От изометрического триллера 1997-го до полного 3D-абсурда. Серия прошла путь от <span class="highlight">запрещенной в 13 странах</span> до статуса культовой сатиры.</p>
+    </div>
+    <div class="card">
+      <h3>🐕 ЧАМП (CHAMP)</h3>
+      <p>Единственное существо, которое любит Чувак. Главная мотивация в <span class="highlight">Paradise Lost</span> и верный спутник во всех бедах.</p>
+    </div>
+    <div class="card">
+      <h3>🎙️ ГОЛОСА</h3>
+      <p>Рик Хантер и Кори Круз. Разные игры — разные голоса, но один и тот же уровень цинизма и ненависти к очереди в банке.</p>
+    </div>
   </div>
 
-  <div class="era-box">
-    <h3>👤 Кто такой Почтальон?</h3>
-    <p>Безымянный антигерой, страдающий от шизофрении, голосов в голове и общества, которое «сошло с ума первым».<br>
-    Его девиз: <b>«It’s not my fault!»</b><br>
-    Он не злодей — он зеркало мира, в котором живёт.</p>
+  <div class="footer-note">
+    «Я НИ О ЧЕМ НЕ ЖАЛЕЮ!» — ПОСЛЕДНИЕ СЛОВА ПЕРЕД ПЕРЕЗАГРУЗКОЙ МИРА
   </div>
+</div>
 
-  <div class="note">
-    💀 Postal — не просто игра, а <b>социальная сатира</b> на американскую культуру, политику и насилие в медиа.<br>
-    <i>Postal III</i> разрабатывалась без участия RWS — но позже признана каноном.<br>
-    <i>Postal 4</i> — ответ фанатам: «Вы просили — мы сделали. Без regrets».
-  </div>
 </body>
 </html>
