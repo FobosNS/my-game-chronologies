@@ -3,180 +3,208 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Batman: Arkham — Chronology</title>
+  <title>Batman: Arkham — Case Files</title>
   <style>
-    body {
-      font-family: 'Orbitron', 'Share Tech Mono', monospace;
-      background: linear-gradient(135deg, #0f1218, #1a1f28);
-      color: #c0f0c0;
-      padding: 25px;
-      margin: 0;
-      line-height: 1.6;
-      font-size: 15px;
-    }
-    h2 {
-      text-align: center;
-      color: #33ff66;
-      font-size: 28px;
-      margin-bottom: 8px;
-      text-shadow: 0 0 12px rgba(51, 255, 102, 0.5);
-      letter-spacing: 1px;
-    }
-    .subtitle {
-      text-align: center;
-      color: #ff33cc;
-      font-size: 16px;
-      margin-bottom: 24px;
-      font-style: italic;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 0 auto 28px;
-      background: rgba(15, 22, 35, 0.92);
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
-      border: 1px solid #2a3a50;
-    }
-    th, td {
-      padding: 14px 12px;
-      text-align: left;
-      border-bottom: 1px solid #2a3a50;
-    }
-    th {
-      background: rgba(25, 35, 55, 0.95);
-      color: #a0f0a0;
-      font-weight: bold;
-      font-size: 14px;
-      letter-spacing: 0.8px;
-      text-transform: uppercase;
-    }
-    tr:last-child td {
-      border-bottom: none;
-    }
-    tr:hover {
-      background: rgba(35, 45, 65, 0.7);
-    }
-    .era-box {
-      background: rgba(20, 30, 50, 0.85);
-      border-left: 4px solid #33ff66;
-      padding: 18px;
-      border-radius: 0 10px 10px 0;
-      margin: 20px 0;
-      font-size: 14px;
-      line-height: 1.6;
-    }
-    .era-box h3 {
-      color: #66ff99;
-      margin-top: 0;
-      font-size: 19px;
-    }
-    .note {
-      margin-top: 20px;
-      font-size: 13px;
-      color: #99cc99;
-      text-align: center;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.5;
-    }
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap');
+
+    :root {
+      --bat-green: #33ff66;
+      --bat-green-dim: rgba(51, 255, 102, 0.2);
+      --joker-pink: #ff33cc;
+      --bg-dark: #0a0c10;
+      --panel-bg: rgba(20, 26, 35, 0.95);
+      --border-color: #1e2630;
+      --scan-line: rgba(51, 255, 102, 0.03);
+    }
+
+    * { box-sizing: border-box; transition: all 0.2s ease-in-out; }
+
+    body {
+      font-family: 'Share Tech Mono', monospace;
+      background: var(--bg-dark);
+      background-image: 
+        linear-gradient(var(--scan-line) 50%, transparent 50%),
+        linear-gradient(90deg, var(--scan-line) 50%, transparent 50%);
+      background-size: 100% 4px, 4px 100%; /* Эффект ЭЛТ-монитора */
+      color: #c0f0c0;
+      margin: 0;
+      padding: 20px;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      padding: 40px 0;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 30px;
+    }
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      color: var(--bat-green);
+      font-size: clamp(1.5rem, 5vw, 2.5rem);
+      text-transform: uppercase;
+      margin: 0;
+      text-shadow: 0 0 20px var(--bat-green-dim);
+    }
+
+    .subtitle {
+      color: var(--joker-pink);
+      font-size: 1.1rem;
+      margin-top: 10px;
+      letter-spacing: 2px;
+    }
+
+    /* Grid System вместо Table */
+    .timeline-grid {
+      display: grid;
+      gap: 15px;
+    }
+
+    .grid-header {
+      display: grid;
+      grid-template-columns: 180px 250px 150px 1fr;
+      padding: 15px;
+      background: rgba(51, 255, 102, 0.1);
+      color: var(--bat-green);
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      border-radius: 4px;
+    }
+
+    .case-row {
+      display: grid;
+      grid-template-columns: 180px 250px 150px 1fr;
+      padding: 20px 15px;
+      background: var(--panel-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      align-items: center;
+    }
+
+    .case-row:hover {
+      border-color: var(--bat-green);
+      box-shadow: 0 0 15px var(--bat-green-dim);
+      transform: scale(1.01);
+      z-index: 10;
+    }
+
+    .case-year { color: var(--bat-green); font-weight: bold; }
+    .case-title { font-family: 'Orbitron', sans-serif; font-size: 0.9rem; }
+    .case-villain { color: #ff4444; }
+
+    /* Блоки с лором */
+    .info-panels {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 40px;
+    }
+
+    .era-box {
+      background: rgba(15, 20, 28, 0.8);
+      border: 1px solid var(--border-color);
+      border-top: 4px solid var(--bat-green);
+      padding: 20px;
+      border-radius: 4px;
+    }
+
+    .era-box h3 {
+      font-family: 'Orbitron', sans-serif;
+      color: var(--bat-green);
+      margin-top: 0;
+    }
+
+    .note {
+      text-align: center;
+      margin-top: 40px;
+      padding: 20px;
+      border: 1px dashed var(--border-color);
+      font-size: 0.85rem;
+      opacity: 0.7;
+    }
+
+    /* Адаптивность для мобильных устройств */
+    @media (max-width: 900px) {
+      .grid-header { display: none; }
+      .case-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        text-align: center;
+      }
+      .case-year::after { content: ' — '; }
+    }
   </style>
 </head>
 <body>
-  <h2>🦇 BATMAN: ARKHAM — ХРОНОЛОГИЯ ГОТЭМА</h2>
-  <div class="subtitle">«I’m not a hero. I’m whatever Gotham needs me to be»</div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>📅 Год (вселенная)</th>
-        <th>🎮 Игра</th>
-        <th>👤 Протагонист</th>
-        <th>🎭 Антагонист</th>
-        <th>🔗 Сюжетная связь</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><b>За год до Arkham Asylum</b></td>
-        <td><b>Batman: Arkham Origins</b></td>
-        <td>Бэтмен (молодой)</td>
-        <td>Джокер, Блэк Маск</td>
-        <td>Первое столкновение с Джокером. Бэтмен ещё не легенда. В канун Рождества на него охотятся 8 наёмников.</td>
-      </tr>
-      <tr>
-        <td><b>Ночь после Origins</b></td>
-        <td><b>Arkham Origins: Cold, Cold Heart</b></td>
-        <td>Бэтмен</td>
-        <td>Мистер Фриз</td>
-        <td>Каноничный DLC. Исследует прошлое Фриза и коррупцию Ферриса.</td>
-      </tr>
-      <tr>
-        <td><b>Через год</b></td>
-        <td><b>Batman: Arkham Asylum</b></td>
-        <td>Бэтмен</td>
-        <td>Джокер</td>
-        <td>Джокер захватывает психушку. Бэтмен сражается с ним и своими страхами (Скайленд, Туманный Банкир).</td>
-      </tr>
-      <tr>
-        <td><b>Сразу после Asylum</b></td>
-        <td><b>Batman: Arkham City</b></td>
-        <td>Бэтмен</td>
-        <td>Джокер, Хьюго Стрэндж</td>
-        <td>Готэм превращён в тюрьму. Джокер умирает от болезни. Бэтмен находит его тело в финале.</td>
-      </tr>
-      <tr>
-        <td><b>Во время City</b></td>
-        <td><b>Harley Quinn’s Revenge</b></td>
-        <td>Бэтмен</td>
-        <td>Харли Квинн</td>
-        <td>DLC к City. Харли мстит за Джокера. Бэтмен спасает полицейских.</td>
-      </tr>
-      <tr>
-        <td><b>9 месяцев после City</b></td>
-        <td><b>Batman: Arkham Knight</b></td>
-        <td>Бэтмен, Робин, Найтвинг</td>
-        <td>Рыцарь Тьмы, Джокер (в голове)</td>
-        <td>Финал саги. Бэтмен раскрывает личность Рыцаря Тьмы. Джокер — галлюцинация. Бэтмен «умирает», чтобы скрыть свою тайну.</td>
-      </tr>
-      <tr>
-        <td><b>Параллельно с Asylum</b></td>
-        <td><b>Batman: Arkham VR</b></td>
-        <td>Бэтмен</td>
-        <td>Скайленд</td>
-        <td>Каноничный эксперимент. Погружение в разум Скайленда. Короткая, но важная история.</td>
-      </tr>
-    </tbody>
-  </table>
+<div class="container">
+  <header>
+    <h1>Arkham Intelligence System</h1>
+    <div class="subtitle">PROJECT: GOTHAM CHRONOLOGY // VERSION 2.0</div>
+  </header>
 
-  <div class="era-box">
-    <h3>🦇 Эволюция Тёмного рыцаря:</h3>
-    <p><b>• Origins (начало)</b>:<br>
-    — Бэтмен ещё не уважаем. Город боится его.<br>
-    — Джокер — безумный новичок, но уже опасен.</p>
-    <p><b>• Asylum → City (расцвет)</b>:<br>
-    — Бэтмен — легенда. Джокер — его тень.<br>
-    — Темы: безумие, страх, жертвенность.</p>
-    <p><b>• Knight (финал)</b>:<br>
-    — Бэтмен сталкивается с последствиями своих поступков.<br>
-    — «Я — Бэтмен» → «Бэтмен мёртв» → «Брюс Уэйн жив».</p>
+  <div class="timeline-grid">
+    <div class="grid-header">
+      <div>Timestamp</div>
+      <div>Software Unit</div>
+      <div>Target</div>
+      <div>Intel Summary</div>
+    </div>
+
+    <div class="case-row">
+      <div class="case-year">YEAR ONE (ORIGINS)</div>
+      <div class="case-title">Arkham Origins</div>
+      <div class="case-villain">Joker / Black Mask</div>
+      <div>Молодой Бэтмен. 8 наёмников. Формирование легенды в Рождественскую ночь.</div>
+    </div>
+
+    <div class="case-row">
+      <div class="case-year">PHASE 2 (ASYLUM)</div>
+      <div class="case-title">Arkham Asylum</div>
+      <div class="case-villain">Joker / Scarecrow</div>
+      <div>Инцидент на острове. Проект «Титан». Столкновение со страхами.</div>
+    </div>
+
+    <div class="case-row">
+      <div class="case-year">PHASE 3 (CITY)</div>
+      <div class="case-title">Arkham City</div>
+      <div class="case-villain">Strange / Joker</div>
+      <div>Протокол 10. Готэмская тюрьма под открытым небом. Гибель врага.</div>
+    </div>
+
+    <div class="case-row">
+      <div class="case-year">FINAL (KNIGHT)</div>
+      <div class="case-title">Arkham Knight</div>
+      <div class="case-villain">Arkham Knight / Scarecrow</div>
+      <div>Тотальная война. Протокол «Knightfall». Раскрытие личности.</div>
+    </div>
   </div>
 
-  <div class="era-box">
-    <h3>👁️ Ключевые темы:</h3>
-    <p>• <b>Страх</b> — оружие Скайленда, слабость Бэтмена.<br>
-    • <b>Безумие</b> — зеркало общества (Аркхэм — метафора Готэма).<br>
-    • <b>Жертва</b> — Бэтмен всегда платит цену за порядок.<br>
-    • <b>Наследие</b> — Робин, Найтвинг, Бэтгирл продолжат дело.</p>
+  
+
+  <div class="info-panels">
+    <div class="era-box">
+      <h3>🧬 Профиль субъекта</h3>
+      <p>Брюс Уэйн эволюционирует от яростного мстителя до символа, который больше чем человек. Каждая итерация Arkham-костюма отражает рост его технологического арсенала.</p>
+    </div>
+    <div class="era-box">
+      <h3>🎭 Психологический профиль</h3>
+      <p>Отношения Бэтмена и Джокера — это симбиоз. Knight доказывает, что Джокер не просто враг, а часть подсознания Бэтмена, его темное отражение.</p>
+    </div>
   </div>
 
   <div class="note">
-    💡 <i>Arkham Origins</i> разработана Snowblind, но **канонична**.<br>
-    <i>Arkham Shadow</i> (2024) — новая игра для VR, действие которой происходит между <i>Asylum</i> и <i>City</i>.<br>
-    Слоган: «The night is darkest just before the dawn».
+    SYSTEM_LOG: Arkham Shadow (VR) — подтвержденный каноничный модуль (2024). <br>
+    Статус Готэма: CRITICAL // Бэтмен: АКТИВЕН (через страх).
   </div>
+</div>
+
 </body>
 </html>
