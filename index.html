@@ -4,7 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Добро пожаловать — Хронологии игровых вселенных</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <script>
+    /**
+     * КРИТИЧЕСКИЙ СКРИПТ: Выполняется до рендеринга body для предотвращения мерцания (FOUC).
+     * Инкапсулирован в IIFE для защиты глобальной области видимости.
+     */
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      
+      if (savedTheme === 'light' || (!savedTheme && !prefersDark)) {
+        document.documentElement.classList.add('light-theme');
+      }
+    })();
+  </script>
+
   <style>
     :root {
       --bg-primary: #0b0e1a;
@@ -16,9 +35,11 @@
       --card-bg: rgba(20, 30, 50, 0.7);
       --card-border: #2a4a6a;
       --shadow: rgba(0, 240, 255, 0.15);
+      --transition-speed: 0.4s;
     }
 
-    body.light-theme {
+    /* Используем класс на html или body для смены темы */
+    .light-theme {
       --bg-primary: #f0f4f8;
       --bg-secondary: #d9e2ec;
       --accent: #007bff;
@@ -26,8 +47,8 @@
       --text-primary: #1a1a1a;
       --text-secondary: #4a4a4a;
       --card-bg: rgba(255, 255, 255, 0.9);
-      --card-border: #ccc;
-      --shadow: rgba(0, 123, 255, 0.2);
+      --card-border: #cbd5e1;
+      --shadow: rgba(0, 123, 255, 0.1);
     }
 
     * { box-sizing: border-box; }
@@ -37,122 +58,148 @@
       background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary));
       color: var(--text-primary);
       margin: 0;
-      padding: 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
-      transition: background 0.4s ease;
+      transition: background var(--transition-speed) ease, color var(--transition-speed) ease;
+      overflow: hidden;
     }
 
     .welcome-container {
       text-align: center;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 40px;
+      border-radius: 20px;
+      padding: 3rem;
       max-width: 600px;
-      backdrop-filter: blur(4px);
-      box-shadow: 0 10px 25px var(--shadow);
-      animation: fadeIn 1s ease-in-out;
+      width: 90%;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px); /* Safari support */
+      box-shadow: 0 20px 40px var(--shadow);
+      animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform, opacity;
     }
 
     h1 {
       color: var(--accent);
-      font-family: 'Orbitron', monospace;
-      font-size: 36px;
-      margin: 0 0 20px;
-      text-shadow: 0 0 12px var(--shadow);
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(24px, 5vw, 42px); /* Responsive font size */
+      margin: 0 0 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
     }
 
     p {
-      font-size: 18px;
+      font-size: 1.1rem;
+      line-height: 1.6;
       color: var(--text-secondary);
-      margin: 0 0 20px;
+      margin-bottom: 2rem;
     }
 
-    button {
-      background: var(--card-bg);
-      color: var(--text-primary);
-      border: 1px solid var(--card-border);
-      padding: 10px 20px;
+    .btn-primary {
+      background: var(--accent);
+      color: var(--bg-primary);
+      border: none;
+      padding: 14px 32px;
       font-family: 'Exo 2', sans-serif;
-      font-size: 16px;
+      font-weight: 600;
+      font-size: 18px;
       cursor: pointer;
-      border-radius: 8px;
-      transition: all 0.25s ease;
+      border-radius: 12px;
+      transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 15px var(--shadow);
     }
 
-    button:hover {
+    .btn-primary:hover {
       background: var(--accent-hover);
-      border-color: var(--accent);
-      color: var(--text-primary);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px var(--shadow);
     }
+
+    .btn-primary:active { transform: translateY(0); }
 
     .countdown {
-      font-size: 14px;
-      color: var(--text-secondary);
-      margin-top: 20px;
+      margin-top: 2rem;
+      font-size: 0.9rem;
+      opacity: 0.8;
+      font-weight: 300;
     }
+
+    #timer { font-weight: 600; color: var(--accent); }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (max-width: 600px) {
-      .welcome-container { padding: 20px; }
-      h1 { font-size: 28px; }
-      p { font-size: 16px; }
-      button { padding: 8px 16px; font-size: 14px; }
+      from { opacity: 0; transform: scale(0.95) translateY(10px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .welcome-container { animation: none; }
-      body { transition: none; }
-      button { transition: none; }
+      * { animation: none !important; transition: none !important; }
     }
   </style>
 </head>
 <body>
-  <div class="welcome-container">
+
+  <main class="welcome-container">
     <h1>Добро пожаловать!</h1>
-    <p>Добро пожаловать в Хронологии игровых вселенных by FobosNS. <br> Исследуйте увлекательные истории игровых миров!</p>
+    <p>
+      Вы открываете <strong>Хронологии игровых вселенных</strong>.<br> 
+      Погрузитесь в детально проработанные истории великих миров.
+    </p>
 
-    <button type="button" id="goBtn">Перейти к хронологиям</button>
+    <button type="button" class="btn-primary" id="goBtn" aria-label="Перейти к основному контенту">
+      Исследовать миры
+    </button>
 
-    <div class="countdown" id="countdown">
-      Перенаправление через <span id="timer">5</span> секунд...
+    <div class="countdown" id="countdown-area" aria-live="polite">
+      Автоматический переход через <span id="timer">5</span> сек.
     </div>
-  </div>
+  </main>
 
   <script>
-    // Восстановление темы
-    if (localStorage.getItem('theme') === 'light') {
-      document.body.classList.add('light-theme');
+    /**
+     * RedirectManager - инкапсуляция логики редиректа
+     */
+    class RedirectManager {
+      constructor(targetUrl, delaySeconds) {
+        this.targetUrl = targetUrl;
+        this.timeLeft = delaySeconds;
+        this.timerEl = document.getElementById('timer');
+        this.btnEl = document.getElementById('goBtn');
+        this.intervalId = null;
+        
+        this.init();
+      }
+
+      init() {
+        this.btnEl.addEventListener('click', () => this.navigate());
+        this.startCountdown();
+      }
+
+      startCountdown() {
+        this.intervalId = setInterval(() => {
+          this.timeLeft -= 1;
+          
+          if (this.timeLeft <= 0) {
+            this.navigate();
+          } else {
+            this.timerEl.textContent = this.timeLeft;
+          }
+        }, 1000);
+      }
+
+      navigate() {
+        if (this.intervalId) clearInterval(this.intervalId);
+        // Используем replace вместо href, чтобы пользователь не возвращался на страницу приветствия кнопкой "Назад"
+        window.location.replace(this.targetUrl);
+      }
     }
 
-    const targetUrl = './main.html';
-
-    // Переход по кнопке
-    document.getElementById('goBtn').addEventListener('click', () => {
-      window.location.href = targetUrl;
+    // Инициализация при загрузке DOM
+    document.addEventListener('DOMContentLoaded', () => {
+      new RedirectManager('./main.html', 5);
     });
-
-    // Автоматический редирект через 5 секунд (без показа "0")
-    let timeLeft = 5;
-    const timerEl = document.getElementById('timer');
-
-    const countdown = setInterval(() => {
-      if (timeLeft <= 1) {
-        clearInterval(countdown);
-        window.location.href = targetUrl;
-        return;
-      }
-      timeLeft -= 1;
-      timerEl.textContent = String(timeLeft);
-    }, 1000);
   </script>
 </body>
 </html>
