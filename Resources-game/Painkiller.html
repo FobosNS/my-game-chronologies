@@ -5,173 +5,268 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Painkiller — Chronology</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap');
+
+    :root {
+      --pk-purple: #d455ff;
+      --pk-red: #ff3333;
+      --pk-bg: #12051a;
+      --accent: var(--pk-purple);
+    }
+
     body {
-      font-family: 'Orbitron', 'Share Tech Mono', monospace;
-      background: linear-gradient(135deg, #12051a, #1e0a2a);
+      font-family: 'Share Tech Mono', monospace;
+      background: var(--pk-bg);
+      background-image: radial-gradient(circle at 50% 50%, rgba(212, 85, 255, 0.05) 0%, transparent 80%);
       color: #f0e0ff;
-      padding: 25px;
+      padding: clamp(10px, 3vw, 25px);
       margin: 0;
-      line-height: 1.6;
-      font-size: 15px;
+      transition: all 0.5s ease;
     }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      border: 1px solid #4a205a;
+      background: rgba(25, 10, 40, 0.95);
+      padding: clamp(15px, 4vw, 30px);
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.9);
+      position: relative;
+    }
+
     h2 {
+      font-family: 'Orbitron', sans-serif;
       text-align: center;
-      color: #d455ff;
-      font-size: 28px;
-      margin-bottom: 8px;
-      text-shadow: 0 0 12px rgba(212, 85, 255, 0.5);
-      letter-spacing: 1px;
+      color: var(--accent);
+      font-size: clamp(1.4rem, 6vw, 2.2rem);
+      text-shadow: 0 0 15px var(--accent);
+      margin-bottom: 5px;
+      text-transform: uppercase;
     }
+
     .subtitle {
       text-align: center;
       color: #ffb3d9;
-      font-size: 16px;
-      margin-bottom: 24px;
+      font-size: 0.9rem;
+      margin-bottom: 25px;
       font-style: italic;
     }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 0 auto 28px;
-      background: rgba(25, 10, 40, 0.92);
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
-      border: 1px solid #4a205a;
+
+    /* АДАПТИВНАЯ ТАБЛИЦА */
+    .table-wrapper { width: 100%; overflow: hidden; }
+    
+    table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
+    
+    th { 
+      background: rgba(45, 15, 70, 0.95); 
+      color: #e0c0ff; 
+      padding: 15px; 
+      text-align: left; 
+      font-family: 'Orbitron'; 
+      font-size: 0.8rem;
+      border-bottom: 2px solid var(--accent);
     }
-    th, td {
-      padding: 14px 12px;
-      text-align: left;
-      border-bottom: 1px solid #3a1845;
+
+    td { 
+      padding: 15px; 
+      border-bottom: 1px solid #3a1845; 
+      font-size: 0.9rem; 
+      cursor: pointer;
+      transition: 0.3s;
     }
-    th {
-      background: rgba(45, 15, 70, 0.95);
-      color: #e0c0ff;
-      font-weight: bold;
-      font-size: 14px;
-      letter-spacing: 0.8px;
-      text-transform: uppercase;
+
+    tr:hover td { background: rgba(212, 85, 255, 0.1); color: #fff; }
+
+    @media (max-width: 850px) {
+      table, thead, tbody, th, td, tr { display: block; }
+      thead { display: none; }
+      tr { 
+        margin-bottom: 20px; 
+        border: 1px solid var(--accent); 
+        background: rgba(0,0,0,0.3);
+      }
+      td { 
+        text-align: right; 
+        padding-left: 45% !important; 
+        position: relative; 
+        border-bottom: 1px solid rgba(212, 85, 255, 0.1);
+      }
+      td::before {
+        content: attr(data-label);
+        position: absolute; left: 15px; color: var(--accent); 
+        font-weight: bold; font-family: 'Orbitron'; font-size: 0.7rem;
+      }
     }
-    tr:last-child td {
-      border-bottom: none;
+
+    /* ИНТЕРАКТИВНЫЕ ЭЛЕМЕНТЫ */
+    .soul-counter {
+      text-align: center;
+      background: #000;
+      border: 1px solid var(--accent);
+      padding: 15px;
+      margin-bottom: 20px;
+      font-family: 'Orbitron';
     }
-    tr:hover {
-      background: rgba(60, 20, 80, 0.7);
+
+    #counter-val { color: var(--accent); font-size: 1.5rem; text-shadow: 0 0 10px var(--accent); }
+
+    .btn-action {
+      display: block;
+      width: 200px;
+      margin: 20px auto;
+      padding: 12px;
+      background: transparent;
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      font-family: 'Orbitron';
+      cursor: pointer;
+      transition: 0.3s;
     }
+
+    .btn-action:hover { background: var(--accent); color: #000; box-shadow: 0 0 20px var(--accent); }
+
     .era-box {
       background: rgba(40, 15, 60, 0.85);
-      border-left: 4px solid #d455ff;
+      border-left: 4px solid var(--accent);
       padding: 18px;
-      border-radius: 0 10px 10px 0;
       margin: 20px 0;
-      font-size: 14px;
-      line-height: 1.6;
     }
-    .era-box h3 {
-      color: #ff88cc;
-      margin-top: 0;
-      font-size: 19px;
+
+    .era-box h3 { color: #ff88cc; margin-top: 0; font-family: 'Orbitron'; font-size: 1.1rem; }
+
+    /* Эффект поглощения души */
+    .soul-anim {
+      position: fixed;
+      pointer-events: none;
+      color: var(--accent);
+      font-weight: bold;
+      animation: soulUp 1s forwards;
+      z-index: 9999;
     }
-    .note {
-      margin-top: 20px;
-      font-size: 13px;
-      color: #d8b0e0;
-      text-align: center;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.5;
+
+    @keyframes soulUp {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(-100px); opacity: 0; }
     }
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap');
   </style>
 </head>
 <body>
-  <h2>🔥 PAINKILLER — ХРОНОЛОГИЯ АДА И ИСКУПЛЕНИЯ</h2>
-  <div class="subtitle">«Ты не герой. Ты наказание»</div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>📅 Год / Эпоха</th>
-        <th>🎮 Игра</th>
-        <th>🌌 Мир</th>
-        <th>⚔️ Конфликт</th>
-        <th>🔗 Сюжетная связь</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><b>2004</b></td>
-        <td><b>Painkiller</b></td>
-        <td>Чистилище</td>
-        <td>Ад vs. Рай<br>Души невинных</td>
-        <td>Дэнни Блэк — убит в аварии. Ангел Серафим даёт ему шанс искупить грехи: убить 7777 демонов.</td>
-      </tr>
-      <tr>
-        <td><b>2004</b></td>
-        <td><b>Painkiller: Battle Out of Hell</b></td>
-        <td>Ад (Геенна)</td>
-        <td>Падение Люцифера<br>Бунт ангелов</td>
-        <td>Прямое продолжение. Дэнни преследует Люцифера, чтобы остановить его воскрешение.</td>
-      </tr>
-      <tr>
-        <td><b>2006</b></td>
-        <td><b>Painkiller: Hell Wars</b></td>
-        <td>Мульти-мир</td>
-        <td>Сборная кампания</td>
-        <td>Компиляция оригинала и Battle Out of Hell. Нет нового сюжета.</td>
-      </tr>
-      <tr>
-        <td><b>2007</b></td>
-        <td><b>Painkiller: Overdose</b></td>
-        <td>Ад, Рай, Чистилище</td>
-        <td>Месть полудемона</td>
-        <td>Новый герой — Белал, сын демона и ангела. Мстит за унижения. Не связан с Дэнни.</td>
-      </tr>
-      <tr>
-        <td><b>2009</b></td>
-        <td><b>Painkiller: Redemption</b></td>
-        <td>Средневековье + Ад</td>
-        <td>Орден vs. Демоны</td>
-        <td>Неканоничный спин-офф. Рыцарь сражается с Адом в прошлом.</td>
-      </tr>
-      <tr>
-        <td><b>2012</b></td>
-        <td><b>Painkiller: Hell & Damnation</b></td>
-        <td>Чистилище (ремейк)</td>
-        <td>Современная версия классики</td>
-        <td>Полный ремейк оригинальной Painkiller на Unreal Engine 3. Канон сохранён.</td>
-      </tr>
-      <tr>
-        <td><b>2014</b></td>
-        <td><b>Painkiller: Hell Wars (HD)</b></td>
-        <td>Чистилище</td>
-        <td>HD-ремастер</td>
-        <td>Обновлённая версия для новых платформ. Сюжет без изменений.</td>
-      </tr>
-    </tbody>
-  </table>
+<div class="container">
+  <header>
+    <h2 id="main-title">🔥 PAINKILLER: PURGATORY ARCHIVE</h2>
+    <div class="subtitle">«Ты не герой. Ты наказание»</div>
+  </header>
 
-  <div class="era-box">
-    <h3>⚔️ Две эпохи вселенной:</h3>
-    <p><b>• Классическая эра (2004–2007)</b>:<br>
-    — <i>Painkiller</i> и <i>Battle Out of Hell</i> — каноничная сага о Дэнни Блэке.<br>
-    — <i>Overdose</i> — отдельная история в том же мире, но с новым героем.</p>
-    <p><b>• Эра ремастеров (2012–2014)</b>:<br>
-    — <i>Hell & Damnation</i> — официальный ремейк, признанный фанатами как «настоящий Painkiller».</p>
+  <div class="soul-counter">
+    СОБРАНО ДУШ: <span id="counter-val">6660</span> / 7777
   </div>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>📅 Год</th>
+          <th>🎮 Игра</th>
+          <th>🌌 Мир</th>
+          <th>🔗 Суть</th>
+        </tr>
+      </thead>
+      <tbody id="game-table">
+        <tr onclick="collectSoul(this)">
+          <td data-label="📅 Год">2004</td>
+          <td data-label="🎮 Игра"><b>Painkiller</b></td>
+          <td data-label="🌌 Мир">Чистилище</td>
+          <td>Дэниел Гарнер должен уничтожить 4 генералов Люцифера.</td>
+        </tr>
+        <tr onclick="collectSoul(this)">
+          <td data-label="📅 Год">2004</td>
+          <td data-label="🎮 Игра"><b>Battle Out of Hell</b></td>
+          <td data-label="🌌 Мир">Геенна</td>
+          <td>Битва с Аластором. Прямое продолжение сюжета.</td>
+        </tr>
+        <tr onclick="collectSoul(this)">
+          <td data-label="📅 Год">2007</td>
+          <td data-label="🎮 Игра"><b>Overdose</b></td>
+          <td data-label="🌌 Мир">Тёмные миры</td>
+          <td>История Белиала. Смена главного протагониста.</td>
+        </tr>
+        <tr onclick="collectSoul(this)">
+          <td data-label="📅 Год">2012</td>
+          <td data-label="🎮 Игра"><b>Hell & Damnation</b></td>
+          <td data-label="🌌 Мир">Ремейк</td>
+          <td>Современное переосмысление классики на UE3.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <button class="btn-action" onclick="toggleRage()">РЕЖИМ ЯРОСТИ (🔥)</button>
 
   <div class="era-box">
     <h3>💀 Ключевые концепции:</h3>
-    <p><b>• Чистилище</b> — нейтральная зона между Раем и Адом, где души ждут суда.<br>
-    <b>• Painkiller (оружие)</b> — легендарная пушка, стреляющая черепами. Символ возмездия.<br>
-    <b>• 7777 душ</b> — число, необходимое для искупления. Каждый убитый демон — шаг к спасению.</p>
+    <p>• <b>Дэниел Гарнер</b> — застрял между мирами, пока не очистит ад.</p>
+    <p>• <b>Painkiller (Оружие)</b> — многофункциональный инструмент смерти.</p>
   </div>
 
   <div class="note">
-    💀 Оригинальная <i>Painkiller</i> — шедевр арена-шутера: миллионы врагов, эпичные боссы, музыка в стиле metal.<br>
-    <b>Каноническая хронология:</b> Painkiller → Battle Out of Hell → Hell & Damnation (ремейк).<br>
-    Спин-оффы (<i>Overdose</i>, <i>Redemption</i>) — необязательны для понимания основной саги.
+    💀 Каноническая хронология: Painkiller → Battle Out of Hell → Hell & Damnation.
   </div>
+</div>
+
+<script>
+  let souls = 6660;
+
+  function collectSoul(row) {
+    if (souls < 7777) {
+      souls += 29;
+      if (souls > 7777) souls = 7777;
+      document.getElementById('counter-val').innerText = souls;
+      
+      // Визуальный эффект
+      const soul = document.createElement('div');
+      soul.className = 'soul-anim';
+      soul.innerText = '+SOUL';
+      soul.style.left = event.pageX + 'px';
+      soul.style.top = event.pageY + 'px';
+      document.body.appendChild(soul);
+      setTimeout(() => soul.remove(), 1000);
+
+      // Звук (короткий гул)
+      playHiss(souls === 7777 ? 800 : 200);
+    }
+  }
+
+  let rage = false;
+  function toggleRage() {
+    rage = !rage;
+    const root = document.documentElement;
+    const title = document.getElementById('main-title');
+    
+    if(rage) {
+      root.style.setProperty('--accent', '#ff3333');
+      root.style.setProperty('--pk-bg', '#2a0505');
+      title.innerText = "👹 PAINKILLER: DEMON RAGE";
+    } else {
+      root.style.setProperty('--accent', '#d455ff');
+      root.style.setProperty('--pk-bg', '#12051a');
+      title.innerText = "🔥 PAINKILLER: PURGATORY ARCHIVE";
+    }
+    playHiss(100);
+  }
+
+  function playHiss(freq) {
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(10, audioCtx.currentTime + 0.5);
+    gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    osc.start(); osc.stop(audioCtx.currentTime + 0.5);
+  }
+</script>
+
 </body>
 </html>
