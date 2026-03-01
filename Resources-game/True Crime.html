@@ -3,201 +3,275 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>True Crime — Chronology</title>
+  <title>True Crime — Tactical Interface</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap');
 
     :root {
-      --tc-blue: #3366ff;
+      --tc-blue: #00f2ff;
       --tc-red: #ff3366;
-      --tc-bg: #0a0f1a;
+      --tc-bg: #050a14;
       --accent: var(--tc-blue);
     }
 
     body {
       font-family: 'Share Tech Mono', monospace;
       background: var(--tc-bg);
-      background-image: 
-        radial-gradient(circle at 20% 30%, rgba(51, 102, 255, 0.05) 0%, transparent 50%),
-        url('https://www.transparenttextures.com/patterns/asfalt-dark.png');
       color: #e0f0ff;
-      padding: clamp(10px, 5vw, 30px);
+      padding: clamp(10px, 3vw, 20px);
       margin: 0;
-      transition: background 0.5s ease;
+      overflow-x: hidden;
     }
 
     .container {
-      max-width: 1100px;
+      max-width: 1000px;
       margin: 0 auto;
-      border: 1px solid #2a3a5a;
-      background: rgba(15, 22, 40, 0.95);
-      padding: clamp(15px, 4vw, 25px);
-      box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
-      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(10, 15, 30, 0.9);
+      padding: 20px;
+      position: relative;
     }
 
-    header { text-align: center; margin-bottom: 30px; }
-    
-    h2 {
+    /* СКАНЕР ПОМЕХИ */
+    .container::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 2px;
+      background: var(--accent);
+      opacity: 0.3;
+      animation: scanline 4s linear infinite;
+    }
+
+    @keyframes scanline { 0% { top: 0; } 100% { top: 100%; } }
+
+    header h2 {
       font-family: 'Orbitron', sans-serif;
       color: var(--accent);
-      font-size: clamp(1.4rem, 6vw, 2.2rem);
-      text-shadow: 0 0 15px var(--accent);
-      margin: 0;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      margin-bottom: 20px;
     }
 
-    .crime-meter {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin: 20px 0;
-    }
-
-    .meter-btn {
-      padding: 10px 20px;
-      cursor: pointer;
-      font-family: 'Orbitron';
-      border: 2px solid;
-      background: transparent;
-      transition: 0.3s;
-      font-size: 0.8rem;
-    }
-
-    .good-cop { color: #00f2ff; border-color: #00f2ff; }
-    .good-cop:hover, .good-cop.active { background: #00f2ff; color: #000; box-shadow: 0 0 15px #00f2ff; }
+    /* ТАБЛИЦА С УЛИКАМИ */
+    table { width: 100%; border-collapse: collapse; }
     
-    .bad-cop { color: #ff3333; border-color: #ff3333; }
-    .bad-cop:hover, .bad-cop.active { background: #ff3333; color: #000; box-shadow: 0 0 15px #ff3333; }
+    tr { cursor: pointer; transition: 0.2s; }
+    tr:hover { background: rgba(255, 255, 255, 0.05); }
 
-    /* Оптимизация таблицы под мобильные */
-    .table-wrapper { width: 100%; overflow: hidden; }
-    table { width: 100%; border-collapse: collapse; margin-bottom: 25px; }
-    th { background: rgba(20, 30, 55, 0.95); color: #a0d0ff; padding: 15px; text-align: left; font-size: 0.85rem; }
-    td { padding: 15px; border-bottom: 1px solid #2a3a5a; font-size: 0.95rem; }
+    th { text-align: left; padding: 15px; border-bottom: 2px solid var(--accent); color: var(--accent); }
+    td { padding: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
 
+    /* СКРЫТЫЕ УЛИКИ */
+    .evidence-row {
+      display: none;
+      background: rgba(0, 0, 0, 0.4);
+      animation: slideDown 0.3s ease-out;
+    }
+
+    .evidence-content {
+      padding: 15px;
+      border-left: 3px solid var(--accent);
+      font-size: 0.85rem;
+      color: #88ccff;
+    }
+
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* МОБИЛЬНАЯ АДАПТАЦИЯ */
     @media (max-width: 768px) {
       table, thead, tbody, th, td, tr { display: block; }
-      thead tr { position: absolute; top: -9999px; left: -9999px; }
-      tr { border: 1px solid #2a3a5a; margin-bottom: 15px; background: rgba(0,0,0,0.3); border-radius: 5px; }
-      td { border: none; padding-left: 45% !important; position: relative; text-align: right; min-height: 40px; }
-      td:before {
+      thead { display: none; }
+      tr { margin-bottom: 10px; border: 1px solid rgba(255, 255, 255, 0.1); }
+      td { text-align: right; padding-left: 50%; position: relative; }
+      td::before {
         content: attr(data-label);
-        position: absolute; left: 15px; font-weight: bold; color: var(--accent);
-        text-transform: uppercase; font-size: 0.7rem;
+        position: absolute; left: 15px; color: var(--accent); font-weight: bold;
       }
     }
 
-    .era-box {
-      background: rgba(20, 28, 50, 0.85);
-      border-left: 4px solid var(--accent);
-      padding: 20px;
-      margin: 20px 0;
-      border-radius: 0 10px 10px 0;
-      transition: border-color 0.5s;
-    }
-
-    .era-box h3 { color: var(--accent); margin-top: 0; font-family: 'Orbitron'; font-size: 1.1rem; }
-
-    .note {
-      text-align: center;
+    /* ПАНЕЛЬ СКАНЕРА */
+    .scanner-panel {
+      margin-top: 30px;
+      background: #000;
+      border: 1px solid var(--accent);
+      padding: 15px;
       font-size: 0.8rem;
-      color: #99ccff;
-      border-top: 1px solid #2a3a5a;
-      padding-top: 15px;
     }
+
+    .scanner-header {
+      display: flex; 
+      justify-content: space-between;
+      color: var(--accent);
+      margin-bottom: 10px;
+      border-bottom: 1px solid var(--accent);
+      padding-bottom: 5px;
+    }
+
+    #scanner-text { color: #00ff00; height: 40px; }
+
+    .btn-group { display: flex; gap: 10px; margin-top: 20px; }
+    .btn {
+      flex: 1;
+      padding: 10px;
+      background: transparent;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      font-family: 'Orbitron';
+      cursor: pointer;
+    }
+    .btn:active { background: var(--accent); color: #000; }
   </style>
 </head>
-<body id="mainBody">
+<body>
 
 <div class="container">
   <header>
-    <h2 id="title">🚔 TRUE CRIME: DATABASE</h2>
-    <div class="subtitle" style="text-align:center; color: #ff3366; font-style: italic; margin-top: 5px;">«Закон не всегда справедлив. Но ты — его кулак»</div>
+    <h2 id="main-title">Police Terminal v4.1</h2>
   </header>
 
-  <div class="crime-meter">
-    <button class="meter-btn good-cop" onclick="setMode('good')">ХОРОШИЙ КОП</button>
-    <button class="meter-btn bad-cop" onclick="setMode('bad')">ПЛОХОЙ КОП</button>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>ОБЪЕКТ</th>
+        <th>СТАТУС</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr onclick="toggleEvidence('ev1')">
+        <td data-label="ID">2003-LA</td>
+        <td data-label="ОБЪЕКТ">Streets of LA</td>
+        <td>АРХИВИРОВАНО</td>
+      </tr>
+      <tr id="ev1" class="evidence-row">
+        <td colspan="3">
+          <div class="evidence-content">
+            🔍 <b>УЛИКА #882:</b> В игре воссоздано 620 кв. км Лос-Анджелеса. <br>
+            ⚠️ <b>СЕКРЕТ:</b> Можно разблокировать Снуп Догга как игрового персонажа.
+          </div>
+        </td>
+      </tr>
+
+      <tr onclick="toggleEvidence('ev2')">
+        <td data-label="ID">2005-NY</td>
+        <td data-label="ОБЪЕКТ">New York City</td>
+        <td>АКТИВНО</td>
+      </tr>
+      <tr id="ev2" class="evidence-row">
+        <td colspan="3">
+          <div class="evidence-content">
+            🔍 <b>УЛИКА #901:</b> Маркус Рид может обыскивать любого прохожего. <br>
+            ⚠️ <b>ФАКТ:</b> В игре присутствует полноценная ветка «грязного копа» с продажей вещдоков.
+          </div>
+        </td>
+      </tr>
+
+      <tr onclick="toggleEvidence('ev3')">
+        <td data-label="ID">2012-HK</td>
+        <td data-label="ОБЪЕКТ">Sleeping Dogs</td>
+        <td>ПЕРЕДАНО</td>
+      </tr>
+      <tr id="ev3" class="evidence-row">
+        <td colspan="3">
+          <div class="evidence-content">
+            🔍 <b>УЛИКА #104:</b> Начиналась как True Crime: Hong Kong. <br>
+            ⚠️ <b>СТАТУС:</b> Упор на боевые искусства и контактный бой.
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="scanner-panel">
+    <div class="scanner-header">
+      <span>RADIO SCANNER: ACTIVE</span>
+      <span id="scanner-time">00:00</span>
+    </div>
+    <div id="scanner-text">Ожидание входящих сводок...</div>
   </div>
 
-  <div class="table-wrapper">
-    <table>
-      <thead>
-        <tr>
-          <th>📅 Год</th>
-          <th>🎮 Игра</th>
-          <th>🌆 Город</th>
-          <th>🕵️ Досье</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td data-label="📅 Год"><b>2003</b></td>
-          <td data-label="🎮 Игра"><b>Streets of LA</b></td>
-          <td data-label="🌆 Город">Лос-Анджелес</td>
-          <td>Ник Кэнг расследует взрывы. Первая игра с системой репутации.</td>
-        </tr>
-        <tr>
-          <td data-label="📅 Год"><b>2005</b></td>
-          <td data-label="🎮 Игра"><b>New York City</b></td>
-          <td data-label="🌆 Город">Нью-Йорк</td>
-          <td>Маркус Рид ищет предателя в спецотделе. Огромный открытый мир.</td>
-        </tr>
-        <tr>
-          <td data-label="📅 Год"><b>2012</b></td>
-          <td data-label="🎮 Игра"><b>Sleeping Dogs</b></td>
-          <td data-label="🌆 Город">Гонконг</td>
-          <td>Духовный наследник (бывший True Crime: Hong Kong). Вэй Шэнь внедряется в Триаду.</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="era-box">
-    <h3>📂 ОПЕРАТИВНАЯ СВОДКА:</h3>
-    <p>• <b>Ник Кэнг</b>: Известен разрушением половины города при задержании карманника.</p>
-    <p>• <b>Маркус Рид</b>: Бывший гангстер. Его методы вызывают вопросы у внутренней безопасности.</p>
-  </div>
-
-  <div class="note">
-    💡 True Crime — это не просто клон GTA. Это симулятор копа с обысками, допросами и реальными городами.
+  <div class="btn-group">
+    <button class="btn" onclick="updateScanner()">ПЕРЕХВАТИТЬ РАДИО</button>
+    <button class="btn" onclick="changeTheme()">СМЕНИТЬ РЕЖИМ (🚨)</button>
   </div>
 </div>
 
 <script>
-  function setMode(mode) {
-    const body = document.getElementById('mainBody');
-    const title = document.getElementById('title');
-    const btns = document.querySelectorAll('.meter-btn');
+  // 1. Раскрытие улик
+  function toggleEvidence(id) {
+    const row = document.getElementById(id);
+    const isVisible = row.style.display === 'table-row';
     
-    btns.forEach(b => b.classList.remove('active'));
+    // Закрываем все
+    document.querySelectorAll('.evidence-row').forEach(r => r.style.display = 'none');
+    
+    // Открываем нужную
+    row.style.display = isVisible ? 'none' : 'table-row';
+    
+    // Звук клика (бип)
+    playBeep(isVisible ? 400 : 800);
+  }
 
-    if (mode === 'good') {
-      body.style.background = 'linear-gradient(135deg, #050a1a, #102040)';
-      document.documentElement.style.setProperty('--accent', '#00f2ff');
-      title.innerText = "🚔 TRUE CRIME: ORDER";
-      event.target.classList.add('active');
-      playTone(440, 660);
+  // 2. Сканер сводок
+  const reports = [
+    "Код 10-31: Подозрительный субъект в районе Голливуда...",
+    "Внимание всем постам: Угон служебного транспорта на 5-й авеню!",
+    "Диспетчер: Зафиксирована стрельба в Чайна-тауне. Срочно выслать патруль.",
+    "Сообщение: Офицер Кэнг снова разбил три машины за одну смену.",
+    "Объект Маркус Рид замечен в нелегальном ломбарде. Наблюдайте."
+  ];
+
+  function updateScanner() {
+    const textEl = document.getElementById('scanner-text');
+    const randomReport = reports[Math.floor(Math.random() * reports.length)];
+    
+    let i = 0;
+    textEl.innerHTML = "> ";
+    function type() {
+      if (i < randomReport.length) {
+        textEl.innerHTML += randomReport.charAt(i);
+        i++;
+        setTimeout(type, 30);
+      }
+    }
+    type();
+    playBeep(200);
+  }
+
+  // 3. Смена темы (Хороший/Плохой)
+  let isBad = false;
+  function changeTheme() {
+    isBad = !isBad;
+    const root = document.documentElement;
+    const title = document.getElementById('main-title');
+    
+    if(isBad) {
+      root.style.setProperty('--accent', '#ff3366');
+      title.innerText = "CRIMINAL RECORDS";
+      playBeep(100);
     } else {
-      body.style.background = 'linear-gradient(135deg, #1a0505, #401010)';
-      document.documentElement.style.setProperty('--accent', '#ff3333');
-      title.innerText = "🚨 TRUE CRIME: CHAOS";
-      event.target.classList.add('active');
-      playTone(220, 110);
+      root.style.setProperty('--accent', '#00f2ff');
+      title.innerText = "Police Terminal v4.1";
+      playBeep(1000);
     }
   }
 
-  function playTone(f1, f2) {
+  function playBeep(freq) {
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
-    osc.frequency.setValueAtTime(f1, audioCtx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(f2, audioCtx.currentTime + 0.2);
-    gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+    gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
     osc.connect(gain); gain.connect(audioCtx.destination);
-    osc.start(); osc.stop(audioCtx.currentTime + 0.2);
+    osc.start(); osc.stop(audioCtx.currentTime + 0.1);
   }
+
+  // Обновление времени
+  setInterval(() => {
+    const now = new Date();
+    document.getElementById('scanner-time').innerText = now.toLocaleTimeString();
+  }, 1000);
 </script>
 
 </body>
