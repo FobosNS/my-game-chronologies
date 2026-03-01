@@ -192,6 +192,67 @@
       min-height: 1.2em;
     }
 
+    /* Свиток Судьбы */
+    .scroll-container {
+      margin: 40px auto;
+      max-width: 600px;
+      perspective: 1000px;
+      cursor: pointer;
+    }
+
+    .scroll-body {
+      background: #e6d5b8;
+      background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+      color: #3e2f1b;
+      padding: 0 30px;
+      height: 0;
+      overflow: hidden;
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      border-left: 15px solid #5a4520;
+      border-right: 15px solid #5a4520;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      position: relative;
+    }
+
+    .scroll-container:hover .scroll-body {
+      height: 250px;
+      padding: 30px;
+    }
+
+    .scroll-roller {
+      height: 25px;
+      background: linear-gradient(to right, #3e2f1b, #5a4520, #3e2f1b);
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.6);
+    }
+
+    .scroll-content {
+      font-family: 'Cinzel', serif;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: 0.5s 0.3s;
+    }
+
+    .scroll-container:hover .scroll-content {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .scroll-content h4 {
+      margin-top: 0;
+      color: #8b4513;
+      border-bottom: 1px solid rgba(139, 69, 19, 0.2);
+      display: inline-block;
+      padding-bottom: 5px;
+    }
+
+    #prophecy-text {
+      font-size: 1.1rem;
+      line-height: 1.5;
+      font-style: italic;
+    }
+
     .footer-note {
       text-align: center;
       margin-top: 40px;
@@ -226,57 +287,189 @@
     <button class="tab-btn" onclick="openTab(event, 'lore')">Легенды</button>
   </nav>
 
-  <div id="timeline" class="tab-content active">
+<div id="timeline" class="tab-content active">
     <table>
       <thead>
         <tr>
-          <th>ПЕРИОД</th>
+          <th>ПЕРИОД / ГОД</th>
           <th>НАЗВАНИЕ</th>
+          <th>👤 ГЕРОЙ</th>
           <th>СУТЬ ИСТОРИИ</th>
         </tr>
       </thead>
       <tbody>
-        <tr><td>1989-1999</td><td><b>Classic Era</b></td><td>Побег из темницы Джаффара. Революционная ротоскопическая анимация.</td></tr>
-        <tr><td>IX век</td><td><b>The Sands of Time</b></td><td>Принц открывает Песочные Часы. Начало пути искупления и любви к Фаре.</td></tr>
-        <tr><td>Спустя 7 лет</td><td><b>Warrior Within</b></td><td>Бегство от Дахака (Хранителя Времени). Мрачный Принц на Острове Времени.</td></tr>
-        <tr><td>Финал</td><td><b>The Two Thrones</b></td><td>Возвращение в Вавилон. Борьба с внутренним Тёмным Принцем.</td></tr>
-        <tr><td>2008</td><td><b>The Prodigal</b></td><td>Новая вселенная. Дуэт с Эликой и битва против бога тьмы Ахримана.</td></tr>
-        <tr><td>2024</td><td><b>The Lost Crown</b></td><td>Саргон (бессмертный защитник) отправляется на гору Каф. Возврат к 2D корням.</td></tr>
+        <tr>
+          <td>1989 — 1999</td>
+          <td><b>Classic Trilogy</b></td>
+          <td>Сын Шаха</td>
+          <td>От спасения принцессы в подземельях до битвы с Тенью и перехода в 3D. Основа жанра «кинематографический платформер».</td>
+        </tr>
+        
+        <tr>
+          <td>IX век</td>
+          <td><b>The Sands of Time</b></td>
+          <td>Принц</td>
+          <td>Осада Азада. Наивный герой совершает роковую ошибку, открыв песочные часы, и учится ценить время и любовь Фары.</td>
+        </tr>
+
+        <tr>
+          <td>Между SoT и WW</td>
+          <td><b>The Forgotten Sands</b></td>
+          <td>Принц</td>
+          <td>Принц навещает королевство брата Малика и сталкивается с древней армией Соломона. Здесь он обретает власть над водой.</td>
+        </tr>
+
+        <tr>
+          <td>Спустя 3 года</td>
+          <td><b>Battles of PoP</b></td>
+          <td>Принц / Кили</td>
+          <td>Портативная стратегия о конфликте Персии и Индии. Раскрывает, как Принц узнал о Дахаке и начал сходить с ума.</td>
+        </tr>
+
+        <tr>
+          <td>Спустя 7 лет</td>
+          <td><b>Warrior Within</b></td>
+          <td>Скиталец</td>
+          <td>Самая мрачная глава. Принц пытается стереть саму возможность создания Песков на Острове Времени, чтобы спастись от Дахака.</td>
+        </tr>
+
+        <tr>
+          <td>Сразу после WW</td>
+          <td><b>The Two Thrones</b></td>
+          <td>Принц + Тень</td>
+          <td>Возвращение в горящий Вавилон. Финальная схватка с Визирем и внутренним демоном за право быть истинным королем.</td>
+        </tr>
+
+        <tr>
+          <td>2008</td>
+          <td><b>Prince of Persia</b></td>
+          <td>Авантюрист</td>
+          <td>Забытая эпоха. Поиск потерянного осла приводит к освобождению бога тьмы Ахримана. Исцеление земель вместе с Эликой.</td>
+        </tr>
+
+        <tr>
+          <td>2008 (DS)</td>
+          <td><b>The Fallen King</b></td>
+          <td>Авантюрист</td>
+          <td>Прямое продолжение игры 2008 года. Принц объединяется с магом Залом, чтобы остановить распространение Скверны.</td>
+        </tr>
+
+        <tr>
+          <td>2024</td>
+          <td><b>The Lost Crown</b></td>
+          <td>Саргон</td>
+          <td>Метроидвания о «Бессмертных». Поиск похищенного принца Гассана в проклятой цитадели на горе Каф, где время сошло с ума.</td>
+        </tr>
+
+        <tr>
+          <td>2024+</td>
+          <td><b>The Rogue PoP</b></td>
+          <td>Принц</td>
+          <td>Экшен-рогалик. Нашествие гуннов, владеющих темной магией. Принц использует магический медальон для бесконечного возрождения.</td>
+        </tr>
       </tbody>
     </table>
   </div>
 
-  <div id="artifacts" class="tab-content">
+<div id="artifacts" class="tab-content">
     <div class="grid">
       <div class="card" onclick="this.style.borderColor='#ffd780'">
         <h3>⏳ КИНЖАЛ ВРЕМЕНИ</h3>
         <p><span class="tag">Magic</span> <span class="tag">Core</span></p>
-        <p>Единственное оружие, способное удерживать Пески. Позволяет отматывать время назад и уничтожать песчаных монстров.</p>
+        <p>Главный ключ к силе Песков. Позволяет владельцу отматывать время, замораживать врагов и видеть проблески будущего. Без него Пески — это лишь проклятая пыль.</p>
       </div>
-      <div class="card">
-        <h3>🗡️ МЕЧ ВОДЫ</h3>
-        <p><span class="tag">Weapon</span> <span class="tag">Secret</span></p>
-        <p>Легендарный клинок из Warrior Within. Единственное оружие, способное нанести урон самому Дахаку.</p>
-      </div>
+
       <div class="card">
         <h3>🏺 ПЕСОЧНЫЕ ЧАСЫ</h3>
         <p><span class="tag">Relic</span> <span class="tag">Danger</span></p>
-        <p>Источник проклятия. Тот, кто откроет их без Кинжала, превратится в песчаное чудовище.</p>
+        <p>Древний сосуд, созданный Богиней Времени. Содержит в себе Пески, способные даровать бессмертие целой армии, превращая их при этом в послушных чудовищ.</p>
+      </div>
+
+      <div class="card">
+        <h3>🗡️ МЕЧ ВОДЫ</h3>
+        <p><span class="tag">Weapon</span> <span class="tag">Secret</span></p>
+        <p>Единственный элемент, который Дахака — порождение пустоты — не может поглотить. Клинок, способный изменить предначертанную смерть Принца на Острове Времени.</p>
+      </div>
+
+      <div class="card">
+        <h3>🎭 МАСКА ПРИЗРАКА</h3>
+        <p><span class="tag">Cursed</span> <span class="tag">Fate</span></p>
+        <p>Позволяет носителю сосуществовать со своей прошлой копией в одном потоке времени. Плата ужасна: маска медленно вытягивает жизнь, пока не сольется с лицом навсегда.</p>
+      </div>
+
+      <div class="card">
+        <h3>🧤 ПЕРЧАТКА ЭЛИКИ</h3>
+        <p><span class="tag">Divine</span> <span class="tag">Support</span></p>
+        <p>Артефакт из эпохи Ахримана. Позволяет Принцу совершать невероятные прыжки и скользить по отвесным стенам, используя магию света Ормузда.</p>
+      </div>
+
+      <div class="card">
+        <h3>💎 МЕДАЛЬОН СИПВАНА</h3>
+        <p><span class="tag">Ancient</span> <span class="tag">Protection</span></p>
+        <p>Из забытых песков (The Forgotten Sands). Дарует власть над стихиями: заморозку воды, призыв памяти земли и создание рывков сквозь пространство.</p>
+      </div>
+
+      <div class="card">
+        <h3>🏹 АМУЛЕТЫ СИМУРГА</h3>
+        <p><span class="tag">Godly</span> <span class="tag">New Era</span></p>
+        <p>Даруют Саргону божественные способности: рывки в воздухе, создание «тени» для телепортации и видение скрытых путей на горе Каф.</p>
+      </div>
+
+      <div class="card">
+        <h3>🐍 КЛИНКИ КУШАЙН</h3>
+        <p><span class="tag">Melee</span> <span class="tag">Speed</span></p>
+        <p>Парные клинки, заточенные в пламени древних богов. Чем быстрее танец Принца, тем ярче горит сталь, разрезая саму ткань реальности.</p>
       </div>
     </div>
   </div>
 
-  <div id="lore" class="tab-content">
-    <div class="card" style="border-left: 4px solid #d4af37;">
-      <h3>📜 МУДРОСТЬ ВРЕМЕНИ</h3>
-      <p>• <b>Время — это не река</b>, текущая в одном направлении. Это бушующий океан, где можно изменить течение, если у тебя есть воля.</p>
-      <p>• <b>Дахака</b> олицетворяет неизбежность. Нельзя просто стереть свои ошибки — за каждую попытку изменить прошлое придется платить в настоящем.</p>
+<div id="lore" class="tab-content">
+    <div class="grid">
+      <div class="card" style="grid-column: 1 / -1; border-left: 5px solid #d4af37; background: rgba(45, 35, 20, 0.7);">
+        <h3>📜 ФИЛОСОФИЯ ОКЕАНА ВРЕМЕНИ</h3>
+        <p>«Большинство людей верит, что время — это река, которая течет всегда в одном направлении. Но я видел лицо времени, и я могу сказать тебе: они ошибаются. Время — это бушующий океан. Ты можешь спросить, кто я и почему я это говорю... Присядь, и я расскажу тебе сказку, подобной которой ты еще не слышал...»</p>
+      </div>
+
+      <div class="card">
+        <h3>👤 ДАХАКА: ВОПЛОЩЕНИЕ КАРМЫ</h3>
+        <p><b>Дахака</b> — это не зло в привычном понимании. Это иммунная система Вселенной. Когда Принц спас Фару и отменил свою смерть, он создал парадокс. Дахака явился, чтобы «исправить» временную линию, удалив из неё аномалию — самого Принца. Его нельзя убить сталью, ибо нельзя убить саму Судьбу.</p>
+      </div>
+
+      <div class="card">
+        <h3>🌗 ДУАЛИЗМ: ТЁМНЫЙ ПРИНЦ</h3>
+        <p>Пески Времени развращают не только плоть, но и душу. <b>Тёмный Принц</b> — это голос эгоизма, жестокости и жажды власти, который живет внутри каждого. В *The Two Thrones* мы видим, что главная битва героя происходит не с Визирем, а с самим собой за право остаться человеком.</p>
+      </div>
+
+      <div class="card">
+        <h3>🦅 ГАЙЯ И ПРОРОЧЕСТВО СИМУРГА</h3>
+        <p>На горе Каф время не просто течет иначе — оно раздроблено. Легенды гласят, что божественная птица <b>Симург</b> дарует свою силу лишь тем, кто готов принять хаос прошлого и будущего как единое целое. Здесь «Бессмертные» осознают: защищать корону — значит защищать само течение истории.</p>
+      </div>
+
+      <div class="card">
+        <h3>☣️ ПЕСЧАНАЯ СКВЕРНА</h3>
+        <p>Пески — это не только могущество, но и высшая форма разложения. Те, кто поддался их зову, навсегда застревают в моменте своей смерти, становясь песчаными зомби. Они обречены вечно повторять свои последние действия, лишенные разума и души.</p>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 30px; font-family: 'Cinzel'; color: #ffd780; letter-spacing: 2px;">
+      <p><i>«Каждый делает свой выбор. Но в конце концов, именно выбор делает нас.»</i></p>
     </div>
   </div>
 
   <div class="footer-note">
     <p>«Время — не враг. Оно — испытание, которое проходят лишь достойные».</p>
     <p>Использовано попыток изменить судьбу: <span id="life-counter">0</span></p>
+  </div>
+
+  <div class="scroll-container" onmouseenter="generateProphecy()">
+    <div class="scroll-roller"></div>
+    <div class="scroll-body">
+      <div class="scroll-content">
+        <h4>Пророчество Песков</h4>
+        <p id="prophecy-text">Наведи на свиток, чтобы узнать свою судьбу...</p>
+      </div>
+    </div>
+    <div class="scroll-roller"></div>
   </div>
 </div>
 
@@ -328,6 +521,23 @@
     document.getElementById(tabName).style.display = "block";
     document.getElementById(tabName).classList.add("active");
     evt.currentTarget.classList.add("active");
+  }
+
+  const prophecies = [
+    "То, что предписано, нельзя изменить. Но можно пережить.",
+    "Время — это океан. Берегись его штормов, Принц.",
+    "Ты ищешь искупления там, где его нет. Взгляни внутрь себя.",
+    "Дахака следует за тобой по пятам. Твой след в истории — его цель.",
+    "Пески Времени — дар и проклятие. Не злоупотребляй их силой.",
+    "Тень, которую ты отбрасываешь, однажды заговорит с тобой.",
+    "Смерть — это лишь начало новой временной линии.",
+    "Меч воды охладит пыл судьбы, но не потушит его навсегда."
+  ];
+
+  function generateProphecy() {
+    const textElement = document.getElementById('prophecy-text');
+    const randomIndex = Math.floor(Math.random() * prophecies.length);
+    textElement.innerText = prophecies[randomIndex];
   }
 </script>
 
