@@ -134,6 +134,55 @@
     }
 
     b { color: #fff; }
+
+    .stats-panel {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 30px;
+      padding: 20px;
+      background: rgba(0, 240, 255, 0.03);
+      border: 1px dashed #1a3a5a;
+      position: relative;
+    }
+
+    .stat-item {
+      text-align: center;
+      border-right: 1px solid rgba(0, 240, 255, 0.1);
+    }
+
+    .stat-item:last-child { border-right: none; }
+
+    .stat-value {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.5rem;
+      color: #ff66cc;
+      display: block;
+      text-shadow: 0 0 10px rgba(255, 102, 204, 0.5);
+    }
+
+    .stat-label {
+      font-size: 0.7rem;
+      color: #00f0ff;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .pulse-dot {
+      height: 8px;
+      width: 8px;
+      background-color: #ff0000;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 10px;
+      animation: pulse-red 1s infinite;
+    }
+
+    @keyframes pulse-red {
+      0% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
+    }
   </style>
 </head>
 <body>
@@ -303,6 +352,32 @@
     </div>
   </div>
 
+<div class="stats-panel">
+    <div style="position: absolute; top: -10px; left: 10px; background: #0a1423; padding: 0 10px; font-size: 0.7rem; color: #00f0ff;">
+      <span class="pulse-dot"></span>GLOBAL_CRIMINAL_RECORD_V.4
+    </div>
+    
+    <div class="stat-item">
+      <span class="stat-value">4,129,000+</span>
+      <span class="stat-label">Разбитых патрульных машин</span>
+    </div>
+    
+    <div class="stat-item">
+      <span class="stat-value">$1.2B</span>
+      <span class="stat-label">Общий ущерб городу</span>
+    </div>
+    
+    <div class="stat-item">
+      <span class="stat-value">#1</span>
+      <span class="stat-label">Статус: Самый разыскиваемый</span>
+    </div>
+    
+    <div class="stat-item">
+      <span class="stat-value">99.9%</span>
+      <span class="stat-label">Вероятность ухода от погони</span>
+    </div>
+  </div>
+  
   <div class="footer-note">
     «I WANT EVERY UNIT AFTER THE GUY... EVERYONE!» — СЕРЖАНТ КРОСС
   </div>
