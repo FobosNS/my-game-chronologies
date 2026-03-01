@@ -3,200 +3,232 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Wolfenstein — Все игры</title>
+  <title>Wolfenstein — Архивы Сопротивления</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap');
+
+    :root {
+      --w-red: #ff3333;
+      --w-gold: #ffffaa;
+      --w-bg: #1a0505;
+      --w-panel: rgba(30, 10, 10, 0.95);
+    }
+
     body {
-      font-family: 'Orbitron', 'Share Tech Mono', monospace;
-      background: linear-gradient(135deg, #1a0505, #2a0808);
+      font-family: 'Share Tech Mono', monospace;
+      background: var(--w-bg);
+      background-image: linear-gradient(135deg, #1a0505, #2a0808);
       color: #ffd7b0;
-      padding: 25px;
+      padding: clamp(10px, 5vw, 30px);
       margin: 0;
       line-height: 1.6;
-      font-size: 14px;
     }
-    h2 {
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      border: 2px solid #5a1a1a;
+      background: var(--w-panel);
+      padding: clamp(15px, 3vw, 30px);
+      box-shadow: 0 0 50px rgba(0,0,0,0.8);
+    }
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
       text-align: center;
-      color: #ff3333;
-      font-size: 26px;
-      margin-bottom: 8px;
-      text-shadow: 0 0 10px rgba(255, 51, 51, 0.5);
+      color: var(--w-red);
+      font-size: clamp(1.5rem, 6vw, 2.5rem);
+      text-shadow: 0 0 15px rgba(255, 51, 51, 0.6);
+      margin-bottom: 5px;
     }
-    .subtitle {
-      text-align: center;
-      color: #88ccff;
-      font-size: 15px;
-      margin-bottom: 20px;
-      font-style: italic;
+
+    .glitch { animation: glitch 3s infinite; }
+    @keyframes glitch {
+      0% { text-shadow: 2px 0 red; }
+      1% { text-shadow: -2px 0 blue; transform: scale(1.01); }
+      2% { text-shadow: 0 0; transform: scale(1); }
     }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 0 auto 24px;
-      background: rgba(30, 10, 10, 0.92);
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.7);
+
+    .tabs-nav {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 25px 0;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      background: #320f0f;
+      border: 1px solid var(--w-red);
+      color: var(--w-gold);
+      padding: 12px 20px;
+      cursor: pointer;
+      font-family: 'Orbitron';
+      transition: 0.3s;
+      flex: 1 1 150px;
+    }
+
+    .tab-btn.active {
+      background: var(--w-red);
+      color: #000;
+      box-shadow: 0 0 20px var(--w-red);
+    }
+
+    /* Таблица с мобильной адаптацией */
+    .table-wrapper { width: 100%; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+    th { background: #4a1515; color: var(--w-gold); padding: 12px; text-align: left; font-size: 0.8rem; }
+    td { padding: 12px; border-bottom: 1px solid #5a1a1a; vertical-align: top; }
+
+    @media (max-width: 768px) {
+      table, thead, tbody, th, td, tr { display: block; }
+      thead { display: none; }
+      tr { margin-bottom: 15px; border: 1px solid var(--w-red); padding: 10px; }
+      td { border: none; padding-left: 45% !important; position: relative; text-align: right; }
+      td::before {
+        content: attr(data-label);
+        position: absolute; left: 10px; font-weight: bold; color: var(--w-red); text-transform: uppercase; font-size: 0.7rem;
+      }
+    }
+
+    /* Секция интерактивного досье */
+    .dossier-card {
+      background: rgba(0,0,0,0.4);
       border: 1px solid #5a1a1a;
-    }
-    th, td {
-      padding: 12px 10px;
-      text-align: left;
-      border-bottom: 1px solid #4a1515;
-    }
-    th {
-      background: rgba(50, 15, 15, 0.95);
-      color: #ffffaa;
-      font-weight: bold;
-      font-size: 13px;
-      letter-spacing: 0.8px;
-      text-transform: uppercase;
-    }
-    tr:last-child td {
-      border-bottom: none;
-    }
-    tr:hover {
-      background: rgba(60, 20, 20, 0.7);
-    }
-    .era {
-      margin-top: 20px;
-      padding: 14px;
-      background: rgba(40, 15, 15, 0.8);
-      border-left: 3px solid #ff3333;
-      font-size: 13px;
-    }
-    .era b { color: #ff6666; }
-    .note {
-      margin-top: 18px;
-      font-size: 12px;
-      color: #d8a080;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
       text-align: center;
-      line-height: 1.5;
     }
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap');
+
+    .bj-image {
+      width: 150px;
+      height: 150px;
+      border: 2px solid var(--w-red);
+      background: url('https://upload.wikimedia.org/wikipedia/en/1/1d/B.J._Blazkowicz_New_Order.png') center/cover;
+      filter: sepia(1) hue-rotate(-50deg);
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+    }
+
+    .typewriter {
+      font-size: 1.1rem;
+      color: var(--w-gold);
+      min-height: 3em;
+    }
+
+    .tab-content { display: none; animation: fadeIn 0.5s; }
+    .tab-content.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
   </style>
 </head>
 <body>
-  <h2>🩸 WOLFENSTEIN — ВСЕ ИГРЫ НА ВСЕХ ПЛАТФОРМАХ</h2>
-  <div class="subtitle">«Свобода требует крови»</div>
 
-  <h3 style="color:#ff6666; margin-top:30px;">🔸 Классическая эра (1981–1992)</h3>
-  <table>
-    <thead>
-      <tr>
-        <th>Год</th>
-        <th>Игра</th>
-        <th>Платформы</th>
-        <th>Описание</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>1981</td>
-        <td><b>Castle Wolfenstein</b></td>
-        <td>Apple II, Atari 8-bit, DOS</td>
-        <td>Оригинал. Стелс-игра: крадёшься по замку, избегаешь охрану, ищешь секретные планы.</td>
-      </tr>
-      <tr>
-        <td>1984</td>
-        <td><b>Beyond Castle Wolfenstein</b></td>
-        <td>Apple II, Commodore 64, DOS</td>
-        <td>Продолжение. Проникаешь в штаб-квартиру нацистов в Берлине, чтобы подложить бомбу на встрече Гитлера.</td>
-      </tr>
-      <tr>
-        <td>1992</td>
-        <td><b>Wolfenstein 3D</b></td>
-        <td>PC, Mac, SNES, Jaguar, 3DO, и др.</td>
-        <td>Родоначальник FPS. Бьёшь нацистов, ищешь секреты, убиваешь Гитлера с цепной пилой.</td>
-      </tr>
-      <tr>
-        <td>1992</td>
-        <td><b>Spear of Destiny</b></td>
-        <td>PC, Mac, SNES, и др.</td>
-        <td>Спин-офф W3D. Миссия: украсть Копьё Судьбы у нацистов.</td>
-      </tr>
-      <tr>
-        <td>1994</td>
-        <td><b>Return to Castle Wolfenstein</b></td>
-        <td>PC, PS2, Xbox</td>
-        <td>Перезапуск. Блэк — солдат ОСС. Борется с оккультными нацистами и зомби. Введение сюжета и коопа.</td>
-      </tr>
-    </tbody>
-  </table>
+<div class="container">
+  <header>
+    <h1 class="glitch">WOLFENSTEIN: ARCHIVES</h1>
+    <div style="text-align:center; color: #88ccff; font-style: italic;">«Свобода требует крови и свинца»</div>
+  </header>
 
-  <h3 style="color:#ff6666; margin-top:30px;">🔸 Современная эра (2001–н.в.) — Единая сага</h3>
-  <table>
-    <thead>
-      <tr>
-        <th>Год</th>
-        <th>Игра</th>
-        <th>Платформы</th>
-        <th>Описание</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>2001</td>
-        <td><b>Wolfenstein: Enemy Territory</b></td>
-        <td>PC (бесплатно)</td>
-        <td>Мультиплеерный шутер. Команды: Союзники vs. Оси. Нет сюжета, но каноничен по лору.</td>
-      </tr>
-      <tr>
-        <td>2009</td>
-        <td><b>Wolfenstein</b></td>
-        <td>PC, PS3, Xbox 360</td>
-        <td>Перезапуск. Блэк получает магическую руку «Вельткрафт». Борется с параллельными мирами.</td>
-      </tr>
-      <tr>
-        <td>2014</td>
-        <td><b>Wolfenstein: The New Order</b></td>
-        <td>PC, PS3, PS4, Xbox 360, Xbox One</td>
-        <td>Альтернативная история: нацисты выиграли войну. Блэк в коме 14 лет. Начало новой саги.</td>
-      </tr>
-      <tr>
-        <td>2015</td>
-        <td><b>Wolfenstein: The Old Blood</b></td>
-        <td>PC, PS4, Xbox One</td>
-        <td>Приквел к TNO. Блэк ищет Копьё Судьбы в Баварии. Введение персонажа Хельги.</td>
-      </tr>
-      <tr>
-        <td>2017</td>
-        <td><b>Wolfenstein II: The New Colossus</b></td>
-        <td>PC, PS4, Xbox One, Switch</td>
-        <td>Продолжение TNO. Блэк возглавляет восстание в США. Убивает Гитлера на Марсе.</td>
-      </tr>
-      <tr>
-        <td>2019</td>
-        <td><b>Wolfenstein: Youngblood</b></td>
-        <td>PC, PS4, Xbox One, Switch</td>
-        <td>Спин-офф. Дочери Блэка — Джесс и Сэди — ищут отца в оккупированном Париже 1980-х.</td>
-      </tr>
-      <tr>
-        <td>2019</td>
-        <td><b>Wolfenstein: Cyberpilot</b></td>
-        <td>PC (VR), PSVR</td>
-        <td>VR-игра. Игрок — хакер, управляющий нацистскими роботами изнутри.</td>
-      </tr>
-      <tr>
-        <td>2023</td>
-        <td><b>Wolfenstein: Enemy Territory – Remastered</b></td>
-        <td>PC (анонсировано)</td>
-        <td>Полный ремастер классического мультиплеера с улучшенной графикой.</td>
-      </tr>
-    </tbody>
-  </table>
+  <nav class="tabs-nav">
+    <button class="tab-btn active" onclick="openTab('classic')">📜 КЛАССИКА</button>
+    <button class="tab-btn" onclick="openTab('modern')">🔥 НОВАЯ САГА</button>
+    <button class="tab-btn" onclick="openTab('dossier')">👤 ДОСЬЕ BJ</button>
+  </nav>
 
-  <div class="era">
-    <b>🔹 Примечания:</b><br>
-    • <b>Wolfenstein (2009)</b> — не связан с сагой MachineGames (TNO и далее).<br>
-    • <b>Enemy Territory</b> — каноничен, но без сюжетной кампании.<br>
-    • Все игры MachineGames (2014–2019) — единая хронология: <i>Old Blood → New Order → New Colossus → Youngblood</i>.<br>
-    • <b>Мобильные игры</b> (например, *Wolfenstein RPG*, 2008) — неканоничны или отдельные вселенные.
+  <div id="classic" class="tab-content active">
+    <table>
+      <thead>
+        <tr><th>Год</th><th>Игра</th><th>BJ Mission</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td data-label="Год">1992</td>
+          <td data-label="Игра"><b>Wolfenstein 3D</b></td>
+          <td>Побег из замка и ликвидация Гитлера в механическом костюме.</td>
+        </tr>
+        <tr>
+          <td data-label="Год">2001</td>
+          <td data-label="Игра"><b>Return to Castle Wolfenstein</b></td>
+          <td>Борьба с паранормальным дивизионом СС и воскрешенным королем Генрихом I.</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
-  <div class="note">
-    💀 <i>Wolfenstein 3D</i> — родоначальник жанра FPS. Без него не было бы Doom или Quake.<br>
-    <i>The New Order</i> получил признание за глубокий сюжет и смелую альтернативную историю.<br>
-    Слоган MachineGames: «Make hate afraid».
+  <div id="modern" class="tab-content">
+    <table>
+      <thead>
+        <tr><th>Год</th><th>Игра</th><th>Описание</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td data-label="Год">2014</td>
+          <td data-label="Игра"><b>The New Order</b></td>
+          <td>1960 год. Нацисты захватили мир. Би-Джей собирает Сопротивление.</td>
+        </tr>
+        <tr>
+          <td data-label="Год">2017</td>
+          <td data-label="Игра"><b>The New Colossus</b></td>
+          <td>Революция во второй Американской республике.</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
+
+  <div id="dossier" class="tab-content">
+    <div class="dossier-card">
+      <div class="bj-image"></div>
+      <div class="typewriter" id="typewriter">Нажмите кнопку для расшифровки данных...</div>
+      <button class="tab-btn" onclick="decodeDossier()">РАСШИФРОВАТЬ ДАННЫЕ</button>
+    </div>
+  </div>
+
+  <div style="background: rgba(255,51,51,0.1); border-left: 4px solid var(--w-red); padding: 15px; margin-top: 20px; font-size: 0.85rem;">
+    <b>СВОДКА:</b> Хронология MachineGames (с 2014 года) является отдельной альтернативной реальностью. 
+    Главный герой — <b>Уильям Джозеф «Би-Джей» Бласковиц</b>.
+  </div>
+</div>
+
+<script>
+  function openTab(tabId) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+    event.currentTarget.classList.add('active');
+  }
+
+  function decodeDossier() {
+    const text = "ОБЪЕКТ: Уильям Бласковиц. СТАТУС: Активен. ЦЕЛЬ: Полная деоккупация. ЛЮБИМОЕ ОРУЖИЕ: Две штурмовые винтовки 1960-го года. ДЕВИЗ: 'Убивать нацистов — это не работа, это призвание'.";
+    const el = document.getElementById('typewriter');
+    el.innerHTML = "";
+    let i = 0;
+    
+    // Эффект печати
+    function type() {
+      if (i < text.length) {
+        el.innerHTML += text.charAt(i);
+        i++;
+        setTimeout(type, 30);
+      }
+    }
+    type();
+    
+    // Звуковой эффект (процедурный)
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'square';
+    osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+    gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.1);
+  }
+</script>
+
 </body>
 </html>
