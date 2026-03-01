@@ -3,178 +3,299 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Civilization — Chronology</title>
+  <title>Civilization — Imperial Archive</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+
+    :root {
+      --gold: #d4af37;
+      --deep-green: #1a2418;
+      --parchment: #fdf5e6;
+      --border: 1px solid rgba(212, 175, 55, 0.4);
+    }
+
     body {
-      font-family: 'Cinzel', 'Noto Sans JP', serif;
-      background: linear-gradient(135deg, #151a10, #222a18);
-      color: #f0e8d0;
-      padding: 25px;
+      font-family: 'Playfair Display', serif;
+      background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://www.transparenttextures.com/patterns/dark-leather.png'), #1a1a1a;
+      color: #e2d1b0;
       margin: 0;
-      line-height: 1.6;
-      font-size: 15px;
+      padding: clamp(10px, 5vw, 40px);
     }
-    h2 {
-      text-align: center;
-      color: #d4af37;
-      font-size: 28px;
-      margin-bottom: 8px;
-      text-shadow: 0 0 12px rgba(212, 175, 55, 0.5);
-      letter-spacing: 1px;
+
+    .container { max-width: 1200px; margin: 0 auto; }
+
+    header { text-align: center; border-bottom: 2px double var(--gold); padding-bottom: 20px; margin-bottom: 40px; }
+
+    h1 { font-family: 'Cinzel', serif; color: var(--gold); font-size: clamp(1.5rem, 6vw, 2.5rem); margin: 0; letter-spacing: 5px; }
+
+    /* Навигация (Вкладки) */
+    .nav-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
+    .tab-btn {
+      background: transparent;
+      border: var(--border);
+      color: var(--gold);
+      padding: 10px 25px;
+      font-family: 'Cinzel', serif;
+      cursor: pointer;
+      transition: 0.3s;
     }
-    .subtitle {
-      text-align: center;
-      color: #c0a080;
-      font-size: 16px;
-      margin-bottom: 24px;
-      font-style: italic;
-      font-family: 'Noto Sans JP', sans-serif;
-    }
+    .tab-btn:hover, .tab-btn.active { background: var(--gold); color: var(--deep-green); font-weight: bold; }
+
+    .tab-content { display: none; animation: fadeIn 0.5s ease; }
+    .tab-content.active { display: block; }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
     table {
       width: 100%;
       border-collapse: collapse;
-      margin: 0 auto 28px;
-      background: rgba(30, 38, 25, 0.92);
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
-      border: 1px solid #4a4020;
+      background: rgba(20, 30, 20, 0.9);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
-    th, td {
-      padding: 15px 14px;
-      text-align: left;
-      border-bottom: 1px solid #3a3520;
-    }
+
     th {
-      background: rgba(50, 58, 35, 0.95);
-      color: #ffd780;
-      font-weight: 700;
-      font-size: 14px;
-      letter-spacing: 0.5px;
+      background: var(--deep-green);
+      color: var(--gold);
       text-transform: uppercase;
-    }
-    tr:last-child td {
-      border-bottom: none;
-    }
-    tr:hover {
-      background: rgba(60, 70, 45, 0.7);
-    }
-    .era-box {
-      background: rgba(40, 48, 30, 0.85);
-      border-left: 4px solid #d4af37;
-      padding: 18px;
-      border-radius: 0 10px 10px 0;
-      margin: 20px 0;
-      font-size: 14px;
-      line-height: 1.6;
-      font-family: 'Noto Sans JP', sans-serif;
-    }
-    .era-box h3 {
-      color: #d4af37;
-      margin-top: 0;
-      font-size: 19px;
       font-family: 'Cinzel', serif;
+      padding: 15px;
+      border-bottom: 2px solid var(--gold);
     }
-    .note {
-      margin-top: 20px;
-      font-size: 13px;
-      color: #c8b8a0;
-      text-align: center;
+
+    td { padding: 15px; border-bottom: 1px solid rgba(212, 175, 55, 0.1); font-size: 0.95rem; }
+
+    .highlight { color: var(--gold); font-weight: bold; }
+
+    /* Стили Калькулятора */
+    .calc-box {
+      background: rgba(40, 50, 40, 0.4);
+      border: var(--border);
+      padding: 30px;
       max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.5;
-      font-family: 'Noto Sans JP', sans-serif;
+      margin: 0 auto;
     }
-    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+
+    .input-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 25px;
+    }
+
+    .input-item label { display: block; color: var(--gold); font-family: 'Cinzel', serif; font-size: 0.8rem; margin-bottom: 8px; }
+
+    input, select {
+      width: 100%;
+      background: rgba(0,0,0,0.5);
+      border: 1px solid var(--gold);
+      color: #fff;
+      padding: 10px;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .action-btn {
+      width: 100%;
+      background: var(--gold);
+      color: #1a1a1a;
+      border: none;
+      padding: 15px;
+      font-family: 'Cinzel', serif;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+
+    .result-panel {
+      margin-top: 30px;
+      border: 1px dashed var(--gold);
+      padding: 20px;
+      text-align: center;
+      display: none;
+    }
+
+    .turns-count { font-size: 3rem; color: var(--gold); font-family: 'Cinzel'; display: block; }
+
+    /* Инфо-панели */
+    .intel-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 40px; }
+    .panel {
+      border: var(--border);
+      padding: 20px;
+      background: rgba(40, 50, 40, 0.3);
+      position: relative;
+    }
+    .panel h3 { font-family: 'Cinzel', serif; color: var(--gold); margin-top: 0; }
+
+    @media (max-width: 768px) {
+      th:nth-child(4), td:nth-child(4) { display: none; }
+      .input-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
-  <h2>🏛️ CIVILIZATION — ЭВОЛЮЦИЯ ИМПЕРИЙ</h2>
-  <div class="subtitle">«Одна ещё минутка...» — и ты правишь миром</div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>📅 Год</th>
-        <th>🎮 Игра</th>
-        <th>🌍 Ключевая инновация</th>
-        <th>👑 Лидеры / Цивилизации</th>
-        <th>🔗 Влияние</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><b>1991</b></td>
-        <td><b>Civilization I</b></td>
-        <td>4X-формула<br>(eXplore, eXpand, eXploit, eXterminate)</td>
-        <td>Ганди, Линкольн, Цезарь</td>
-        <td>Родоначальник жанра. Доказал: стратегия может быть глубокой и захватывающей.</td>
-      </tr>
-      <tr>
-        <td><b>1996</b></td>
-        <td><b>Civilization II</b></td>
-        <td>Изометрическая графика<br>Дипломатия и чудеса</td>
-        <td>+ Елизавета, Клеопатра</td>
-        <td>Золотой век. Улучшенный ИИ, больше глубины. Стала культовой.</td>
-      </tr>
-      <tr>
-        <td><b>2001</b></td>
-        <td><b>Civilization III</b></td>
-        <td>Культуры и границы<br>Ресурсы</td>
-        <td>+ Мао, Наполеон</td>
-        <td>Культура как оружие. Города «поглощают» соседей. Новый уровень стратегии.</td>
-      </tr>
-      <tr>
-        <td><b>2005</b></td>
-        <td><b>Civilization IV</b></td>
-        <td>Религия и технологии<br>Открытый API (Python)</td>
-        <td>+ Хубилай, Виктория</td>
-        <td>Самая модифицируемая часть. Ввела религию как систему влияния.</td>
-      </tr>
-      <tr>
-        <td><b>2010</b></td>
-        <td><b>Civilization V</b></td>
-        <td>Один юнит на клетку<br>Шестиугольная сетка</td>
-        <td>+ Бисмарк, Вашингтон</td>
-        <td>Революция в бою. Акцент на дипломатии и визуальной эстетике.</td>
-      </tr>
-      <tr>
-        <td><b>2016</b></td>
-        <td><b>Civilization VI</b></td>
-        <td>Разделённые города<br>Политика и эпохи</td>
-        <td>+ Петра, Томми, Седрик</td>
-        <td>Город — не точка, а территория. Система «Эпох» добавила драматизма.</td>
-      </tr>
-      <tr>
-        <td><b>2023–2024</b></td>
-        <td><b>Civilization VII</b><br><i>(анонсирована)</i></td>
-        <td>Новые эры истории<br>Фракции вместо цивилизаций?</td>
-        <td>Пока неизвестно</td>
-        <td>Возвращение к корням? Обещает «новый взгляд на историю».</td>
-      </tr>
-    </tbody>
-  </table>
+<div class="container">
+  <header>
+    <h1>CIVILIZATION_ARCHIVE_2026</h1>
+    <p style="font-family: 'Cinzel'; color: var(--gold); font-size: 0.8rem; letter-spacing: 2px;">VINCIT QUI SE VINCIT</p>
+  </header>
 
-  <div class="era-box">
-    <h3>🌀 Четыре эпохи эволюции:</h3>
-    <p><b>• Заря (1991–1996)</b>: Создание формулы. Civ I и II — основа жанра.<br>
-    <b>• Расцвет (2001–2005)</b>: Глубина систем — культура, религия, ресурсы.<br>
-    <b>• Возрождение (2010)</b>: Civ V — визуальный и тактический прорыв.<br>
-    <b>• Современность (2016–...)</b>: Civ VI — модульность, эпохи, живой мир.</p>
+  <div class="nav-tabs">
+    <button class="tab-btn active" onclick="openTab(event, 'mainline')">Основная серия</button>
+    <button class="tab-btn" onclick="openTab(event, 'spinoffs')">Спин-оффы</button>
+    <button class="tab-btn" onclick="openTab(event, 'future')">Новая Эра (Civ VII)</button>
+    <button class="tab-btn" onclick="openTab(event, 'calc')">Прогноз победы</button>
   </div>
 
-  <div class="era-box">
-    <h3>👑 Философия серии:</h3>
-    <p>• <b>История — не линейна</b>: ты решаешь, будет ли твоя цивилизация военной, научной, культурной или религиозной.<br>
-    • <b>«Ганди-баг»</b> — легендарный мем: из-за переполнения он становился агрессивным.<br>
-    • <b>Just one more turn</b> — главный синдром всех игроков.</p>
+  <div id="mainline" class="tab-content active">
+    <table>
+      <thead>
+        <tr><th>Год</th><th>Версия</th><th>Инновация</th><th>Лидеры</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1991</td><td><span class="highlight">Civ I</span></td><td>Рождение 4X</td><td>Линкольн, Сталин, Чингисхан</td></tr>
+        <tr><td>1996</td><td><span class="highlight">Civ II</span></td><td>Изометрия и сценарии</td><td>Леонардо, Жанна д'Арк</td></tr>
+        <tr><td>2001</td><td><span class="highlight">Civ III</span></td><td>Границы и ресурсы</td><td>Теодора, Шака</td></tr>
+        <tr><td>2005</td><td><span class="highlight">Civ IV</span></td><td>Религия и 3D-движок</td><td>Манса Муса, Петр I</td></tr>
+        <tr><td>2010</td><td><span class="highlight">Civ V</span></td><td>Гексагоны (Шестиугольники)</td><td>Казимир III, Навуходоносор</td></tr>
+        <tr><td>2016</td><td><span class="highlight">Civ VI</span></td><td>Районы и эврики</td><td>Гильгамеш, Томирис, Гянджа Мада</td></tr>
+      </tbody>
+    </table>
   </div>
 
-  <div class="note">
-    💡 Все игры — отдельные симуляторы, но каждая строится на наследии предыдущей.<br>
-    <i>Civilization VI</i> — самая долгоживущая часть: 8+ лет обновлений, DLC и модов.<br>
-    Sid Meier: «Игра — это серия интересных решений». И Civ — их королева.
+  <div id="spinoffs" class="tab-content">
+    <table>
+      <thead>
+        <tr><th>Год</th><th>Проект</th><th>Сеттинг</th><th>Особенности</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1994</td><td><span class="highlight">Colonization</span></td><td>Новый Свет</td><td>Экономика и независимость</td></tr>
+        <tr><td>1999</td><td><span class="highlight">Alpha Centauri</span></td><td>Космос / Будущее</td><td>Лучший сюжет и терраформинг</td></tr>
+        <tr><td>2008</td><td><span class="highlight">Revolution</span></td><td>Консоли / Мобайл</td><td>Упрощенный и быстрый геймплей</td></tr>
+        <tr><td>2014</td><td><span class="highlight">Beyond Earth</span></td><td>Чужая планета</td><td>Древо технологий (паутина)</td></tr>
+      </tbody>
+    </table>
   </div>
+
+  <div id="future" class="tab-content">
+    <div class="panel">
+      <h3>🏛️ CIVILIZATION VII (Релиз: Февраль 2025)</h3>
+      <p><b>Главная революция:</b> Смена цивилизаций в конце каждой эпохи (Античность → Исследования → Современность). Теперь вы не играете за одну нацию 6000 лет, а ведете свою культуру через трансформации.</p>
+      <p><b>Лидеры отдельно от наций:</b> Вы можете выбрать Конфуция, чтобы вести Древний Египет, создавая уникальные синергии.</p>
+      <p><span class="highlight">Статус:</span> Актуальная версия. Основной упор на историческую преемственность.</p>
+    </div>
+  </div>
+
+  <div id="calc" class="tab-content">
+    <div class="calc-box">
+      <h3 style="font-family: 'Cinzel'; text-align: center; color: var(--gold);">🏛️ ИМПЕРСКИЙ ПРОГНОСТИК</h3>
+      <div class="input-grid">
+        <div class="input-item">
+          <label>Путь триумфа</label>
+          <select id="v-type">
+            <option value="science">🚀 Наука (Космос)</option>
+            <option value="culture">🎨 Культура (Туризм)</option>
+            <option value="domination">⚔️ Военная (Доминирование)</option>
+            <option value="religious">🕯️ Вера (Прозелитизм)</option>
+          </select>
+        </div>
+        <div class="input-item">
+          <label>Темп истории (Скорость)</label>
+          <select id="g-speed">
+            <option value="0.67">Сетевая (Быстрая)</option>
+            <option value="1" selected>Стандартная</option>
+            <option value="1.5">Эпическая</option>
+            <option value="3">Марафон</option>
+          </select>
+        </div>
+        <div class="input-item">
+          <label>Текущий выход ресурса</label>
+          <input type="number" id="v-income" placeholder="Очки за ход...">
+        </div>
+        <div class="input-item">
+          <label>Дистанция до цели</label>
+          <input type="number" id="v-remain" placeholder="Осталось очков...">
+        </div>
+      </div>
+      <button class="action-btn" onclick="calculateVictory()">РАССЧИТАТЬ ВРЕМЯ ПОБЕДЫ</button>
+      
+      <div id="res-panel" class="result-panel">
+        <p style="margin:0; font-family: 'Cinzel'; letter-spacing: 1px;">До мирового господства осталось:</p>
+        <span class="turns-count" id="turns-val">0</span>
+        <p id="tactical-advice" style="font-style: italic; color: #aaa;"></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="intel-grid">
+    <div class="panel">
+      <h3>🧬 ГАНДИ-МЕРЕЦ</h3>
+      <p>Легендарная ошибка "Nuclear Gandhi" официально признана Сидом Мейером мифом, но она настолько полюбилась фанатам, что стала частью программного кода в поздних частях как пасхалка.</p>
+    </div>
+    <div class="panel">
+      <h3>⌛ ТЕРМИНАЛЬНАЯ СТАДИЯ</h3>
+      <p>Средняя сессия в Civ VI на огромной карте занимает от 12 до 20 часов. Эффект "Just one more turn" обусловлен дофаминовым циклом завершения малых задач.</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function openTab(evt, tabName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tab-content");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+    tabcontent[i].classList.remove("active");
+  }
+  tablinks = document.getElementsByClassName("tab-btn");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].classList.remove("active");
+  }
+  document.getElementById(tabName).style.display = "block";
+  document.getElementById(tabName).classList.add("active");
+  evt.currentTarget.classList.add("active");
+}
+
+function calculateVictory() {
+  const type = document.getElementById('v-type').value;
+  const speed = parseFloat(document.getElementById('g-speed').value);
+  const income = parseFloat(document.getElementById('v-income').value);
+  const remain = parseFloat(document.getElementById('v-remain').value);
+  
+  if (!income || income <= 0 || !remain) {
+    alert("Канцлер, введите корректные данные о доходах империи!");
+    return;
+  }
+
+  let modifier = 1;
+  let advice = "";
+
+  switch(type) {
+    case 'science': 
+      modifier = 1.25; 
+      advice = "Учтите время на запуск проектов и производство модулей.";
+      break;
+    case 'culture': 
+      modifier = 0.9; 
+      advice = "Туризм растет экспоненциально, победа может прийти раньше.";
+      break;
+    case 'domination': 
+      modifier = 1.4; 
+      advice = "Расчет не учитывает время на переброску войск через океаны.";
+      break;
+    case 'religious': 
+      modifier = 1.15; 
+      advice = "Остерегайтесь вражеских инквизиторов!";
+      break;
+  }
+
+  const finalTurns = Math.ceil((remain / income) * modifier * speed);
+  
+  document.getElementById('res-panel').style.display = "block";
+  document.getElementById('turns-val').innerText = finalTurns + " ХОДОВ";
+  document.getElementById('tactical-advice').innerText = "Совет: " + advice;
+}
+</script>
+
 </body>
 </html>
