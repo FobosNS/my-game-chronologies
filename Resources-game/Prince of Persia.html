@@ -3,191 +3,318 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Prince of Persia — Chronology</title>
+  <title>Prince of Persia — Sands of Time Archive</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Noto+Sans+JP:wght@300;400&display=swap');
+
     body {
-      font-family: 'Cinzel', 'Noto Sans JP', serif;
-      background: linear-gradient(135deg, #1a120a, #281e10);
-      color: #f8f0e0;
-      padding: 25px;
+      font-family: 'Noto Sans JP', sans-serif;
+      background: #0f0b08;
+      background-image: 
+        radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 80%),
+        url('https://www.transparenttextures.com/patterns/dark-matter.png');
+      color: #e0d5c0;
+      padding: clamp(10px, 5vw, 30px);
       margin: 0;
       line-height: 1.6;
-      font-size: 15px;
     }
-    h2 {
+
+    /* Эффект текущего песка на фоне */
+    .sand-drift {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(to bottom, transparent, rgba(212, 175, 55, 0.02));
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      border: 1px solid #4a3a20;
+      background: rgba(20, 15, 10, 0.95);
+      padding: 25px;
+      box-shadow: 0 0 50px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(212, 175, 55, 0.1);
+      position: relative;
+    }
+
+    header {
       text-align: center;
+      border-bottom: 1px solid #d4af37;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+    }
+
+    h1 {
+      font-family: 'Cinzel', serif;
       color: #d4af37;
-      font-size: 28px;
-      margin-bottom: 8px;
-      text-shadow: 0 0 12px rgba(212, 175, 55, 0.5);
+      font-size: clamp(1.5rem, 6vw, 2.8rem);
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 6px;
+      text-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+    }
+
+    .tabs-nav {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: 1px solid #5a4520;
+      color: #c19a6b;
+      padding: 10px 25px;
+      cursor: pointer;
+      font-family: 'Cinzel', serif;
+      transition: 0.4s;
       letter-spacing: 1px;
     }
-    .subtitle {
-      text-align: center;
-      color: #c19a6b;
-      font-size: 16px;
-      margin-bottom: 24px;
-      font-style: italic;
-      font-family: 'Noto Sans JP', sans-serif;
+
+    .tab-btn:hover, .tab-btn.active {
+      background: #d4af37;
+      color: #0f0b08;
+      border-color: #d4af37;
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
     }
+
+    .tab-content { display: none; animation: fadeIn 0.6s ease; }
+    .tab-content.active { display: block; }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
     table {
       width: 100%;
       border-collapse: collapse;
-      margin: 0 auto 28px;
-      background: rgba(35, 28, 18, 0.92);
-      border-radius: 12px;
+      margin-bottom: 30px;
+      font-size: 0.9rem;
+    }
+
+    th { 
+      background: #2a1f10; 
+      color: #ffd780; 
+      padding: 15px; 
+      text-align: left; 
+      border-bottom: 2px solid #d4af37;
+      font-family: 'Cinzel';
+    }
+
+    td { padding: 15px; border-bottom: 1px solid #3a2a15; }
+    tr:hover { background: rgba(212, 175, 55, 0.03); }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: rgba(35, 25, 15, 0.5);
+      border: 1px solid #4a3a20;
+      padding: 20px;
+      position: relative;
       overflow: hidden;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
-      border: 1px solid #5a4520;
     }
-    th, td {
-      padding: 15px 14px;
-      text-align: left;
-      border-bottom: 1px solid #4a3a20;
+
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; width: 4px; height: 100%;
+      background: #d4af37;
     }
-    th {
-      background: rgba(55, 45, 25, 0.95);
+
+    .card h3 {
+      font-family: 'Cinzel';
       color: #ffd780;
-      font-weight: 700;
-      font-size: 14px;
-      letter-spacing: 0.5px;
+      margin-top: 0;
+      border-bottom: 1px solid #4a3a20;
+      padding-bottom: 10px;
+    }
+
+    .tag {
+      font-size: 0.7rem;
+      border: 1px solid #d4af37;
+      padding: 2px 8px;
+      margin-right: 5px;
+      color: #d4af37;
       text-transform: uppercase;
     }
-    tr:last-child td {
-      border-bottom: none;
-    }
-    tr:hover {
-      background: rgba(65, 55, 35, 0.7);
-    }
-    .era-box {
-      background: rgba(50, 40, 25, 0.85);
-      border-left: 4px solid #d4af37;
-      padding: 18px;
-      border-radius: 0 10px 10px 0;
-      margin: 20px 0;
-      font-size: 14px;
-      line-height: 1.6;
-      font-family: 'Noto Sans JP', sans-serif;
-    }
-    .era-box h3 {
-      color: #d4af37;
-      margin-top: 0;
-      font-size: 19px;
-      font-family: 'Cinzel', serif;
-    }
-    .note {
-      margin-top: 20px;
-      font-size: 13px;
-      color: #c8b8a0;
+
+    .footer-note {
       text-align: center;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.5;
-      font-family: 'Noto Sans JP', sans-serif;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid #3a2a15;
+      font-size: 0.8rem;
+      color: #8a7a60;
+      font-style: italic;
     }
-    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+
+    b { color: #ffd780; }
+
+    .interactive-zone {
+      text-align: center;
+      margin-top: 50px;
+      padding: 30px;
+      border: 2px dashed #d4af37;
+      background: rgba(0, 0, 0, 0.4);
+    }
+
+    .hourglass {
+      font-size: 4rem;
+      display: inline-block;
+      transition: transform 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    .rewind-btn {
+      display: block;
+      margin: 20px auto;
+      background: linear-gradient(45deg, #d4af37, #f3e5ab);
+      color: #000;
+      border: none;
+      padding: 15px 30px;
+      font-family: 'Cinzel', serif;
+      font-weight: bold;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+      transition: 0.3s;
+    }
+
+    .rewind-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 30px rgba(212, 175, 55, 0.8);
+    }
+
+    /* Эффект перемотки */
+    .rewinding {
+      filter: invert(1) hue-rotate(180deg) blur(2px) !important;
+      transition: 0.5s ease-in-out;
+    }
+
+    #time-status {
+      font-style: italic;
+      color: #c19a6b;
+    }
   </style>
 </head>
 <body>
-  <h2>🏺 PRINCE OF PERSIA — ХРОНОЛОГИЯ ВРЕМЕНИ И ПЕСКОВ</h2>
-  <div class="subtitle">«Время — не враг. Оно — испытание»</div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>📅 Эпоха</th>
-        <th>🎮 Игра</th>
-        <th>👤 Принц</th>
-        <th>⏳ Тема</th>
-        <th>🔗 Связь</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><b>1989</b></td>
-        <td><b>Prince of Persia</b></td>
-        <td>Безымянный Принц</td>
-        <td>Спасение принцессы<br>Бегство из темницы</td>
-        <td>Первая игра. Платформер с реалистичной анимацией. Нет песков — только ловушки и клинки.</td>
-      </tr>
-      <tr>
-        <td><b>1993</b></td>
-        <td><b>Prince of Persia 2: The Shadow and the Flame</b></td>
-        <td>Тот же Принц</td>
-        <td>Месть и идентичность</td>
-        <td>Прямое продолжение. Принц лишён памяти, сражается с тенью себя.</td>
-      </tr>
-      <tr>
-        <td><b>1999</b></td>
-        <td><b>Prince of Persia 3D</b></td>
-        <td>Принц Рука</td>
-        <td>Любовь и проклятие</td>
-        <td>3D-переход. Спорная каноничность. Завершает классическую арку.</td>
-      </tr>
-      <tr>
-        <td><b>До 1001 ночи</b></td>
-        <td><b>Prince of Persia: The Sands of Time</b></td>
-        <td>Принц (сын шаха)</td>
-        <td>Раскаяние и выбор</td>
-        <td>Начало новой эры. Пески Времени, Кинжал, Алия. Время можно отмотать — но не ошибки.</td>
-      </tr>
-      <tr>
-        <td><b>Сразу после</b></td>
-        <td><b>Warrior Within</b></td>
-        <td>Тот же Принц (озлобленный)</td>
-        <td>Судьба vs. свобода</td>
-        <td>Тёмный поворот. Принц преследуем Дахаком. Убивает своё будущее.</td>
-      </tr>
-      <tr>
-        <td><b>После WW</b></td>
-        <td><b>The Two Thrones</b></td>
-        <td>Принц + Тёмная сторона</td>
-        <td>Искупление</td>
-        <td>Финал трилогии. Принц побеждает свою тьму. Алия становится королевой.</td>
-      </tr>
-      <tr>
-        <td><b>2008</b></td>
-        <td><b>Prince of Persia (перезагрузка)</b></td>
-        <td>Безымянный Принц</td>
-        <td>Баланс света и тьмы</td>
-        <td>Отдельная вселенная. С Элиной борется с Ахриманом. Нет смерти — только возрождение.</td>
-      </tr>
-      <tr>
-        <td><b>2010</b></td>
-        <td><b>Prince of Persia: The Forgotten Sands</b></td>
-        <td>Принц (из Sands of Time)</td>
-        <td>Между Warrior Within и TTT</td>
-        <td>Каноничный мост. Показывает, как Принц учился контролировать Пески.</td>
-      </tr>
-    </tbody>
-  </table>
+<div class="sand-drift"></div>
 
-  <div class="era-box">
-    <h3>🌀 Три эпохи легенды:</h3>
-    <p><b>• Классика (1989–1999)</b>:<br>
-    — Реалистичный платформер. Нет магии — только ловкость и смелость.<br>
-    — Вдохновлена «Тысячью и одной ночью».</p>
-    <p><b>• Трилогия Песков (2003–2008)</b>:<br>
-    — Революция в геймплее: замедление времени, паркур, атмосфера.<br>
-    — Темы взросления: от безрассудства → к мудрости.</p>
-    <p><b>• Современная эра (2008–2010)</b>:<br>
-    — Стилизация под персидские миниатюры.<br>
-    — Акцент на кооперации с Элиной, а не на соло-героизме.</p>
+<div class="container">
+  <header>
+    <h1>PRINCE OF PERSIA</h1>
+    <div style="color: #c19a6b; letter-spacing: 3px; font-size: 0.8rem;">CHRONOLOGY OF TIME & FATE</div>
+    <div class="interactive-zone">
+    <div id="hourglass" class="hourglass">⏳</div>
+    <button class="rewind-btn" onclick="rewindTime()">Использовать Кинжал Времени</button>
+    <p id="time-status">Время течет своим чередом...</p>
+  </div>
+  </header>
+
+  <nav class="tabs-nav">
+    <button class="tab-btn active" onclick="openTab(event, 'timeline')">Хронология</button>
+    <button class="tab-btn" onclick="openTab(event, 'artifacts')">Артефакты</button>
+    <button class="tab-btn" onclick="openTab(event, 'lore')">Легенды</button>
+  </nav>
+
+  <div id="timeline" class="tab-content active">
+    <table>
+      <thead>
+        <tr>
+          <th>ПЕРИОД</th>
+          <th>НАЗВАНИЕ</th>
+          <th>СУТЬ ИСТОРИИ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>1989-1999</td><td><b>Classic Era</b></td><td>Побег из темницы Джаффара. Революционная ротоскопическая анимация.</td></tr>
+        <tr><td>IX век</td><td><b>The Sands of Time</b></td><td>Принц открывает Песочные Часы. Начало пути искупления и любви к Фаре.</td></tr>
+        <tr><td>Спустя 7 лет</td><td><b>Warrior Within</b></td><td>Бегство от Дахака (Хранителя Времени). Мрачный Принц на Острове Времени.</td></tr>
+        <tr><td>Финал</td><td><b>The Two Thrones</b></td><td>Возвращение в Вавилон. Борьба с внутренним Тёмным Принцем.</td></tr>
+        <tr><td>2008</td><td><b>The Prodigal</b></td><td>Новая вселенная. Дуэт с Эликой и битва против бога тьмы Ахримана.</td></tr>
+        <tr><td>2024</td><td><b>The Lost Crown</b></td><td>Саргон (бессмертный защитник) отправляется на гору Каф. Возврат к 2D корням.</td></tr>
+      </tbody>
+    </table>
   </div>
 
-  <div class="era-box">
-    <h3>⏳ Ключевые символы:</h3>
-    <p>• <b>Пески Времени</b> — магическая сила, дающая бессмертие, но разрушающая разум.<br>
-    • <b>Кинжал Времени</b> — артефакт, управляющий потоком времени.<br>
-    • <b>Алия</b> — не просто принцесса, а хранительница мудрости и совести Принца.<br>
-    • <b>Дахак</b> — воплощение кармы: «Ты нарушил время — теперь будешь наказан».</p>
+  <div id="artifacts" class="tab-content">
+    <div class="grid">
+      <div class="card">
+        <h3>⏳ КИНЖАЛ ВРЕМЕНИ</h3>
+        <p><span class="tag">Magic</span> <span class="tag">Core</span></p>
+        <p>Единственное оружие, способное удерживать Пески. Позволяет отматывать время назад, замедлять его и уничтожать песчаных монстров.</p>
+      </div>
+      <div class="card">
+        <h3>🗡️ МЕЧ ВОДЫ</h3>
+        <p><span class="tag">Weapon</span> <span class="tag">Secret</span></p>
+        <p>Легендарный клинок из Warrior Within. Единственное оружие, способное нанести урон самому Дахаку.</p>
+      </div>
+      <div class="card">
+        <h3>🏺 ПЕСОЧНЫЕ ЧАСЫ</h3>
+        <p><span class="tag">Relic</span> <span class="tag">Danger</span></p>
+        <p>Источник проклятия. Тот, кто откроет их без Кинжала, превратится в песчаное чудовище, лишенное воли.</p>
+      </div>
+    </div>
   </div>
 
-  <div class="note">
-    💡 Трилогия «Песков времени» — признана шедевром: сценарий писал <b>Джордан Мечнер</b> (создатель оригинала).<br>
-    <i>The Forgotten Sands</i> — единственный каноничный мост между частями трилогии.<br>
-    В 2026 году Ubisoft анонсировала <b>новую игру</b> в духе Sands of Time.
+  <div id="lore" class="tab-content">
+    <div class="card" style="border-left: 4px solid #d4af37;">
+      <h3>📜 МУДРОСТЬ ВРЕМЕНИ</h3>
+      <p>• <b>Большинство людей верит</b>, что время — это река, которая течет всегда в одном направлении. Но я видел лицо времени, и я могу сказать тебе: они ошибаются.</p>
+      <p>• <b>Дахака</b> — это не злодей, а сила природы. Он приходит за теми, кто нарушил временную линию. Его нельзя победить силой, только хитростью или древней магией.</p>
+      <p>• <b>Тёмный Принц</b> — это воплощение эгоизма и ярости, которые Пески Времени пробудили в герое. Он шепчет, что мир должен принадлежать только тебе.</p>
+    </div>
   </div>
+
+  <div class="footer-note">
+    «Время — не враг. Оно — испытание, которое проходят лишь достойные».
+  </div>
+</div>
+
+function rewindTime() {
+    const body = document.body;
+    const hourglass = document.getElementById('hourglass');
+    const status = document.getElementById('time-status');
+
+    // Поворачиваем часы
+    hourglass.style.transform = "rotate(180deg)";
+    
+    // Включаем визуальный эффект перемотки
+    body.classList.add('rewinding');
+    status.innerText = "ВРЕМЯ ОТМАТЫВАЕТСЯ НАЗАД...";
+    status.style.color = "#ffd780";
+
+    // Возвращаем всё в норму через 1.5 секунды
+    setTimeout(() => {
+      body.classList.remove('rewinding');
+      hourglass.style.transform = "rotate(0deg)";
+      status.innerText = "Вы изменили свою судьбу. Но пески не прощают ошибок.";
+      status.style.color = "#d4af37";
+    }, 1500);
+  }
+  
+<script>
+  function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tab-content");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+      tabcontent[i].classList.remove("active");
+    }
+    tablinks = document.getElementsByClassName("tab-btn");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].classList.remove("active");
+    }
+    document.getElementById(tabName).style.display = "block";
+    document.getElementById(tabName).classList.add("active");
+    evt.currentTarget.classList.add("active");
+  }
+</script>
+
 </body>
 </html>
