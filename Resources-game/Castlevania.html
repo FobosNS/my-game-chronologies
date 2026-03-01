@@ -3,106 +3,221 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Castlevania — Хронология</title>
+  <title>Castlevania — Grand Chronology</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=MedievalSharp&display=swap');
+
+    :root {
+      --blood-red: #8a0303;
+      --gold: #d4af37;
+      --dark-soul: #0a050d;
+      --border-shadow: rgba(138, 3, 3, 0.4);
+    }
+
     body {
-      font-family: 'Cinzel', 'Times New Roman', serif;
-      background: #0c0615;
+      font-family: 'MedievalSharp', serif;
+      background: var(--dark-soul);
       color: #e8d5c4;
-      padding: 20px;
       margin: 0;
-      line-height: 1.5;
+      padding: 20px;
+      line-height: 1.4;
     }
-    h2 {
+
+    .main-header {
       text-align: center;
-      color: #b32e2e;
-      font-size: 26px;
-      margin-bottom: 20px;
-      text-shadow: 0 0 8px rgba(179, 46, 46, 0.4);
+      border-bottom: 2px solid var(-- blood-red);
+      padding-bottom: 20px;
+      margin-bottom: 30px;
     }
+
+    h1 {
+      font-family: 'Cinzel', serif;
+      color: var(--blood-red);
+      font-size: 2.5rem;
+      text-shadow: 2px 2px 10px #000;
+      margin: 0;
+    }
+
+    /* Навигация (Вкладки) */
+    .nav-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+
+    .tab-btn {
+      background: #1a0f23;
+      border: 1px solid var(--blood-red);
+      color: var(--gold);
+      padding: 10px 20px;
+      font-family: 'Cinzel', serif;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .tab-btn:hover, .tab-btn.active {
+      background: var(--blood-red);
+      color: #fff;
+      box-shadow: 0 0 15px var(--border-shadow);
+    }
+
+    /* Контент вкладок */
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .tab-content.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
-      margin: 0 auto;
-      font-size: 14px;
-      background: rgba(15, 8, 25, 0.7);
-      border-radius: 8px;
+      background: rgba(20, 10, 30, 0.8);
+      border-radius: 5px;
       overflow: hidden;
     }
-    th, td {
-      padding: 12px 10px;
-      text-align: left;
-      border-bottom: 1px solid #3a2a45;
-    }
+
     th {
-      background: #221530;
-      color: #ffcc99;
-      font-weight: bold;
-      letter-spacing: 0.5px;
+      background: #2a1535;
+      color: var(--gold);
+      padding: 15px;
+      text-align: left;
+      font-family: 'Cinzel', serif;
+      border-bottom: 2px solid var(--blood-red);
     }
-    tr:hover {
-      background: rgba(30, 20, 45, 0.6);
+
+    td {
+      padding: 12px 15px;
+      border-bottom: 1px solid #3a2a45;
+      font-size: 0.9rem;
     }
-    .era {
-      margin-top: 25px;
-      padding: 14px;
-      background: rgba(25, 15, 40, 0.8);
-      border-left: 4px solid #b32e2e;
-      border-radius: 0 6px 6px 0;
-      font-size: 13px;
-      color: #f0e0d0;
+
+    tr:hover { background: rgba(138, 3, 3, 0.1); }
+
+    .highlight-year { color: var(--gold); font-weight: bold; }
+    .hero { color: #fff; font-weight: bold; }
+    .foe { color: #ff5555; }
+
+    @media (max-width: 768px) {
+      td:nth-child(4), th:nth-child(4) { display: none; }
+      .tab-btn { width: 45%; font-size: 0.8rem; }
     }
-    .era b { color: #ffcc99; }
-    .note {
-      margin-top: 20px;
-      font-size: 12px;
-      color: #aaa;
-      text-align: center;
-      font-style: italic;
-    }
-    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap');
   </style>
 </head>
 <body>
-  <h2>🩸 Castlevania — Каноническая хронология (с иконками)</h2>
+
+<div class="main-header">
+  <h1>CASTLEVANIA ARCHIVE</h1>
+  <div style="color: var(--gold); letter-spacing: 2px;">ХРОНИКИ НОЧИ // 1094 — 2036</div>
+</div>
+
+<div class="nav-tabs">
+  <button class="tab-btn active" onclick="openEra(event, 'origins')">Истоки (XI-XV)</button>
+  <button class="tab-btn" onclick="openEra(event, 'classic')">Золотой Век (XVI-XVIII)</button>
+  <button class="tab-btn" onclick="openEra(event, 'transition')">Наследники (XIX)</button>
+  <button class="tab-btn" onclick="openEra(event, 'modern')">Эра Модерна (XX-XXI)</button>
+  <button class="tab-btn" onclick="openEra(event, 'alternate')">Вне Канона</button>
+</div>
+
+<div id="origins" class="tab-content active">
   <table>
     <thead>
-      <tr>
-        <th>📅 Год</th>
-        <th>🎮 Игра</th>
-        <th>👤 Герой</th>
-        <th>🦇 Антагонист</th>
-        <th>🔗 Связь</th>
-      </tr>
+      <tr><th>Год</th><th>Игра</th><th>Герой</th><th>Антагонист</th></tr>
     </thead>
     <tbody>
-      <tr><td><b>1094</b></td><td><b>Lament of Innocence</b></td><td>🗡️ Леонард Бернат</td><td>🩸 Маттье / Дракула</td><td>🌑 Рождение проклятия. Первый Бельмонт против тьмы.</td></tr>
-      <tr><td><b>1476</b></td><td><b>Castlevania III: Dracula’s Curse</b></td><td>⚔️ Тревор Бельмонт</td><td>🧛 Дракула</td><td>🌕 Первое поражение Дракулы. Союз с Алуардом и Сиффом.</td></tr>
-      <tr><td><b>1576</b></td><td><b>Castlevania</b> (NES)</td><td>🔥 Саймон Бельмонт</td><td>🧛 Дракула</td><td>🔄 Дракула воскрешён → Саймон побеждает, но проклят.</td></tr>
-      <tr><td><b>1591</b></td><td><b>Simon’s Quest</b></td><td>🔥 Саймон Бельмонт</td><td>💀 Останки Дракулы</td><td>🧩 Саймон собирает части тела, чтобы снять проклятие.</td></tr>
-      <tr><td><b>1691</b></td><td><b>Rondo of Blood</b></td><td>❤️ Рихтер Бельмонт</td><td>🧛 Дракула</td><td>🎭 Золотой век Бельмонтов. Спасает Аннусту.</td></tr>
-      <tr><td><b>1792</b></td><td><b>Symphony of the Night</b></td><td>🦇 Алукард</td><td>🧛 Дракула</td><td>🌙 Прямое продолжение *Rondo*. Сын останавливает отца.</td></tr>
-      <tr><td><b>1830</b></td><td><b>Castlevania: Legacy of Darkness</b> / <b>64</b></td><td>🏹 Корнелл / 🧪 Генри</td><td>🧛 Дракула</td><td>🐺 Корнелл (оборотень) спасает сестру. Альтернативная версия RE64.</td></tr>
-      <tr><td><b>1844</b></td><td><b>Castlevania: Circle of the Moon</b></td><td>📚 Натан Гриффитс</td><td>🧛 Дракула</td><td>🧙 Юный маг из ордена. Воспитанник Морриса (из *Harmony*).</td></tr>
-      <tr><td><b>1852</b></td><td><b>Castlevania: Harmony of Dissonance</b></td><td>⚔️ Джастин Бельмонт</td><td>🧛 Дракула</td><td>🌀 Внук Рихтера. Ищет друга в замке, разделённом на два мира.</td></tr>
-      <tr><td><b>1897</b></td><td><b>Castlevania: Order of Ecclesia</b></td><td>🛡️ Шанна Форте</td><td>🧛 Дракула</td><td>🕊️ После исчезновения Бельмонтов. Шанна — последняя надежда.</td></tr>
-      <tr><td><b>1999</b></td><td><b>Castlevania: Portrait of Ruin</b> (флешбэк)</td><td>🎨 Джонатан Моррис, 🧪 Шарлотта Аулен</td><td>🧟 Брахман / Дракула</td><td>⚔️ Моррис — потомок союзника Тревора. Использует кнут Бельмонтов.</td></tr>
-      <tr><td><b>2035</b></td><td><b>Castlevania: Aria of Sorrow</b></td><td>🔮 Сома Кадзухи</td><td>🌑 Его собственная тьма</td><td>🔮 Сома — реинкарнация Дракулы. Борется с собственной судьбой.</td></tr>
-      <tr><td><b>2036</b></td><td><b>Dawn of Sorrow</b></td><td>🔮 Сома Кадзухи</td><td>👁️ Свен / Дракула</td><td>⚔️ Секта пытается возродить Дракулу через Сому.</td></tr>
+      <tr><td><span class="highlight-year">1094</span></td><td><b>Lament of Innocence</b></td><td class="hero">Леон Бельмонт</td><td class="foe">Уолтер Бернхард / Смерть</td></tr>
+      <tr><td><span class="highlight-year">1476</span></td><td><b>Dracula's Curse (CVIII)</b></td><td class="hero">Тревор Бельмонт</td><td class="foe">Дракула</td></tr>
+      <tr><td><span class="highlight-year">1479</span></td><td><b>Curse of Darkness</b></td><td class="hero">Гектор (Дьявольский кузнец)</td><td class="foe">Айзек / Дракула</td></tr>
     </tbody>
   </table>
+</div>
 
-  <div class="era">
-    <b>🧱 Эпохи клана Бельмонт:</b><br>
-    • <b>Средневековье</b> (1094–1476): Рождение легенды.<br>
-    • <b>Золотой век</b> (1576–1792): Расцвет рода → исчезновение.<br>
-    • <b>Наследники</b> (1830–1897): Моррисы, маги, ордена.<br>
-    • <b>Будущее</b> (2035+): Дракула перевоплощается в человека.
-  </div>
+<div id="classic" class="tab-content">
+  <table>
+    <thead>
+      <tr><th>Год</th><th>Игра</th><th>Герой</th><th>Антагонист</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><span class="highlight-year">1576</span></td><td><b>The Adventure</b></td><td class="hero">Кристофер Бельмонт</td><td class="foe">Дракула</td></tr>
+      <tr><td><span class="highlight-year">1591</span></td><td><b>Belmont's Revenge</b></td><td class="hero">Кристофер Бельмонт</td><td class="foe">Дракула / Солейл</td></tr>
+      <tr><td><span class="highlight-year">1691</span></td><td><b>Castlevania (NES)</b></td><td class="hero">Саймон Бельмонт</td><td class="foe">Дракула</td></tr>
+      <tr><td><span class="highlight-year">1698</span></td><td><b>Simon's Quest (CVII)</b></td><td class="hero">Саймон Бельмонт</td><td class="foe">Призрак Дракулы</td></tr>
+      <tr><td><span class="highlight-year">1748</span></td><td><b>Harmony of Dissonance</b></td><td class="hero">Жюст Бельмонт</td><td class="foe">Призрак Дракулы</td></tr>
+      <tr><td><span class="highlight-year">1792</span></td><td><b>Rondo of Blood</b></td><td class="hero">Рихтер Бельмонт</td><td class="foe">Шафт / Дракула</td></tr>
+      <tr><td><span class="highlight-year">1797</span></td><td><b>Symphony of the Night</b></td><td class="hero">Алукард</td><td class="foe">Шафт / Дракула</td></tr>
+    </tbody>
+  </table>
+</div>
 
-  <div class="note">
-    ⚠️ Игры вроде <i>Castlevania (1986)</i>, <i>Legacy of Darkness</i> и <i>64</i> имеют сложную каноничность.<br>
-    Основная линия подтверждена в <i>Order of Ecclesia</i>, <i>Symphony of the Night</i> и официальных хронологиях Konami.
-  </div>
+<div id="transition" class="tab-content">
+  <table>
+    <thead>
+      <tr><th>Год</th><th>Игра</th><th>Герой</th><th>Антагонист</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><span class="highlight-year">1830</span></td><td><b>Circle of the Moon</b></td><td class="hero">Натан Грейвс</td><td class="foe">Кармилла / Дракула</td></tr>
+      <tr><td><span class="highlight-year">1852</span></td><td><b>Castlevania 64</b></td><td class="hero">Рейнхард / Кэрри</td><td class="foe">Дракула</td></tr>
+      <tr><td><span class="highlight-year">1897</span></td><td><b>Bloodlines</b></td><td class="hero">Джон Моррис / Эрик</td><td class="foe">Элизабет Батори</td></tr>
+      <tr><td><span class="highlight-year">18XX</span></td><td><b>Order of Ecclesia</b></td><td class="hero">Шаноа</td><td class="foe">Альбус / Дракула</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div id="modern" class="tab-content">
+  <table>
+    <thead>
+      <tr><th>Год</th><th>Игра</th><th>Герой</th><th>Антагонист</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><span class="highlight-year">1944</span></td><td><b>Portrait of Ruin</b></td><td class="hero">Джонатан Моррис / Шарлотта</td><td class="foe">Браунер / Дракула</td></tr>
+      <tr><td><span class="highlight-year">1999</span></td><td><b>The Demon Castle War</b></td><td class="hero">Юлиус Бельмонт</td><td class="foe">Дракула (Финал)</td></tr>
+      <tr><td><span class="highlight-year">2035</span></td><td><b>Aria of Sorrow</b></td><td class="hero">Сома Курус</td><td class="foe">Грэм Джонс</td></tr>
+      <tr><td><span class="highlight-year">2036</span></td><td><b>Dawn of Sorrow</b></td><td class="hero">Сома Курус</td><td class="foe">Селия Фортуна</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div id="alternate" class="tab-content">
+  <table>
+    <thead>
+      <tr><th>Вселенная</th><th>Игра</th><th>Описание</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Lords of Shadow</td><td><b>LoS Trilogy</b></td><td>Полный перезапуск истории Габриэля Бельмонта.</td></tr>
+      <tr><td>Kid Dracula</td><td><b>Akumajō Special</b></td><td>Пародийное ответвление о сыне Дракулы.</td></tr>
+      <tr><td>Legends</td><td><b>CV: Legends (GB)</b></td><td>История Сони Бельмонт (вычеркнута из канона Игараси).</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="note" style="margin-top: 30px; border-top: 1px solid #3a2a45; padding-top: 20px;">
+  ⚠️ <b>Заметка архивариуса:</b> В 1999 году произошла решающая битва, в которой Юлиус Бельмонт окончательно уничтожил цикл воскрешений Дракулы, заточив замок в солнечное затмение.
+</div>
+
+<script>
+function openEra(evt, eraName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tab-content");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+    tabcontent[i].classList.remove("active");
+  }
+  tablinks = document.getElementsByClassName("tab-btn");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].classList.remove("active");
+  }
+  document.getElementById(eraName).style.display = "block";
+  document.getElementById(eraName).classList.add("active");
+  evt.currentTarget.classList.add("active");
+}
+</script>
+
 </body>
 </html>
