@@ -12,6 +12,7 @@
       --sf-blue: #0088ff;
       --sf-bg: #0b121a;
       --sf-panel: rgba(15, 25, 35, 0.95);
+      --scan-line-pos: -100%;
     }
 
     body {
@@ -24,6 +25,32 @@
       color: #d0e0ff;
       padding: clamp(10px, 3vw, 25px);
       margin: 0;
+      transition: background 0.3s ease;
+      overflow-x: hidden;
+    }
+
+    /* ЭФФЕКТ СКАНЕРА */
+    body::after {
+      content: "";
+      position: fixed;
+      top: var(--scan-line-pos);
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: rgba(0, 136, 255, 0.2);
+      box-shadow: 0 0 10px rgba(0, 136, 255, 0.5);
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ЭФФЕКТ ТАЗЕРА */
+    .taser-flash {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(200, 230, 255, 0.4);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 10000;
     }
 
     .terminal-container {
@@ -34,6 +61,7 @@
       padding: 20px;
       box-shadow: 0 0 30px rgba(255, 102, 0, 0.15);
       position: relative;
+      transition: all 0.3s ease;
     }
 
     h2 {
@@ -47,7 +75,6 @@
       padding-bottom: 10px;
     }
 
-    /* АДАПТИВНАЯ ТАБЛИЦА МИССИЙ */
     .table-wrapper { width: 100%; overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; margin-top: 15px; }
     
@@ -68,6 +95,8 @@
       transition: 0.2s;
     }
 
+    tr { cursor: crosshair; }
+
     tr:hover td { 
       background: rgba(255, 102, 0, 0.1); 
       color: #fff;
@@ -86,7 +115,6 @@
       }
     }
 
-    /* ДОСЬЕ И КОНЦЕПЦИИ */
     .intel-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -99,7 +127,10 @@
       border-left: 3px solid var(--sf-blue);
       padding: 15px;
       font-size: 0.85rem;
+      transition: transform 0.2s ease;
     }
+
+    .intel-box:hover { transform: scale(1.02); }
 
     .intel-box h3 { 
       color: var(--sf-blue); 
@@ -119,6 +150,8 @@
       border: 1px solid #2a3a50;
     }
 
+    #encryption-status { cursor: pointer; }
+
     .blink { animation: blinker 1.5s linear infinite; }
     @keyframes blinker { 50% { opacity: 0; } }
 
@@ -130,14 +163,29 @@
       border-top: 1px solid #2a3a50;
       padding-top: 10px;
     }
+
+    /* АНИМАЦИЯ ТРЕВОГИ */
+    .alert-mode {
+      --sf-orange: #ff3333;
+      --sf-blue: #ff0000;
+      animation: alert-shake 0.2s infinite;
+    }
+
+    @keyframes alert-shake {
+      0% { transform: translate(1px, 1px); }
+      50% { transform: translate(-1px, -1px); }
+      100% { transform: translate(1px, -1px); }
+    }
   </style>
 </head>
-<body>
+<body onmousemove="beepOnHover(event)">
 
-<div class="terminal-container">
+<div id="taser" class="taser-flash"></div>
+
+<div class="terminal-container" id="terminal">
   <div class="status-bar">
     <span>AGENT ID: LOGAN_G_815</span>
-    <span class="blink">● SYSTEM ENCRYPTED</span>
+    <span class="blink" id="encryption-status" onclick="toggleAlert()">● SYSTEM ENCRYPTED</span>
     <span id="clock">00:00:00</span>
   </div>
 
@@ -154,37 +202,37 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr onclick="taserEffect()">
           <td data-label="📅 ГОД">1999</td>
           <td data-label="🎮 ОПЕРАЦИЯ"><b>Syphon Filter</b></td>
           <td data-label="🧬 ЦЕЛЬ">Этническое оружие</td>
           <td>Ликвидация Эриха Ровена. Первая демонстрация вируса, настроенного на конкретный ДНК-маркер.</td>
         </tr>
-        <tr>
+        <tr onclick="taserEffect()">
           <td data-label="📅 ГОД">2000</td>
           <td data-label="🎮 ОПЕРАЦИЯ"><b>Syphon Filter 2</b></td>
           <td data-label="🧬 ЦЕЛЬ">Данные PHARCOM</td>
           <td>Логан объявлен предателем. Поиск дисков с кодами шифрования вируса в горах Колорадо.</td>
         </tr>
-        <tr>
+        <tr onclick="taserEffect()">
           <td data-label="📅 ГОД">2001</td>
           <td data-label="🎮 ОПЕРАЦИЯ"><b>Syphon Filter 3</b></td>
           <td data-label="🧬 ЦЕЛЬ">Внутренний заговор</td>
           <td>Трибунал в Сенате. Гейб раскрывает правду о том, что вирус создавался теневым правительством США.</td>
         </tr>
-        <tr>
+        <tr onclick="taserEffect()">
           <td data-label="📅 ГОД">2004</td>
           <td data-label="🎮 ОПЕРАЦИЯ"><b>The Omega Strain</b></td>
           <td data-label="🧬 ЦЕЛЬ">Штамм «Омега»</td>
           <td>Глобальное заражение. Вы играете за кастомного агента под руководством Логана. Десятки локаций по всему миру.</td>
         </tr>
-        <tr>
+        <tr onclick="taserEffect()">
           <td data-label="📅 ГОД">2007</td>
           <td data-label="🎮 ОПЕРАЦИЯ"><b>Dark Mirror</b></td>
           <td data-label="🧬 ЦЕЛЬ">Проект «Зеркало»</td>
           <td>Борьба с группировкой Red Section. Гейб использует высокотехнологичные очки с тепловизором и ЭМ-сканером.</td>
         </tr>
-        <tr>
+        <tr onclick="taserEffect()">
           <td data-label="📅 ГОД">2009</td>
           <td data-label="🎮 ОПЕРАЦИЯ"><b>Logan’s Shadow</b></td>
           <td data-label="🧬 ЦЕЛЬ">Секреты Лорны</td>
@@ -195,15 +243,15 @@
   </div>
 
   <div class="intel-grid">
-    <div class="intel-box">
+    <div class="intel-box" onmouseover="playKeySound()">
       <h3>🕶️ ГЭБРИЕЛ ЛОГАН</h3>
       <p>Экс-агент IPCA. Мастер скрытного проникновения и стрельбы. Известен использованием высоковольтного тазера, способного воспламенить цель на расстоянии.</p>
     </div>
-    <div class="intel-box" style="border-left-color: var(--sf-orange);">
+    <div class="intel-box" style="border-left-color: var(--sf-orange);" onmouseover="playKeySound()">
       <h3>🧪 ВИРУС SYPHON FILTER</h3>
       <p>Программируемое биологическое оружие. В отличие от обычных вирусов, он может выбирать цели по заданным генетическим признакам, уничтожая только определённых людей.</p>
     </div>
-    <div class="intel-box">
+    <div class="intel-box" onmouseover="playKeySound()">
       <h3>📡 ТЕХНОЛОГИИ</h3>
       <p>Агенты оснащены системой связи в реальном времени, сканерами среды и уникальным арсеналом от бесшумных винтовок до взрывчатки C4.</p>
     </div>
@@ -216,7 +264,7 @@
 </div>
 
 <script>
-  // Обновление времени терминала
+  // 1. Обновление времени
   function updateTime() {
     const now = new Date();
     document.getElementById('clock').innerText = now.toLocaleTimeString();
@@ -224,7 +272,56 @@
   setInterval(updateTime, 1000);
   updateTime();
 
-  // Эффект "печати" для заголовка при загрузке
+  // 2. Линия сканирования
+  let scanPos = -100;
+  function moveScanner() {
+    scanPos += 1;
+    if (scanPos > 100) scanPos = -100;
+    document.documentElement.style.setProperty('--scan-line-pos', scanPos + '%');
+    requestAnimationFrame(moveScanner);
+  }
+  moveScanner();
+
+  // 3. Звуковой синтезатор (бип)
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  function playKeySound(freq = 400, vol = 0.05, dur = 0.05) {
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'square';
+    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+    gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + dur);
+  }
+
+  // 4. Эффект тазера
+  function taserEffect() {
+    playKeySound(800, 0.1, 0.2);
+    const flash = document.getElementById('taser');
+    flash.style.opacity = '1';
+    setTimeout(() => flash.style.opacity = '0', 100);
+  }
+
+  // 5. Режим тревоги
+  let isAlert = false;
+  function toggleAlert() {
+    isAlert = !isAlert;
+    const terminal = document.getElementById('terminal');
+    const status = document.getElementById('encryption-status');
+    if (isAlert) {
+      terminal.classList.add('alert-mode');
+      status.innerText = "● SYSTEM BREACH DETECTED";
+      playKeySound(200, 0.2, 0.5);
+    } else {
+      terminal.classList.remove('alert-mode');
+      status.innerText = "● SYSTEM ENCRYPTED";
+    }
+  }
+
+  // 6. Печатная машинка
   const title = document.querySelector('h2');
   const text = title.innerText;
   title.innerText = '';
