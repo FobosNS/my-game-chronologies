@@ -3,188 +3,187 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Half-Life + Portal — Chronology</title>
+  <title>Half-Life + Portal — The Ultimate Timeline</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap');
+
     body {
-      font-family: 'Share Tech Mono', 'Orbitron', monospace;
-      background: linear-gradient(135deg, #0d1218, #1a1f28);
+      font-family: 'Share Tech Mono', monospace;
+      background: #0b0e14;
       color: #c0f0ff;
-      padding: 25px;
+      padding: clamp(10px, 3vw, 30px);
       margin: 0;
-      line-height: 1.6;
-      font-size: 15px;
-    }
-    h2 {
-      text-align: center;
-      color: #ff6600;
-      font-size: 28px;
-      margin-bottom: 8px;
-      text-shadow: 0 0 12px rgba(255, 102, 0, 0.5);
-      letter-spacing: 1px;
-    }
-    .subtitle {
-      text-align: center;
-      color: #00ccff;
-      font-size: 16px;
-      margin-bottom: 24px;
-      font-style: italic;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 0 auto 28px;
-      background: rgba(15, 22, 35, 0.92);
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
-      border: 1px solid #2a3a50;
-    }
-    th, td {
-      padding: 14px 12px;
-      text-align: left;
-      border-bottom: 1px solid #2a3a50;
-    }
-    th {
-      background: rgba(25, 35, 55, 0.95);
-      color: #a0f0ff;
-      font-weight: bold;
-      font-size: 14px;
-      letter-spacing: 0.8px;
-      text-transform: uppercase;
-    }
-    tr:last-child td {
-      border-bottom: none;
-    }
-    tr:hover {
-      background: rgba(35, 45, 65, 0.7);
-    }
-    .era-box {
-      background: rgba(20, 30, 50, 0.85);
-      border-left: 4px solid #ff6600;
-      padding: 18px;
-      border-radius: 0 10px 10px 0;
-      margin: 20px 0;
-      font-size: 14px;
-      line-height: 1.6;
-    }
-    .era-box h3 {
-      color: #ff9933;
-      margin-top: 0;
-      font-size: 19px;
-    }
-    .note {
-      margin-top: 20px;
-      font-size: 13px;
-      color: #99ccff;
-      text-align: center;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
       line-height: 1.5;
     }
-    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap');
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      border: 1px solid #1a2a3a;
+      background: rgba(13, 18, 24, 0.95);
+      padding: 20px;
+      box-shadow: 0 0 40px rgba(0, 204, 255, 0.1);
+      border-radius: 8px;
+    }
+
+    header {
+      text-align: center;
+      border-bottom: 2px solid #ff6600;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+    }
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      color: #ff6600;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin: 0;
+      text-shadow: 0 0 15px rgba(255, 102, 0, 0.4);
+    }
+
+    .status-bar {
+      font-size: 0.8rem;
+      color: #00ccff;
+      margin-top: 10px;
+    }
+
+    /* Таблица */
+    .table-wrapper { overflow-x: auto; margin-bottom: 30px; }
+    table { width: 100%; border-collapse: collapse; background: rgba(0,0,0,0.2); }
+    th { 
+      background: #16212e; color: #ff9933; padding: 12px; 
+      text-align: left; font-family: 'Orbitron'; font-size: 0.8rem;
+      border-bottom: 2px solid #2a3a50;
+    }
+    td { padding: 12px; border-bottom: 1px solid #1a2a3a; font-size: 0.9rem; }
+    tr:hover { background: rgba(0, 204, 255, 0.05); }
+
+    .tag {
+      font-size: 0.7rem; padding: 2px 6px; border-radius: 3px; 
+      font-weight: bold; text-transform: uppercase; margin-right: 5px;
+    }
+    .tag-bm { background: #4e2a14; color: #ff9933; } /* Black Mesa */
+    .tag-as { background: #1a3a4a; color: #00ccff; } /* Aperture */
+    .tag-c { background: #2d333a; color: #ffffff; }  /* Combine era */
+
+    /* Блоки описания */
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+    .card { 
+      border: 1px solid #2a3a50; padding: 15px; background: #0f161f; 
+      border-left: 4px solid #ff6600;
+    }
+    .card h3 { color: #ff9933; margin-top: 0; font-family: 'Orbitron'; font-size: 1.1rem; }
+
+    .footer-note {
+      margin-top: 30px; padding: 15px; border: 1px dashed #ff6600;
+      text-align: center; font-size: 0.85rem; color: #80a0b0;
+    }
+
+    b { color: #fff; }
   </style>
 </head>
 <body>
-  <h2>🧪 HALF-LIFE + PORTAL — ХРОНОЛОГИЯ КАТАСТРОФЫ И ПОРТАЛОВ</h2>
-  <div class="subtitle">«The right man in the wrong place can make all the difference in the world»</div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>📅 Год</th>
-        <th>🎮 Игра / Событие</th>
-        <th>🔬 Локация</th>
-        <th>👤 Ключевые фигуры</th>
-        <th>🔗 Связь</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><b>1952–1960-е</b></td>
-        <td><b>Aperture Science: Золотой век</b></td>
-        <td>Мичиган, США</td>
-        <td>Кавин Джонсон</td>
-        <td>Основание Aperture. Разработка портал-пушки, гелей. Соперничество с Black Mesa.</td>
-      </tr>
-      <tr>
-        <td><b>1970–1980-е</b></td>
-        <td><b>Black Mesa: Восход</b></td>
-        <td>Нью-Мексико, США</td>
-        <td>Доктор Кляйнер, Моссман</td>
-        <td>Black Mesa становится ведущим НИИ. Aperture приходит в упадок.</td>
-      </tr>
-      <tr>
-        <td><b>~200-е</b></td>
-        <td><b>Portal</b></td>
-        <td>Aperture Science (заброшен)</td>
-        <td>Челл, GLaDOS</td>
-        <td>Челл проходит тесты GLaDOS. Уничтожает ИИ. События происходят ДО или ПАРАЛЛЕЛЬНО с Half-Life 2.</td>
-      </tr>
-      <tr>
-        <td><b>~200-е</b></td>
-        <td><b>Half-Life</b></td>
-        <td>Black Mesa</td>
-        <td>Гордон Фримен</td>
-        <td>Эксперимент с ксен-кристаллом → портал в Ксен → вторжение НЛО. Начало катастрофы.</td>
-      </tr>
-      <tr>
-        <td><b>~2010</b></td>
-        <td><b>Half-Life 2</b></td>
-        <td>Сити 17, Белая лесная база</td>
-        <td>Гордон, Аликс, доктор Кляйнер</td>
-        <td>7 часов после портала → 20 лет комы. Combine захватили Землю. Восстание начинается.</td>
-      </tr>
-      <tr>
-        <td><b>Сразу после HL2</b></td>
-        <td><b>Half-Life 2: Episode One</b></td>
-        <td>Руины Сити 17</td>
-        <td>Гордон, Аликс</td>
-        <td>Побег из взрывающейся Цитадели. Борьба за стабилизацию реактора.</td>
-      </tr>
-      <tr>
-        <td><b>Через несколько недель</b></td>
-        <td><b>Half-Life 2: Episode Two</b></td>
-        <td>Белые леса → Белая лесная база</td>
-        <td>Гордон, Аликс, доктор Моссман</td>
-        <td>Доставка данных из Цитадели. Жертва Аликс. «Prepare for unforeseen consequences».</td>
-      </tr>
-      <tr>
-        <td><b>После Portal</b></td>
-        <td><b>Portal 2</b></td>
-        <td>Aperture Science (глубины)</td>
-        <td>Челл, Уитли, Кавин Джонсон</td>
-        <td>Челл пробуждается спустя годы. Уитли захватывает GLaDOS. Раскрытие истории Aperture.</td>
-      </tr>
-    </tbody>
-  </table>
+<div class="container">
+  <header>
+    <h1>VALVE_UNIVERSE_ARCHIVE</h1>
+    <div class="status-bar">СИНХРОНИЗАЦИЯ С G-MAN: УСТАНОВЛЕНА // ДОСТУП: ОГРАНИЧЕН</div>
+  </header>
 
-  <div class="era-box">
-    <h3>🌀 Две лаборатории — одна судьба:</h3>
-    <p><b>• Black Mesa</b>:<br>
-    — Научный гигант, вызвавший вторжение Ксена.<br>
-    — События HL1 → HL2 → Эпизоды.<br>
-    — Гордон Фримен — «тихий герой», спасающий человечество.</p>
-    <p><b>• Aperture Science</b>:<br>
-    — Безумная компания, создавшая портал-технологию.<br>
-    — GLaDOS — ИИ, убивающий тестировщиков.<br>
-    — Челл — молчаливая героиня, побеждающая через логику.</p>
-    <p>Обе лаборатории упоминают друг друга: в HL2 — постер «Aperture Science», в Portal — «Black Mesa rules!».</p>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Период</th>
+          <th>Событие / Объект</th>
+          <th>Герой</th>
+          <th>Суть инцидента</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1940-80-е</td>
+          <td><span class="tag tag-as">AS</span> <b>Aperture Era</b></td>
+          <td>Кейв Джонсон</td>
+          <td>Шторы для душа → Гели → Порталы. Создание GLaDOS.</td>
+        </tr>
+        <tr>
+          <td>Май 200-</td>
+          <td><span class="tag tag-bm">BM</span> <b>Half-Life 1</b></td>
+          <td>Гордон Фримен</td>
+          <td>Каскадный резонанс. Вторжение из Зена.</td>
+        </tr>
+        <tr>
+          <td>Параллельно</td>
+          <td><span class="tag tag-bm">BM</span> <b>Opposing Force</b></td>
+          <td>Адриан Шепард</td>
+          <td>H.E.C.U. зачищает комплекс. Подрыв Black Mesa ядерным зарядом.</td>
+        </tr>
+        <tr>
+          <td>Параллельно</td>
+          <td><span class="tag tag-bm">BM</span> <b>Blue Shift / Decay</b></td>
+          <td>Барни / Джина / Колетт</td>
+          <td>Эвакуация персонала. Попытка закрыть разлом.</td>
+        </tr>
+        <tr>
+          <td>~2010</td>
+          <td><span class="tag tag-as">AS</span> <b>Portal 1</b></td>
+          <td>Челл</td>
+          <td>GLaDOS активирована, персонал уничтожен нейротоксином.</td>
+        </tr>
+        <tr>
+          <td>~2025</td>
+          <td><span class="tag tag-c">C</span> <b>Half-Life: Alyx</b></td>
+          <td>Аликс Вэнс</td>
+          <td>5 лет до HL2. Строительство «Тюрьмы». Изменение таймлайна.</td>
+        </tr>
+        <tr>
+          <td>~2030</td>
+          <td><span class="tag tag-c">C</span> <b>Half-Life 2</b></td>
+          <td>Гордон Фримен</td>
+          <td>Прибытие в Сити-17. Начало Восстания против Альянса.</td>
+        </tr>
+        <tr>
+          <td>Следом</td>
+          <td><span class="tag tag-c">C</span> <b>Ep. 1 & Ep. 2</b></td>
+          <td>Гордон & Аликс</td>
+          <td>Уничтожение Цитадели. Путешествие к «Борею». Смерть Илая.</td>
+        </tr>
+        <tr>
+          <td>??? лет спустя</td>
+          <td><span class="tag tag-as">AS</span> <b>Portal 2</b></td>
+          <td>Челл</td>
+          <td>Возрождение комплекса. Уитли. Побег на поверхность.</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
-  <div class="era-box">
-    <h3>👁️ Ключевые темы:</h3>
-    <p>• <b>Наука без морали</b> — обе лаборатории игнорируют последствия.<br>
-    • <b>Молчаливые герои</b> — Гордон и Челл никогда не говорят.<br>
-    • <b>Combine</b> — инопланетная империя, поработившая Землю за 7 часов.<br>
-    • <b>Порталы</b> — технология, связывающая миры (Ксен, Aperture, Земля).</p>
+  <div class="grid">
+    <div class="card">
+      <h3>🧬 Проект «Борей» (Borealis)</h3>
+      <p>Главный мост между сериями. Судно Aperture Science, содержащее уникальную технологию портации, случайно телепортировавшееся в Арктику. Искомый объект в <b>HL2: Episode Two</b>.</p>
+    </div>
+    <div class="card">
+      <h3>💼 G-Man</h3>
+      <p>Межпространственный бюрократ. Нанимает «агентов» (Фримен, Шепард, Аликс) для коррекции мировых событий. Истинные цели и «работодатели» неизвестны.</p>
+    </div>
+    <div class="card">
+      <h3>🤖 GLaDOS vs Black Mesa</h3>
+      <p>Искусственный интеллект Aperture ненавидит конкурентов. Даже в песне «Still Alive» она издевательски упоминает Black Mesa, когда та уже уничтожена Альянсом.</p>
+    </div>
   </div>
 
-  <div class="note">
-    💡 Valve подтвердила: <b>все игры — в одной вселенной</b>.<br>
-    <i>Half-Life 3</i> и <i>Half-Life 2: Episode Three</i> — не выпущены (но фанаты ждут).<br>
-    <i>Portal 2</i> раскрывает, что Aperture существовала ДО Black Mesa — и проиграла конкуренцию.<br>
-    Слоган Aperture: «We do what we must because we can».
+  <div class="footer-note">
+    ⚠️ <b>ВНИМАНИЕ:</b> После событий <i>Half-Life: Alyx</i> каноническая концовка <i>Episode Two</i> считается измененной. <br>
+    «Prepare for unforeseen consequences» — G-Man снова переставил фигуры на доске.
   </div>
+</div>
+
+<script>
+  console.log("Wake up, Mr. Freeman. Wake up and smell the ashes.");
+</script>
+
 </body>
 </html>
