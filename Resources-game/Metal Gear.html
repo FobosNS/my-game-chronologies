@@ -1,172 +1,237 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Metal Gear — Chronology</title>
+  <title>Metal Gear — Tactical Archive</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap');
+
     body {
-      font-family: 'Share Tech Mono', 'Courier New', monospace;
-      background: #0a0e12;
-      color: #c0e0c0;
-      padding: 20px;
+      font-family: 'Share Tech Mono', monospace;
+      background: #05080a;
+      color: #7cfc00;
+      padding: clamp(10px, 5vw, 30px);
       margin: 0;
-      line-height: 1.5;
+      line-height: 1.4;
     }
-    h2 {
-      text-align: center;
-      color: #33ff66;
-      font-size: 24px;
-      margin-bottom: 20px;
-      text-shadow: 0 0 6px rgba(51, 255, 102, 0.3);
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
+
+    .container {
+      max-width: 1200px;
       margin: 0 auto;
-      font-size: 13px;
-      background: rgba(12, 18, 24, 0.9);
-      border-radius: 6px;
-      overflow: hidden;
+      border: 1px solid #1a331a;
+      background: rgba(10, 20, 15, 0.95);
+      padding: 20px;
+      box-shadow: 0 0 30px rgba(124, 252, 0, 0.1);
+      position: relative;
     }
-    th, td {
-      padding: 10px 8px;
-      text-align: left;
-      border-bottom: 1px solid #223322;
+
+    /* Эффект сканирования монитора */
+    .container::before {
+      content: " ";
+      position: absolute;
+      top: 0; left: 0; bottom: 0; right: 0;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                  linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+      background-size: 100% 2px, 3px 100%;
+      pointer-events: none;
+      z-index: 10;
     }
-    th {
-      background: #152515;
-      color: #aaffaa;
-      font-weight: bold;
-      letter-spacing: 1px;
-    }
-    tr:hover {
-      background: rgba(20, 30, 25, 0.7);
-    }
-    .era {
-      margin-top: 25px;
-      padding: 12px;
-      background: rgba(10, 20, 15, 0.8);
-      border-left: 3px solid #33ff66;
-      font-size: 12px;
-      color: #e0f0e0;
-    }
-    .era b { color: #aaffaa; }
-    .note {
-      margin-top: 20px;
-      font-size: 11px;
-      color: #88aa88;
+
+    header {
       text-align: center;
-      font-style: italic;
+      border-bottom: 2px solid #1a331a;
+      margin-bottom: 20px;
+      padding: 10px;
     }
-    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      color: #fff;
+      font-size: clamp(1.2rem, 5vw, 2.2rem);
+      margin: 0;
+      letter-spacing: 5px;
+      text-shadow: 0 0 10px #7cfc00;
+    }
+
+    /* Вкладки (Tabs) */
+    .tabs-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #1a331a;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: 1px solid #1a331a;
+      color: #4a664a;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.8rem;
+      transition: 0.3s;
+    }
+
+    .tab-btn:hover { background: rgba(124, 252, 0, 0.1); color: #7cfc00; }
+    .tab-btn.active {
+      background: #1a331a;
+      color: #7cfc00;
+      border-bottom: 2px solid #7cfc00;
+    }
+
+    .tab-content { display: none; animation: fadeIn 0.5s; }
+    .tab-content.active { display: block; }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    /* Таблицы */
+    .table-wrapper { overflow-x: auto; margin-bottom: 20px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; background: rgba(0,0,0,0.3); }
+    th { background: #152515; color: #fff; padding: 12px; text-align: left; border-bottom: 2px solid #7cfc00; }
+    td { padding: 10px; border-bottom: 1px solid #1a331a; }
+    tr:hover { background: rgba(124, 252, 0, 0.05); }
+
+    .freq { color: #fff; font-weight: bold; font-family: 'Orbitron'; letter-spacing: 1px; }
+
+    /* Досье */
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+    .card { border: 1px solid #1a331a; padding: 15px; background: rgba(0,0,0,0.5); }
+    .card h3 { color: #fff; margin-top: 0; border-bottom: 1px solid #1a331a; font-family: 'Orbitron'; font-size: 1rem; }
+
+    .philosophy { padding: 20px; border: 1px double #7cfc00; background: rgba(20, 40, 20, 0.4); }
+
+    .footer-note {
+      text-align: center; font-size: 0.75rem; color: #4a664a; margin-top: 40px;
+      text-transform: uppercase; letter-spacing: 2px;
+    }
+
+    b { color: #fff; }
+    .red-alert { color: #ff4444; border-color: #ff4444; }
   </style>
 </head>
 <body>
-  <h2>🕵️‍♂️ METAL GEAR — КАНОНИЧЕСКАЯ ХРОНОЛОГИЯ</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>📅 Год</th>
-        <th>🎮 Игра</th>
-        <th>👤 Оперативный код</th>
-        <th>⚠️ Угроза</th>
-        <th>🔗 Связь</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><b>1964</b></td>
-        <td><b>Metal Gear Solid 3: Snake Eater</b></td>
-        <td>🐍 Naked Snake (Big Boss)</td>
-        <td>⚔️ Философы, Волк-Мать</td>
-        <td>🌱 Рождение легенды. Убийство учителя → начало конфликта.</td>
-      </tr>
-      <tr>
-        <td><b>1970</b></td>
-        <td><b>Metal Gear Solid: Portable Ops</b></td>
-        <td>🐍 Big Boss</td>
-        <td>🧬 Генетические солдаты</td>
-        <td>🛡️ Создание FOXHOUND и идеи «наёмной армии».</td>
-      </tr>
-      <tr>
-        <td><b>1975</b></td>
-        <td><b>Metal Gear Solid: Peace Walker</b></td>
-        <td>🐍 Big Boss</td>
-        <td>🤖 AI-носитель Peace Walker</td>
-        <td>🕊️ Основание MSF. Встреча с Казухирой. Рождение Outer Heaven.</td>
-      </tr>
-      <tr>
-        <td><b>1984</b></td>
-        <td><b>Metal Gear Solid V: Ground Zeroes</b></td>
-        <td>🐍 Big Boss</td>
-        <td>👁️ XOF, похищение Паз</td>
-        <td>💣 Начало катастрофы. Уничтожение MSF.</td>
-      </tr>
-      <tr>
-        <td><b>1984–1995</b></td>
-        <td><b>Metal Gear Solid V: The Phantom Pain</b></td>
-        <td>👻 Веном Снейк (клон)</td>
-        <td>🧠 Стэм-Снейк, Diamond Dogs</td>
-        <td>🌀 Big Boss в коме. Веном — его «фантом». Создание Outer Heaven.</td>
-      </tr>
-      <tr>
-        <td><b>1995</b></td>
-        <td><b>Metal Gear</b> (MSX)</td>
-        <td>👤 Solid Snake</td>
-        <td>🤖 Metal Gear TX-55</td>
-        <td>⚔️ Первое задание Solid Snake. Уничтожение Outer Heaven.</td>
-      </tr>
-      <tr>
-        <td><b>1999</b></td>
-        <td><b>Metal Gear 2: Solid Snake</b></td>
-        <td>👤 Solid Snake</td>
-        <td>🧪 Metal Gear D</td>
-        <td>🌍 Спасение доктора Кински. Последнее задание перед отставкой.</td>
-      </tr>
-      <tr>
-        <td><b>2005</b></td>
-        <td><b>Metal Gear Solid</b></td>
-        <td>👤 Solid Snake</td>
-        <td>🧬 FOXDIE, Metal Gear REX</td>
-        <td>🧬 Генетическое наследие. Битва с Liquid. Раскрытие проекта «Les Enfants Terribles».</td>
-      </tr>
-      <tr>
-        <td><b>2007–2014</b></td>
-        <td><b>Metal Gear Solid 2: Sons of Liberty</b></td>
-        <td>🛡️ Raiden</td>
-        <td>🧠 Patriots, AI-контроль</td>
-        <td>📡 Правда скрыта в данных. Философия цифрового контроля.</td>
-      </tr>
-      <tr>
-        <td><b>2014</b></td>
-        <td><b>Metal Gear Solid 4: Guns of the Patriots</b></td>
-        <td>👤 Solid Snake (Old Snake)</td>
-        <td>🤖 Система «Patriots»</td>
-        <td>🌅 Финал Снейка. Смерть Liquid Ocelot. Конец войны наёмников.</td>
-      </tr>
-      <tr>
-        <td><b>2018</b></td>
-        <td><b>Metal Gear Rising: Revengeance</b></td>
-        <td>⚡ Raiden</td>
-        <td>🧠 Private Militaries, War Economy</td>
-        <td>⚡ Спин-офф (каноничен). Raiden — киборг-спаситель детей.</td>
-      </tr>
-    </tbody>
-  </table>
 
-  <div class="era">
-    <b>🌀 Три эпохи:</b><br>
-    • <b>Холодная война</b> (1964–1975): Рождение Big Boss и идеалов.<br>
-    • <b>Тень Снейка</b> (1984–2005): Расцвет и падение генной войны.<br>
-    • <b>Цифровой контроль</b> (2007–2018): Борьба с системой, а не с людьми.<br><br>
-    <b>🧬 Ключевая тема:</b> «Война не заканчивается — она эволюционирует».
+<div class="container">
+  <header>
+    <h1>TACTICAL_ARCHive_V.140.85</h1>
+    <div style="font-size: 0.7rem; color: #4a664a;">LOGGED IN AS: MASTER_MILLER // ENCRYPTION: ACTIVE</div>
+  </header>
+
+  <nav class="tabs-nav">
+    <button class="tab-btn active" onclick="openTab(event, 'chrono')">ХРОНОЛОГИЯ</button>
+    <button class="tab-btn" onclick="openTab(event, 'dossier')">ДОСЬЕ</button>
+    <button class="tab-btn" onclick="openTab(event, 'codec')">КОДЕК</button>
+    <button class="tab-btn" onclick="openTab(event, 'projects')">ПРОЕКТЫ</button>
+  </nav>
+
+  <div id="chrono" class="tab-content active">
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>ГОД</th>
+            <th>ОПЕРАЦИЯ</th>
+            <th>ОПЕРАТИВНИК</th>
+            <th>ТЕХНОЛОГИЯ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1964</td><td><b>Snake Eater</b></td><td>Naked Snake</td><td>Shagohod</td></tr>
+          <tr><td>1974</td><td><b>Peace Walker</b></td><td>Big Boss</td><td>AI Mammal Pods</td></tr>
+          <tr><td>1984</td><td><b>The Phantom Pain</b></td><td>Venom Snake</td><td>Sahelanthropus</td></tr>
+          <tr><td>1995</td><td><b>Outer Heaven</b></td><td>Solid Snake</td><td>Metal Gear TX-55</td></tr>
+          <tr><td>2005</td><td><b>Shadow Moses</b></td><td>Solid Snake</td><td>Metal Gear REX</td></tr>
+          <tr><td>2009</td><td><b>Big Shell</b></td><td>Raiden</td><td>Arsenal Gear</td></tr>
+          <tr><td>2014</td><td><b>Guns of the Patriots</b></td><td>Old Snake</td><td>SOP System</td></tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
-  <div class="note">
-    ⚠️ Порядок выпуска: MGS1 → MGS2 → MGS3 → MGS4 → MGSV.<br>
-    Но каноническая хронология начинается с <i>MGS3</i> (1964).<br>
-    Все игры связаны через генетику, идеологию и фигуру Big Boss.
+  <div id="dossier" class="tab-content">
+    <div class="grid">
+      <div class="card">
+        <h3>🐍 Big Boss</h3>
+        <p>Легендарный наемник. Создал <b>Zanzibar Land</b>. Послужил генетическим шаблоном для проекта клонирования.</p>
+      </div>
+      <div class="card">
+        <h3>👤 Solid Snake</h3>
+        <p>Специалист по инфильтрации. Победил своего "отца" дважды. Носитель вируса <b>FOXDIE</b>.</p>
+      </div>
+      <div class="card">
+        <h3>⚡ Raiden</h3>
+        <p>Бывший ребенок-солдат. После инцидента Big Shell был превращен в киборга-ниндзя.</p>
+      </div>
+      <div class="card">
+        <h3>🕶️ Revolver Ocelot</h3>
+        <p>Мастер допросов и рикошета. Истинный кукловод событий всей Саги.</p>
+      </div>
+    </div>
   </div>
+
+  <div id="codec" class="tab-content">
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>ПЕРСОНАЖ</th>
+            <th>ЧАСТОТА</th>
+            <th>РОЛЬ / ПОДДЕРЖКА</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><b>Colonel Campbell</b></td><td class="freq">140.85</td><td>Командир операции, сохранение данных</td></tr>
+          <tr><td><b>Otacon (Hal Emmerich)</b></td><td class="freq">141.12</td><td>Техническая поддержка, взлом систем</td></tr>
+          <tr><td><b>Master Miller</b></td><td class="freq">141.80</td><td>Тактические советы, выживание</td></tr>
+          <tr><td><b>Mei Ling</b></td><td class="freq">140.96</td><td>Сохранение данных (Shadow Moses)</td></tr>
+          <tr><td><b>Major Zero</b></td><td class="freq">140.85</td><td>Командир (Operation Snake Eater)</td></tr>
+          <tr><td><b>Para-Medic</b></td><td class="freq">145.73</td><td>Медицинская помощь, информация о флоре/фауне</td></tr>
+          <tr><td><b>Sigint</b></td><td class="freq">148.41</td><td>Информация об оружии и снаряжении</td></tr>
+          <tr><td><b>Meryl Silverburgh</b></td><td class="freq">140.15</td><td>Полевой контакт, инсайды NYPD</td></tr>
+          <tr><td><b>Rosemary</b></td><td class="freq">140.96</td><td>Психологическая поддержка (Big Shell)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="philosophy" style="border-style: solid; border-width: 1px;">
+      <p style="text-align: center; margin: 0;"><i>"Snake, try to remember the basics of CQC." — The Boss</i></p>
+    </div>
+  </div>
+
+  <div id="projects" class="tab-content">
+    <div class="philosophy">
+      <h3>🌀 «ВОЛЯ БОСС»</h3>
+      <p>Спор о будущем мира между Major Zero и Big Boss привел к созданию системы контроля <b>The Patriots</b>.</p>
+    </div>
+    <div class="card red-alert" style="margin-top: 20px;">
+      <h3>☣️ Les Enfants Terribles</h3>
+      <p>Проект по созданию идеальных солдат путем клонирования Big Boss. Результаты: Solid Snake, Liquid Snake и Solidus Snake.</p>
+    </div>
+  </div>
+
+  <div class="footer-note">
+    «THERE ARE NO HEROES IN WAR. THE ONLY HEROES I KNOW ARE EITHER DEAD OR IN PRISON.»
+  </div>
+</div>
+
+<script>
+  function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tab-content");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].classList.remove("active");
+    }
+    tablinks = document.getElementsByClassName("tab-btn");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].classList.remove("active");
+    }
+    document.getElementById(tabName).classList.add("active");
+    evt.currentTarget.classList.add("active");
+  }
+
+  console.log("Codec frequency: 140.85 — Saving data...");
+</script>
+
 </body>
 </html>
