@@ -3,208 +3,185 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Batman: Arkham — Case Files</title>
+  <title>Bat-Computer: Radar System</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap');
 
     :root {
       --bat-green: #33ff66;
-      --bat-green-dim: rgba(51, 255, 102, 0.2);
+      --bat-green-dim: rgba(51, 255, 102, 0.15);
+      --radar-bg: rgba(10, 15, 20, 0.9);
       --joker-pink: #ff33cc;
-      --bg-dark: #0a0c10;
-      --panel-bg: rgba(20, 26, 35, 0.95);
-      --border-color: #1e2630;
-      --scan-line: rgba(51, 255, 102, 0.03);
     }
-
-    * { box-sizing: border-box; transition: all 0.2s ease-in-out; }
 
     body {
+      background: #05070a;
+      color: var(--bat-green);
       font-family: 'Share Tech Mono', monospace;
-      background: var(--bg-dark);
-      background-image: 
-        linear-gradient(var(--scan-line) 50%, transparent 50%),
-        linear-gradient(90deg, var(--scan-line) 50%, transparent 50%);
-      background-size: 100% 4px, 4px 100%; /* Эффект ЭЛТ-монитора */
-      color: #c0f0c0;
       margin: 0;
-      padding: 20px;
-      line-height: 1.6;
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    header {
-      text-align: center;
-      padding: 40px 0;
-      border-bottom: 1px solid var(--border-color);
-      margin-bottom: 30px;
-    }
-
-    h1 {
-      font-family: 'Orbitron', sans-serif;
-      color: var(--bat-green);
-      font-size: clamp(1.5rem, 5vw, 2.5rem);
-      text-transform: uppercase;
-      margin: 0;
-      text-shadow: 0 0 20px var(--bat-green-dim);
-    }
-
-    .subtitle {
-      color: var(--joker-pink);
-      font-size: 1.1rem;
-      margin-top: 10px;
-      letter-spacing: 2px;
-    }
-
-    /* Grid System вместо Table */
-    .timeline-grid {
-      display: grid;
-      gap: 15px;
-    }
-
-    .grid-header {
-      display: grid;
-      grid-template-columns: 180px 250px 150px 1fr;
-      padding: 15px;
-      background: rgba(51, 255, 102, 0.1);
-      color: var(--bat-green);
-      font-weight: bold;
-      text-transform: uppercase;
-      font-size: 0.85rem;
-      border-radius: 4px;
-    }
-
-    .case-row {
-      display: grid;
-      grid-template-columns: 180px 250px 150px 1fr;
-      padding: 20px 15px;
-      background: var(--panel-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
       align-items: center;
-    }
-
-    .case-row:hover {
-      border-color: var(--bat-green);
-      box-shadow: 0 0 15px var(--bat-green-dim);
-      transform: scale(1.01);
-      z-index: 10;
-    }
-
-    .case-year { color: var(--bat-green); font-weight: bold; }
-    .case-title { font-family: 'Orbitron', sans-serif; font-size: 0.9rem; }
-    .case-villain { color: #ff4444; }
-
-    /* Блоки с лором */
-    .info-panels {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 20px;
-      margin-top: 40px;
-    }
-
-    .era-box {
-      background: rgba(15, 20, 28, 0.8);
-      border: 1px solid var(--border-color);
-      border-top: 4px solid var(--bat-green);
+      min-height: 100vh;
       padding: 20px;
+    }
+
+    /* РАДАРНАЯ ПАНЕЛЬ */
+    .radar-container {
+      position: relative;
+      width: 300px;
+      height: 300px;
+      background: var(--radar-bg);
+      border: 2px solid var(--bat-green);
+      border-radius: 50%;
+      margin-bottom: 30px;
+      box-shadow: 0 0 30px var(--bat-green-dim);
+      overflow: hidden;
+    }
+
+    /* Луч сканера */
+    .radar-beam {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: conic-gradient(from 0deg, var(--bat-green-dim) 0%, transparent 40%);
+      animation: rotate 4s linear infinite;
+    }
+
+    /* Сетка радара */
+    .radar-grid {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background-image: 
+        radial-gradient(circle, transparent 30%, var(--bat-green-dim) 31%, transparent 32%, var(--bat-green-dim) 60%, transparent 61%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .radar-axis {
+      position: absolute;
+      width: 100%;
+      height: 1px;
+      background: var(--bat-green-dim);
+    }
+    .radar-axis.v { transform: rotate(90deg); }
+
+    /* Точки интереса (POI) */
+    .poi {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: var(--bat-green);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      filter: blur(1px);
+      box-shadow: 0 0 10px var(--bat-green);
+      opacity: 0;
+      transition: opacity 0.3s, transform 0.3s;
+    }
+
+    .poi.active {
+      opacity: 1;
+      animation: ping 1.5s ease-out infinite;
+    }
+
+    /* СПИСОК ИГР */
+    .game-list {
+      width: 100%;
+      max-width: 600px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .game-card {
+      background: rgba(20, 30, 40, 0.8);
+      border: 1px solid var(--bat-green-dim);
+      padding: 15px;
+      cursor: pointer;
       border-radius: 4px;
+      transition: 0.2s;
     }
 
-    .era-box h3 {
+    .game-card:hover {
+      border-color: var(--bat-green);
+      background: rgba(51, 255, 102, 0.05);
+      transform: scale(1.02);
+    }
+
+    .game-card h3 {
+      margin: 0;
       font-family: 'Orbitron', sans-serif;
-      color: var(--bat-green);
-      margin-top: 0;
+      font-size: 1rem;
     }
 
-    .note {
-      text-align: center;
-      margin-top: 40px;
-      padding: 20px;
-      border: 1px dashed var(--border-color);
-      font-size: 0.85rem;
-      opacity: 0.7;
+    /* АНИМАЦИИ */
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
     }
 
-    /* Адаптивность для мобильных устройств */
-    @media (max-width: 900px) {
-      .grid-header { display: none; }
-      .case-row {
-        grid-template-columns: 1fr;
-        gap: 10px;
-        text-align: center;
-      }
-      .case-year::after { content: ' — '; }
+    @keyframes ping {
+      0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+      100% { transform: translate(-50%, -50%) scale(4); opacity: 0; }
     }
   </style>
 </head>
 <body>
 
-<div class="container">
-  <header>
-    <h1>Arkham Intelligence System</h1>
-    <div class="subtitle">PROJECT: GOTHAM CHRONOLOGY // VERSION 2.0</div>
-  </header>
-
-  <div class="timeline-grid">
-    <div class="grid-header">
-      <div>Timestamp</div>
-      <div>Software Unit</div>
-      <div>Target</div>
-      <div>Intel Summary</div>
-    </div>
-
-    <div class="case-row">
-      <div class="case-year">YEAR ONE (ORIGINS)</div>
-      <div class="case-title">Arkham Origins</div>
-      <div class="case-villain">Joker / Black Mask</div>
-      <div>Молодой Бэтмен. 8 наёмников. Формирование легенды в Рождественскую ночь.</div>
-    </div>
-
-    <div class="case-row">
-      <div class="case-year">PHASE 2 (ASYLUM)</div>
-      <div class="case-title">Arkham Asylum</div>
-      <div class="case-villain">Joker / Scarecrow</div>
-      <div>Инцидент на острове. Проект «Титан». Столкновение со страхами.</div>
-    </div>
-
-    <div class="case-row">
-      <div class="case-year">PHASE 3 (CITY)</div>
-      <div class="case-title">Arkham City</div>
-      <div class="case-villain">Strange / Joker</div>
-      <div>Протокол 10. Готэмская тюрьма под открытым небом. Гибель врага.</div>
-    </div>
-
-    <div class="case-row">
-      <div class="case-year">FINAL (KNIGHT)</div>
-      <div class="case-title">Arkham Knight</div>
-      <div class="case-villain">Arkham Knight / Scarecrow</div>
-      <div>Тотальная война. Протокол «Knightfall». Раскрытие личности.</div>
-    </div>
-  </div>
+  <h1 style="font-family: 'Orbitron'; letter-spacing: 5px;">GOTHAM RADAR v4.0</h1>
 
   
 
-  <div class="info-panels">
-    <div class="era-box">
-      <h3>🧬 Профиль субъекта</h3>
-      <p>Брюс Уэйн эволюционирует от яростного мстителя до символа, который больше чем человек. Каждая итерация Arkham-костюма отражает рост его технологического арсенала.</p>
+  <div class="radar-container" id="radar">
+    <div class="radar-beam"></div>
+    <div class="radar-grid">
+      <div class="radar-axis"></div>
+      <div class="radar-axis v"></div>
     </div>
-    <div class="era-box">
-      <h3>🎭 Психологический профиль</h3>
-      <p>Отношения Бэтмена и Джокера — это симбиоз. Knight доказывает, что Джокер не просто враг, а часть подсознания Бэтмена, его темное отражение.</p>
+    </div>
+
+  <div class="game-list">
+    <div class="game-card" data-x="40" data-y="30">
+      <h3>ARKHAM ORIGINS</h3>
+      <small>LOCKED: Royal Hotel / Blackgate</small>
+    </div>
+    <div class="game-card" data-x="70" data-y="60">
+      <h3>ARKHAM ASYLUM</h3>
+      <small>LOCKED: Arkham Island</small>
+    </div>
+    <div class="game-card" data-x="30" data-y="80">
+      <h3>ARKHAM CITY</h3>
+      <small>LOCKED: Old Gotham / Bowery</small>
+    </div>
+    <div class="game-card" data-x="60" data-y="20">
+      <h3>ARKHAM KNIGHT</h3>
+      <small>LOCKED: Miagani Island</small>
     </div>
   </div>
 
-  <div class="note">
-    SYSTEM_LOG: Arkham Shadow (VR) — подтвержденный каноничный модуль (2024). <br>
-    Статус Готэма: CRITICAL // Бэтмен: АКТИВЕН (через страх).
-  </div>
-</div>
-
+  <script>
+    const radar = document.getElementById('radar');
+    const cards = document.querySelectorAll('.game-card');
+    
+    // Создаем POI для каждой карточки
+    const pois = Array.from(cards).map((card, index) => {
+      const poi = document.createElement('div');
+      poi.className = 'poi';
+      // Переводим проценты в координаты
+      poi.style.left = card.dataset.x + '%';
+      poi.style.top = card.dataset.y + '%';
+      radar.appendChild(poi);
+      
+      // События наведения
+      card.addEventListener('mouseenter', () => poi.classList.add('active'));
+      card.addEventListener('mouseleave', () => poi.classList.remove('active'));
+      
+      return poi;
+    });
+  </script>
 </body>
 </html>
