@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GTA — Full Multiverse Archive</title>
+  <title>GTA — Ultimate Criminal Archive</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap');
 
@@ -39,51 +39,47 @@
     .tab-content { display: none; animation: fadeIn 0.4s ease; }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-    /* Таблица */
-    .table-wrapper { overflow-x: auto; height: 600px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--gta-pink) transparent; }
-    table { width: 100%; border-collapse: collapse; margin-bottom: 20px; background: rgba(0,0,0,0.3); font-size: 0.8rem; }
-    th { background: rgba(255, 51, 204, 0.1); color: var(--gta-gold); padding: 12px; text-align: left; border-bottom: 2px solid var(--gta-pink); position: sticky; top: 0; z-index: 10; background: #251535; }
+    .table-wrapper { overflow-x: auto; height: 500px; overflow-y: auto; border: 1px solid #3a2545; }
+    table { width: 100%; border-collapse: collapse; background: rgba(0,0,0,0.3); font-size: 0.85rem; }
+    th { background: #251535; color: var(--gta-gold); padding: 12px; text-align: left; border-bottom: 2px solid var(--gta-pink); position: sticky; top: 0; z-index: 10; }
     td { padding: 10px; border-bottom: 1px solid #3a2545; }
-    .era-tag { font-size: 0.65rem; padding: 2px 5px; border-radius: 3px; font-weight: bold; }
-    .e-2d { background: #4a2a5a; color: #fff; }
-    .e-3d { background: #006666; color: #fff; }
-    .e-hd { background: #885500; color: #fff; }
+    
+    .era-tag { font-size: 0.7rem; padding: 2px 5px; border-radius: 3px; font-weight: bold; }
+    .e-2d { background: #4a2a5a; }
+    .e-3d { background: #006666; }
+    .e-hd { background: #885500; }
 
-    /* Досье */
-    .protag-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-top: 10px; }
-    .protag-card { background: rgba(20, 20, 35, 0.8); border: 1px solid #4a2a5a; padding: 15px; border-left: 4px solid var(--gta-gold); }
-    .protag-name { font-family: 'Orbitron'; color: var(--gta-gold); font-size: 1.1rem; margin-bottom: 5px; display: block; }
-    .protag-meta { color: var(--gta-cyan); font-size: 0.75rem; text-transform: uppercase; display: block; margin-bottom: 8px; }
-    .protag-bio { font-size: 0.85rem; color: #ccc; line-height: 1.4; }
+    /* Досье Сетка */
+    .protag-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; }
+    .protag-card { background: rgba(30, 20, 45, 0.7); border: 1px solid #4a2a5a; padding: 15px; border-left: 4px solid var(--gta-gold); transition: 0.3s; }
+    .protag-card:hover { transform: translateY(-5px); background: rgba(40, 25, 60, 0.9); border-color: var(--gta-pink); }
+    .protag-name { font-family: 'Orbitron'; color: var(--gta-gold); font-size: 1.1rem; display: block; margin-bottom: 5px; }
+    .protag-meta { color: var(--gta-cyan); font-size: 0.7rem; text-transform: uppercase; display: block; margin-bottom: 10px; border-bottom: 1px solid #3a2545; padding-bottom: 5px; }
+    .protag-bio { font-size: 0.85rem; line-height: 1.4; color: #d0c0e0; }
 
-    /* Wanted Level */
     .wanted-stars { display: flex; justify-content: center; gap: 10px; margin: 20px 0; font-size: 2rem; cursor: pointer; }
     .star { color: #331a3d; transition: 0.2s; }
     .star.active { color: var(--gta-gold); text-shadow: 0 0 10px var(--gta-gold); }
     .police-report { background: rgba(255, 68, 68, 0.1); border: 1px solid var(--gta-red); padding: 15px; border-radius: 8px; text-align: center; }
 
-    /* Map */
-    .map-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
-    .city-card { background: #1a0f25; border: 1px solid #4a2a5a; padding: 12px; text-align: center; cursor: pointer; color: var(--gta-cyan); }
-    .city-card:hover { border-color: var(--gta-cyan); transform: scale(1.02); }
-
-    @media (max-width: 768px) { .hide-mobile { display: none; } }
+    .map-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+    .city-card { background: #1a0f25; border: 1px solid #4a2a5a; padding: 12px; text-align: center; cursor: pointer; color: var(--gta-cyan); font-family: 'Orbitron'; font-size: 0.8rem; }
   </style>
 </head>
 <body>
 
 <div class="archive-container">
   <header>
-    <h1>GRAND_THEFT_AUTO</h1>
-    <div style="color: var(--gta-gold); font-size: 0.8rem;">TOTAL ARCHIVE: 16 TITLES // 20+ PROTAGONISTS</div>
+    <h1>GTA_DATABASE</h1>
+    <div style="color: var(--gta-gold); font-size: 0.8rem;">TOTAL DATASET: ALL PROTAGONISTS IDENTIFIED</div>
   </header>
 
   <div class="nav-tabs">
     <button class="tab-btn active" onclick="openTab(event, 'timeline')">Хронология</button>
-    <button class="tab-btn" onclick="openTab(event, 'heroes')">Досье</button>
-    <button class="tab-btn" onclick="openTab(event, 'tech')">Технологии</button>
+    <button class="tab-btn" onclick="openTab(event, 'heroes')">Досье Героев</button>
+    <button class="tab-btn" onclick="openTab(event, 'tech')">Движки</button>
     <button class="tab-btn" onclick="openTab(event, 'wanted')">Розыск</button>
-    <button class="tab-btn" onclick="openTab(event, 'map')">Города</button>
+    <button class="tab-btn" onclick="openTab(event, 'map')">Карты</button>
   </div>
 
   <div id="timeline" class="tab-content" style="display: block;">
@@ -92,29 +88,28 @@
         <thead>
           <tr>
             <th>Год</th>
-            <th>Название</th>
+            <th>Игра</th>
             <th>Эра</th>
-            <th>Герой</th>
-            <th>Локация</th>
+            <th>Протагонист(ы)</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td>1961</td><td><b>London 1961</b></td><td><span class="era-tag e-2d">2D</span></td><td>Морис, Сид и др.</td><td>Лондон</td></tr>
-          <tr><td>1969</td><td><b>London 1969</b></td><td><span class="era-tag e-2d">2D</span></td><td>8 на выбор</td><td>Лондон</td></tr>
-          <tr><td>1997</td><td><b>Grand Theft Auto 1</b></td><td><span class="era-tag e-2d">2D</span></td><td>8 персонажей</td><td>LC, VC, SA</td></tr>
-          <tr><td>1999</td><td><b>GTA 2</b></td><td><span class="era-tag e-2d">2D</span></td><td>Клод Спид</td><td>Anywhere City</td></tr>
-          <tr><td>1984</td><td><b>Vice City Stories</b></td><td><span class="era-tag e-3d">3D</span></td><td>Виктор Вэнс</td><td>Вайс-Сити</td></tr>
-          <tr><td>1986</td><td><b>Vice City</b></td><td><span class="era-tag e-3d">3D</span></td><td>Томми Версетти</td><td>Вайс-Сити</td></tr>
-          <tr><td>1992</td><td><b>San Andreas</b></td><td><span class="era-tag e-3d">3D</span></td><td>Карл Джонсон</td><td>Сан-Андреас</td></tr>
-          <tr><td>1998</td><td><b>Liberty City Stories</b></td><td><span class="era-tag e-3d">3D</span></td><td>Тони Сиприани</td><td>Либерти-Сити</td></tr>
-          <tr><td>2000</td><td><b>GTA Advance</b></td><td><span class="era-tag e-3d">3D</span></td><td>Майк</td><td>Либерти-Сити</td></tr>
-          <tr><td>2001</td><td><b>Grand Theft Auto III</b></td><td><span class="era-tag e-3d">3D</span></td><td>Клод</td><td>Либерти-Сити</td></tr>
-          <tr><td>2008</td><td><b>GTA IV</b></td><td><span class="era-tag e-hd">HD</span></td><td>Нико Беллик</td><td>Либерти-Сити</td></tr>
-          <tr><td>2008</td><td><b>The Lost and Damned</b></td><td><span class="era-tag e-hd">HD</span></td><td>Джонни Клейбитц</td><td>Либерти-Сити</td></tr>
-          <tr><td>2009</td><td><b>Ballad of Gay Tony</b></td><td><span class="era-tag e-hd">HD</span></td><td>Луис Лопес</td><td>Либерти-Сити</td></tr>
-          <tr><td>2009</td><td><b>Chinatown Wars</b></td><td><span class="era-tag e-hd">HD</span></td><td>Хуан Ли</td><td>Либерти-Сити</td></tr>
-          <tr><td>2013</td><td><b>GTA V</b></td><td><span class="era-tag e-hd">HD</span></td><td>Майкл, Фр., Тревор</td><td>Лос-Сантос</td></tr>
-          <tr><td>2025</td><td><b>GTA VI</b></td><td><span class="era-tag e-hd">HD</span></td><td>Люсия, Джейсон</td><td>Леонида</td></tr>
+          <tr><td>1961</td><td><b>London 1961</b></td><td><span class="era-tag e-2d">2D</span></td><td>Морис, Сид, Уинстон...</td></tr>
+          <tr><td>1969</td><td><b>London 1969</b></td><td><span class="era-tag e-2d">2D</span></td><td>8 персонажей</td></tr>
+          <tr><td>1984</td><td><b>VC Stories</b></td><td><span class="era-tag e-3d">3D</span></td><td>Виктор Вэнс</td></tr>
+          <tr><td>1986</td><td><b>Vice City</b></td><td><span class="era-tag e-3d">3D</span></td><td>Томми Версетти</td></tr>
+          <tr><td>1992</td><td><b>San Andreas</b></td><td><span class="era-tag e-3d">3D</span></td><td>Карл Джонсон (CJ)</td></tr>
+          <tr><td>1997</td><td><b>GTA 1</b></td><td><span class="era-tag e-2d">2D</span></td><td>Бубба, Трэвис, Трой...</td></tr>
+          <tr><td>1998</td><td><b>Liberty City Stories</b></td><td><span class="era-tag e-3d">3D</span></td><td>Тони Сиприани</td></tr>
+          <tr><td>2000</td><td><b>GTA Advance</b></td><td><span class="era-tag e-3d">3D</span></td><td>Майк</td></tr>
+          <tr><td>2001</td><td><b>Grand Theft Auto III</b></td><td><span class="era-tag e-3d">3D</span></td><td>Клод</td></tr>
+          <tr><td>2008</td><td><b>Grand Theft Auto IV</b></td><td><span class="era-tag e-hd">HD</span></td><td>Нико Беллик</td></tr>
+          <tr><td>2008</td><td><b>The Lost and Damned</b></td><td><span class="era-tag e-hd">HD</span></td><td>Джонни Клейбитц</td></tr>
+          <tr><td>2009</td><td><b>Ballad of Gay Tony</b></td><td><span class="era-tag e-hd">HD</span></td><td>Луис Лопес</td></tr>
+          <tr><td>2009</td><td><b>Chinatown Wars</b></td><td><span class="era-tag e-hd">HD</span></td><td>Хуан Ли</td></tr>
+          <tr><td>2013-24</td><td><b>GTA V / Online</b></td><td><span class="era-tag e-hd">HD</span></td><td>Майкл, Франклин, Тревор / Наш герой</td></tr>
+          <tr><td>2025</td><td><b>GTA VI</b></td><td><span class="era-tag e-hd">HD</span></td><td>Люсия, Джейсон</td></tr>
+          <tr><td>2013+</td><td><b>GTA 2</b></td><td><span class="era-tag e-2d">2D</span></td><td>Клод Спид</td></tr>
         </tbody>
       </table>
     </div>
@@ -123,62 +118,114 @@
   <div id="heroes" class="tab-content">
     <div class="protag-grid">
       <div class="protag-card">
-        <span class="protag-meta">3D // Вайс-Сити</span>
+        <span class="protag-name">Клод Спид</span>
+        <span class="protag-meta">2D // GTA 2</span>
+        <p class="protag-bio">Единственный герой 2D-эры с четкой предысторией. Работает на банды в Anywhere City. Был заморожен в крио-камере (согласно фильму-тизеру).</p>
+      </div>
+      <div class="protag-card">
+        <span class="protag-name">Герои GTA 1</span>
+        <span class="protag-meta">2D // 1997</span>
+        <p class="protag-bio">Бубба, Кивуан, Кэти, Микки, Сонечка, Трэвис, Трой, Ульрика. Восемь преступников на выбор игрока.</p>
+      </div>
+      <div class="protag-card">
         <span class="protag-name">Виктор Вэнс</span>
-        <p class="protag-bio">Бывший военный. Первый протагонист в хронологии (1984). Брат Лэнса Вэнса.</p>
+        <span class="protag-meta">3D // VC Stories</span>
+        <p class="protag-bio">Капрал армии, втянутый в наркоторговлю. Пытался спасти больную семью, но стал главой империи Вайс-Сити.</p>
       </div>
       <div class="protag-card">
-        <span class="protag-meta">3D // Сан-Андреас</span>
+        <span class="protag-name">Томми Версетти</span>
+        <span class="protag-meta">3D // Vice City</span>
+        <p class="protag-bio">«Мясник Харвуда». Предан семьей Форелли. Первый герой, захвативший город и начавший говорить.</p>
+      </div>
+      <div class="protag-card">
         <span class="protag-name">Карл Джонсон</span>
-        <p class="protag-bio">Легенда Grove Street. Единственный, кто смог захватить целый штат.</p>
+        <span class="protag-meta">3D // San Andreas</span>
+        <p class="protag-bio">Вернулся домой в гетто, чтобы найти убийц матери. Стал менеджером рэперов, пилотом и грабителем казино.</p>
       </div>
       <div class="protag-card">
-        <span class="protag-meta">HD // Либерти-Сити</span>
+        <span class="protag-name">Тони Сиприани</span>
+        <span class="protag-meta">3D // LC Stories</span>
+        <p class="protag-bio">Преданный солдат семьи Леоне. Вернулся из изгнания, чтобы навести порядок в Либерти-Сити.</p>
+      </div>
+      <div class="protag-card">
+        <span class="protag-name">Майк</span>
+        <span class="protag-meta">3D // GTA Advance</span>
+        <p class="protag-bio">Мелкий преступник, ищущий убийцу своего напарника Винни в Либерти-Сити.</p>
+      </div>
+      <div class="protag-card">
+        <span class="protag-name">Клод</span>
+        <span class="protag-meta">3D // GTA III</span>
+        <p class="protag-bio">Молчаливый наемник. Был предан подругой Каталиной при ограблении банка. Его девиз — полное отсутствие сантиментов.</p>
+      </div>
+      <div class="protag-card">
+        <span class="protag-name">Нико Беллик</span>
+        <span class="protag-meta">HD // GTA IV</span>
+        <p class="protag-bio">Бывший солдат из Восточной Европы. Приехал к брату Роману за «американской мечтой», убегая от призраков войны.</p>
+      </div>
+      <div class="protag-card">
+        <span class="protag-name">Джонни Клейбитц</span>
+        <span class="protag-meta">HD // Lost & Damned</span>
+        <p class="protag-bio">Вице-президент байкерского клуба «The Lost». Пытался сохранить клуб вопреки безумию своего лидера Билли Грея.</p>
+      </div>
+      <div class="protag-card">
+        <span class="protag-name">Луис Лопес</span>
+        <span class="protag-meta">HD // Gay Tony</span>
+        <p class="protag-bio">Правая рука короля ночных клубов Тони Принса. Балансирует между семейными проблемами и гламуром.</p>
+      </div>
+      <div class="protag-card">
         <span class="protag-name">Хуан Ли</span>
-        <p class="protag-bio">Наследник Триад. Отомстил за смерть отца в Chinatown Wars.</p>
+        <span class="protag-meta">HD // Chinatown Wars</span>
+        <p class="protag-bio">Избалованный сын босса Триад. Должен доставить фамильный меч дяде Кенни, но попадает в засаду.</p>
       </div>
       <div class="protag-card">
-        <span class="protag-meta">HD // Лос-Сантос</span>
+        <span class="protag-name">Майкл де Санта</span>
+        <span class="protag-meta">HD // GTA V</span>
+        <p class="protag-bio">Грабитель банков в отставке под программой защиты свидетелей. Страдает от кризиса среднего возраста.</p>
+      </div>
+      <div class="protag-card">
+        <span class="protag-name">Франклин Клинтон</span>
+        <span class="protag-meta">HD // GTA V</span>
+        <p class="protag-bio">Амбициозный парень из гетто, ищущий реальный способ выбраться из уличной грязи и заработать миллионы.</p>
+      </div>
+      <div class="protag-card">
         <span class="protag-name">Тревор Филипс</span>
-        <p class="protag-bio">Воплощение чистого хаоса. Бывший летчик-психопат.</p>
+        <span class="protag-meta">HD // GTA V</span>
+        <p class="protag-bio">Бывший военный пилот и абсолютный психопат. Живет в пустыне, торгует оружием и не терпит оскорблений.</p>
       </div>
-      <div class="protag-card">
-        <span class="protag-meta">2D // Либерти-Сити</span>
-        <span class="protag-name">Бубба / Келли / Трэвис...</span>
-        <p class="protag-bio">8 героев GTA 1. Разные лица, одна цель — заработать миллион очков.</p>
-      </div>
-      <div class="protag-card">
-        <span class="protag-meta">HD // Леонида</span>
-        <span class="protag-name">Люсия</span>
-        <p class="protag-bio">Первая девушка в HD-эре. Ожидается в 2025 году.</p>
+      <div class="protag-card" style="border-left-color: var(--gta-pink);">
+        <span class="protag-name">Люсия и Джейсон</span>
+        <span class="protag-meta">HD // GTA VI</span>
+        <p class="protag-bio">Криминальный дуэт в современном штате Леонида. Их связывают не только преступления, но и доверие (или его отсутствие).</p>
       </div>
     </div>
   </div>
 
   <div id="tech" class="tab-content">
-    <div class="tech-grid">
-      <div class="tech-card"><b>RAGE Engine</b>HD-эра. Невероятная детализация и освещение.</div>
-      <div class="tech-card"><b>Euphoria</b>Физика тел в реальном времени. Введена в GTA IV.</div>
-      <div class="tech-card"><b>RenderWare</b>Движок всей 3D-эры до San Andreas включительно.</div>
+    <div class="map-grid" style="grid-template-columns: 1fr;">
+      <div class="protag-card"><b>RenderWare</b> — Использовался в III, VC, SA. Легко модифицируемый движок эпохи PS2.</div>
+      <div class="protag-card"><b>RAGE (Rockstar Advanced Game Engine)</b> — Мощь IV, V и будущей VI части. Отвечает за графику и мир.</div>
+      <div class="protag-card"><b>Euphoria</b> — Процедурная анимация, благодаря которой Нико Беллик так натурально шатается, будучи пьяным.</div>
     </div>
   </div>
 
   <div id="wanted" class="tab-content">
-    <div class="wanted-stars" id="stars-container">
+    <div class="wanted-stars">
       <span class="star" onclick="setWanted(1)">★</span><span class="star" onclick="setWanted(2)">★</span><span class="star" onclick="setWanted(3)">★</span><span class="star" onclick="setWanted(4)">★</span><span class="star" onclick="setWanted(5)">★</span>
     </div>
-    <div class="police-report" id="police-report">
+    <div class="police-report">
       <h4 id="wanted-status" style="margin:0; color:var(--gta-red)">СТАТУС: ЧИСТ</h4>
-      <p id="wanted-desc">Полиция отдыхает.</p>
+      <p id="wanted-desc">Полиция патрулирует улицы. Не нарушайте.</p>
     </div>
   </div>
 
   <div id="map" class="tab-content">
     <div class="map-grid">
-      <div class="city-card" onclick="alert('Liberty City: Нью-Йорк')">Liberty City</div>
-      <div class="city-card" onclick="alert('Vice City: Майами')">Vice City</div>
-      <div class="city-card" onclick="alert('San Andreas: Калифорния/Невада')">San Andreas</div>
-      <div class="city-card" onclick="alert('Anywhere City: Город будущего (GTA 2)')">Anywhere City</div>
+      <div class="city-card">Liberty City</div>
+      <div class="city-card">Vice City</div>
+      <div class="city-card">San Andreas</div>
+      <div class="city-card">Anywhere City</div>
+      <div class="city-card">London</div>
+      <div class="city-card">Leonida</div>
     </div>
   </div>
 </div>
@@ -200,11 +247,11 @@
     const desc = document.getElementById('wanted-desc');
     stars.forEach((s, idx) => s.classList.toggle('active', idx < level));
     const reports = [
-      { t: "1 ЗВЕЗДА", d: "Патруль вызывает подкрепление." },
-      { t: "2 ЗВЕЗДЫ", d: "Полиция применяет огнестрельное оружие." },
-      { t: "3 ЗВЕЗДЫ", d: "Вертолет и дорожные шипы." },
-      { t: "4 ЗВЕЗДЫ", d: "Спецназ SWAT на броневиках." },
-      { t: "5 ЗВЕЗД", d: "Военные, танки и ФБР." }
+      { t: "1 ЗВЕЗДА", d: "Патрульный наряд вызывает подкрепление." },
+      { t: "2 ЗВЕЗДЫ", d: "Полиция открывает огонь на поражение." },
+      { t: "3 ЗВЕЗДЫ", d: "Погоня с вертолетом и заграждениями." },
+      { t: "4 ЗВЕЗДЫ", d: "Спецназ SWAT и бронемашины." },
+      { t: "5 ЗВЕЗД", d: "Армия, танки и полное уничтожение цели." }
     ];
     status.innerText = "СТАТУС: " + reports[level-1].t;
     desc.innerText = reports[level-1].d;
