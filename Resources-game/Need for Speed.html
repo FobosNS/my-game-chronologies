@@ -3,208 +3,237 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Need for Speed — Chronology</title>
+  <title>NFS — Tactical Speed Archive</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap');
+
     body {
-      font-family: 'Orbitron', 'Share Tech Mono', monospace;
-      background: linear-gradient(135deg, #0a0f1a, #121828);
+      font-family: 'Share Tech Mono', monospace;
+      background: #05080a;
+      background-image: 
+        radial-gradient(circle at 20% 30%, rgba(0, 240, 255, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(255, 0, 204, 0.05) 0%, transparent 40%);
       color: #b0f0ff;
-      padding: 25px;
+      padding: clamp(10px, 5vw, 30px);
       margin: 0;
-      line-height: 1.6;
-      font-size: 15px;
+      line-height: 1.4;
     }
-    h2 {
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      border: 1px solid #1a3a5a;
+      background: rgba(10, 20, 35, 0.95);
+      padding: 20px;
+      box-shadow: 0 0 40px rgba(0, 240, 255, 0.15);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Эффект сканирующих линий */
+    .container::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: repeating-linear-gradient(0deg, rgba(0,0,0,0.05) 0px, rgba(0,0,0,0.05) 1px, transparent 1px, transparent 2px);
+      pointer-events: none;
+    }
+
+    header {
       text-align: center;
+      border-bottom: 2px solid #00f0ff;
+      margin-bottom: 30px;
+      padding-bottom: 15px;
+    }
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      color: #fff;
+      font-size: clamp(1.5rem, 6vw, 2.5rem);
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      text-shadow: 0 0 15px #00f0ff;
+    }
+
+    .tabs-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 25px;
+      justify-content: center;
+    }
+
+    .tab-btn {
+      background: rgba(0, 240, 255, 0.05);
+      border: 1px solid #00f0ff;
       color: #00f0ff;
-      font-size: 28px;
-      margin-bottom: 8px;
-      text-shadow: 0 0 12px rgba(0, 240, 255, 0.5);
-      letter-spacing: 1px;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.8rem;
+      transition: 0.3s;
+      clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
     }
-    .subtitle {
-      text-align: center;
-      color: #ff66cc;
-      font-size: 16px;
-      margin-bottom: 24px;
-      font-style: italic;
+
+    .tab-btn:hover, .tab-btn.active {
+      background: #00f0ff;
+      color: #000;
+      box-shadow: 0 0 15px #00f0ff;
     }
+
+    .tab-content { display: none; animation: slideIn 0.4s ease-out; }
+    .tab-content.active { display: block; }
+
+    @keyframes slideIn {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
-      margin: 0 auto 28px;
-      background: rgba(15, 22, 40, 0.92);
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
-      border: 1px solid #2a3a5a;
+      background: rgba(0,0,0,0.4);
+      font-size: 0.9rem;
     }
-    th, td {
-      padding: 14px 12px;
-      text-align: left;
-      border-bottom: 1px solid #2a3a5a;
+
+    th { background: #0a1f33; color: #ff66cc; padding: 15px; text-align: left; border-bottom: 2px solid #00f0ff; }
+    td { padding: 12px; border-bottom: 1px solid #1a3a5a; }
+    tr:hover { background: rgba(0, 240, 255, 0.05); }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
     }
-    th {
-      background: rgba(20, 30, 55, 0.95);
-      color: #a0f0ff;
-      font-weight: bold;
-      font-size: 14px;
-      letter-spacing: 0.8px;
-      text-transform: uppercase;
+
+    .card {
+      background: rgba(15, 25, 45, 0.8);
+      border: 1px solid #1a3a5a;
+      padding: 15px;
+      border-left: 4px solid #ff66cc;
     }
-    tr:last-child td {
-      border-bottom: none;
+
+    .card h3 {
+      margin: 0 0 10px 0;
+      color: #fff;
+      font-family: 'Orbitron';
+      font-size: 1.1rem;
+      border-bottom: 1px solid #1a3a5a;
     }
-    tr:hover {
-      background: rgba(30, 40, 70, 0.7);
-    }
-    .era-box {
-      background: rgba(20, 28, 50, 0.85);
-      border-left: 4px solid #00f0ff;
-      padding: 18px;
-      border-radius: 0 10px 10px 0;
-      margin: 20px 0;
-      font-size: 14px;
-      line-height: 1.6;
-    }
-    .era-box h3 {
-      color: #00f0ff;
-      margin-top: 0;
-      font-size: 19px;
-    }
-    .note {
-      margin-top: 20px;
-      font-size: 13px;
-      color: #99ccff;
+
+    .car-stat { color: #00f0ff; font-weight: bold; }
+
+    .footer-note {
       text-align: center;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.5;
+      margin-top: 40px;
+      font-size: 0.8rem;
+      color: #567;
+      text-transform: uppercase;
+      letter-spacing: 2px;
     }
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap');
+
+    b { color: #fff; }
   </style>
 </head>
 <body>
-  <h2>🏁 NEED FOR SPEED — ХРОНОЛОГИЯ СКОРОСТИ</h2>
-  <div class="subtitle">«Не машина делает гонщика. Делает скорость»</div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>📅 Эпоха</th>
-        <th>🎮 Игра</th>
-        <th>🌆 Город / Сеттинг</th>
-        <th>🏁 Стиль гонок</th>
-        <th>🔗 Сюжетная связь</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><b>1994–1998</b></td>
-        <td><b>NFS 1–3: The Need for Speed</b></td>
-        <td>Глобальные трассы</td>
-        <td>Аркадные гонки<br>Полиция</td>
-        <td>Первые игры. Реальные машины, базовые погони. Нет сюжета.</td>
-      </tr>
-      <tr>
-        <td><b>2001</b></td>
-        <td><b>NFS: Hot Pursuit 2</b></td>
-        <td>Тропики, горы</td>
-        <td>Полицейские погони</td>
-        <td>Золотой век погонь. Игрок — как за гонщика, так и за копа.</td>
-      </tr>
-      <tr>
-        <td><b>2003–2005</b></td>
-        <td><b>Underground 1 & 2</b></td>
-        <td>Олимпия (вымышл.)</td>
-        <td>Уличные гонки<br>Тюнинг</td>
-        <td>Начало уличной эры. Глубокий кастом, ночной андеграунд.</td>
-      </tr>
-      <tr>
-        <td><b>2005</b></td>
-        <td><b>Most Wanted</b></td>
-        <td>Рокпорт</td>
-        <td>Погони + уличные гонки</td>
-        <td>Легендарная игра. Борьба с «Чёрной Списком» из 15 гонщиков.</td>
-      </tr>
-      <tr>
-        <td><b>2006</b></td>
-        <td><b>Carbon</b></td>
-        <td>Палмонт</td>
-        <td>Командные гонки<br>Территории</td>
-        <td>Прямое продолжение Most Wanted. Борьба за районы города.</td>
-      </tr>
-      <tr>
-        <td><b>2008</b></td>
-        <td><b>Undercover</b></td>
-        <td>Три-Сити-Бей</td>
-        <td>Шпионский триллер</td>
-        <td>Под прикрытием ФБР. Сюжет в духе боевиков.</td>
-      </tr>
-      <tr>
-        <td><b>2010</b></td>
-        <td><b>Hot Pursuit (ремейк)</b></td>
-        <td>Сиерра-Морено</td>
-        <td>Погони в открытом мире</td>
-        <td>Возвращение к корням. Нет тюнинга — только скорость и погони.</td>
-      </tr>
-      <tr>
-        <td><b>2012</b></td>
-        <td><b>Most Wanted (2012)</b></td>
-        <td>Фэйрвью</td>
-        <td>Свободный стиль<br>Автоматический тюнинг</td>
-        <td>Дух оригинала, но без сюжета. Акцент на мультиплеер.</td>
-      </tr>
-      <tr>
-        <td><b>2015</b></td>
-        <td><b>Need for Speed (2015)</b></td>
-        <td>Вентура Бэй</td>
-        <td>Ночной андеграунд<br>Глубокий тюнинг</td>
-        <td>Возвращение к Underground. Сюжет о братстве гонщиков.</td>
-      </tr>
-      <tr>
-        <td><b>2017</b></td>
-        <td><b>Payback</b></td>
-        <td>Фортуна Вэлли</td>
-        <td>Кино-стиль<br>Казино, пустыня</td>
-        <td>Трио героев против мафиозного синдиката. Стиль *Fast & Furious*.</td>
-      </tr>
-      <tr>
-        <td><b>2019</b></td>
-        <td><b>Heat</b></td>
-        <td>Палм-Сити</td>
-        <td>День/ночь<br>Полиция vs. гонщики</td>
-        <td>Баланс между легальными гонками днём и нелегальными ночью.</td>
-      </tr>
-      <tr>
-        <td><b>2022</b></td>
-        <td><b>Unbound</b></td>
-        <td>Лейк-Сити</td>
-        <td>Граффити-арт<br>Аниме-стиль</td>
-        <td>Современный андеграунд. Гонки как форма самовыражения.</td>
-      </tr>
-    </tbody>
-  </table>
+<div class="container">
+  <header>
+    <h1>NFS_SYSTEM_OVERRIDE_V.2.4</h1>
+    <div style="font-size: 0.7rem; color: #ff66cc; letter-spacing: 2px;">STATUS: DRIFT_MODE_ENABLED // NOS_LEVEL: 100%</div>
+  </header>
 
-  <div class="era-box">
-    <h3>🌀 Три эпохи NFS:</h3>
-    <p><b>• Эпоха погонь (1994–2002)</b> — полиция, трассы, реальные авто.<br>
-    <b>• Эпоха улиц (2003–2008)</b> — тюнинг, ночные гонки, сюжеты (Underground → Most Wanted → Carbon).<br>
-    <b>• Эпоха возрождения (2010–2022)</b> — возврат к корням с новыми технологиями и стилями.</p>
+  <nav class="tabs-nav">
+    <button class="tab-btn active" onclick="openTab(event, 'chrono')">ХРОНОЛОГИЯ</button>
+    <button class="tab-btn" onclick="openTab(event, 'garage')">ГАРАЖ ГЕРОЕВ</button>
+    <button class="tab-btn" onclick="openTab(event, 'blacklist')">ЧЕРНЫЙ СПИСОК</button>
+  </nav>
+
+  <div id="chrono" class="tab-content active">
+    <table>
+      <thead>
+        <tr>
+          <th>ГОД</th>
+          <th>ИГРА</th>
+          <th>ЛОКАЦИЯ</th>
+          <th>ФИШКА</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>2003</td><td><b>Underground</b></td><td>Olympic City</td><td>Неоновый тюнинг</td></tr>
+        <tr><td>2004</td><td><b>Underground 2</b></td><td>Bayview</td><td>Свободный город</td></tr>
+        <tr><td>2005</td><td><b>Most Wanted</b></td><td>Rockport</td><td>Вертолеты и шипы</td></tr>
+        <tr><td>2006</td><td><b>Carbon</b></td><td>Palmont City</td><td>Битвы в каньонах</td></tr>
+        <tr><td>2010</td><td><b>Hot Pursuit</b></td><td>Seacrest County</td><td>EMP и заграждения</td></tr>
+        <tr><td>2019</td><td><b>Heat</b></td><td>Palm City</td><td>Коррумпированные копы</td></tr>
+        <tr><td>2022</td><td><b>Unbound</b></td><td>Lakeshore</td><td>Стиль Граффити</td></tr>
+      </tbody>
+    </table>
   </div>
 
-  <div class="era-box">
-    <h3>🔥 Легендарные игры:</h3>
-    <p>• <b>Most Wanted (2005)</b> — пик баланса между погонями, сюжетом и геймплеем.<br>
-    • <b>Underground 2</b> — свобода открытом мире + глубокий тюнинг.<br>
-    • <b>Hot Pursuit (2010)</b> — чистая адреналиновая погоня без компромиссов.</p>
+  <div id="garage" class="tab-content">
+    <div class="grid">
+      <div class="card">
+        <h3>🚗 BMW M3 GTR (E46)</h3>
+        <p>Самая узнаваемая машина серии. <span class="car-stat">MOST WANTED / CARBON</span>. Характерный виниловый окрас и прямозубые шестерни КПП.</p>
+      </div>
+      <div class="card">
+        <h3>🚗 NISSAN SKYLINE GT-R (R34)</h3>
+        <p>Легенда Эдди. <span class="car-stat">UNDERGROUND</span>. Король дрифта и ночных заездов начала 2000-х.</p>
+      </div>
+      <div class="card">
+        <h3>🚗 TOYOTA SUPRA</h3>
+        <p>Машина Вика. <span class="car-stat">MOST WANTED</span>. Универсальный зверь для спринта и драга.</p>
+      </div>
+      <div class="card">
+        <h3>🚗 MAZDA RX-7</h3>
+        <p>Машина Кэндзи. <span class="car-stat">CARBON</span>. Идеальна для извилистых дорог каньона Карбон.</p>
+      </div>
+    </div>
   </div>
 
-  <div class="note">
-    💡 NFS — не одна вселенная, а <b>галерея стилей</b>: каждая игра — отдельная вселенная.<br>
-    Самые связные сюжеты: <i>Underground → Most Wanted → Carbon</i> (2003–2006).<br>
-    С 2015 года EA делает ставку на <b>ночной уличный андеграунд</b> как основную тему.
+  <div id="blacklist" class="tab-content">
+    <div class="grid">
+      <div class="card" style="border-left-color: #00f0ff;">
+        <h3>🏁 Clarence "Razor" Callahan</h3>
+        <p>Антагонист #1. Украл BMW M3 GTR, чтобы занять первое место в Черном Списке Рокпорта.</p>
+      </div>
+      <div class="card" style="border-left-color: #00f0ff;">
+        <h3>🚓 Sergeant Cross</h3>
+        <p>Единственный коп, который преследовал игрока через два города (Рокпорт и Палмонт).</p>
+      </div>
+      <div class="card" style="border-left-color: #00f0ff;">
+        <h3>🏁 Darius</h3>
+        <p>Лидер "Стэкд Дек". Манипулятор, который подставил игрока в начале Carbon.</p>
+      </div>
+      <div class="card" style="border-left-color: #00f0ff;">
+        <h3>👩 Rachel Teller</h3>
+        <p>Наставница в Underground 2. Её Nissan 350Z — первое, что видит игрок в Бэйвью.</p>
+      </div>
+    </div>
   </div>
+
+  <div class="footer-note">
+    «I WANT EVERY UNIT AFTER THE GUY... EVERYONE!» — СЕРЖАНТ КРОСС
+  </div>
+</div>
+
+<script>
+  function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tab-content");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].classList.remove("active");
+    }
+    tablinks = document.getElementsByClassName("tab-btn");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].classList.remove("active");
+    }
+    document.getElementById(tabName).classList.add("active");
+    evt.currentTarget.classList.add("active");
+  }
+</script>
+
 </body>
 </html>
