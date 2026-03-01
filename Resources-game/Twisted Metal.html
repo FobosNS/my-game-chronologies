@@ -23,16 +23,40 @@
       margin: 0;
       line-height: 1.6;
       overflow-x: hidden;
+      cursor: crosshair;
     }
 
-    /* Эффект помех на фоне */
-    body::before {
-      content: "";
+    /* Прицел, следующий за мышью */
+    #crosshair {
+      width: 40px;
+      height: 40px;
+      border: 2px solid var(--tm-red);
+      border-radius: 50%;
       position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: repeating-linear-gradient(0deg, rgba(0,0,0,0.05) 0px, rgba(0,0,0,0.05) 1px, transparent 1px, transparent 2px);
       pointer-events: none;
-      z-index: 10;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: width 0.1s, height 0.1s;
+    }
+    #crosshair::after { content: ''; width: 2px; height: 10px; background: var(--tm-red); position: absolute; }
+    #crosshair::before { content: ''; width: 10px; height: 2px; background: var(--tm-red); position: absolute; }
+
+    /* Счетчик душ */
+    #soul-counter {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 51, 51, 0.2);
+      border: 1px solid var(--tm-red);
+      padding: 10px 20px;
+      font-family: 'Orbitron';
+      font-size: 1.2rem;
+      color: var(--tm-red);
+      text-shadow: 0 0 10px var(--tm-red);
+      z-index: 100;
     }
 
     .container {
@@ -51,16 +75,6 @@
       text-transform: uppercase;
     }
 
-    .subtitle {
-      text-align: center;
-      color: var(--tm-gold);
-      font-size: 16px;
-      margin-bottom: 24px;
-      font-style: italic;
-      letter-spacing: 2px;
-    }
-
-    /* ТАБЛИЦА СМЕРТИ */
     .table-wrapper {
       width: 100%;
       overflow-x: auto;
@@ -90,15 +104,28 @@
       border-bottom: 1px solid #4a1515;
       font-size: 14px;
       transition: all 0.2s ease;
+      position: relative;
     }
 
-    tr { cursor: pointer; }
     tr:hover td {
-      background: rgba(255, 51, 51, 0.1);
+      background: rgba(255, 51, 51, 0.15);
       color: #fff;
     }
 
-    /* ИНФО-БОКСЫ */
+    /* Всплывающая подсказка "Спецприем" */
+    tr:hover::after {
+      content: attr(data-special);
+      position: absolute;
+      right: 20px;
+      color: var(--tm-fire);
+      font-size: 10px;
+      font-weight: bold;
+      background: black;
+      padding: 2px 8px;
+      border: 1px solid var(--tm-fire);
+      z-index: 5;
+    }
+
     .era-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -111,56 +138,39 @@
       border-left: 5px solid var(--tm-red);
       padding: 20px;
       border-radius: 0 10px 10px 0;
-      transition: transform 0.3s ease;
+      cursor: pointer;
     }
 
-    .era-box:hover { transform: translateY(-5px); }
+    .era-box:active { transform: scale(0.98); }
 
-    .era-box h3 {
-      color: var(--tm-fire);
-      margin-top: 0;
-      font-family: 'Orbitron';
-      font-size: 18px;
-      border-bottom: 1px solid rgba(255, 102, 0, 0.3);
-      padding-bottom: 10px;
-    }
-
-    .risk-level {
-      font-size: 10px;
-      padding: 2px 6px;
-      background: var(--tm-red);
-      color: white;
-      border-radius: 3px;
-      margin-left: 10px;
-      vertical-align: middle;
-    }
-
-    .note {
-      margin-top: 30px;
-      font-size: 13px;
-      color: #d8a080;
-      text-align: center;
-      padding: 20px;
-      border-top: 1px solid #4a1515;
-    }
-
-    /* АНИМАЦИЯ ВЗРЫВА */
-    @keyframes shake {
-      0% { transform: translate(1px, 1px) rotate(0deg); }
-      20% { transform: translate(-3px, 0px) rotate(-1deg); }
-      40% { transform: translate(3px, 2px) rotate(1deg); }
-      60% { transform: translate(1px, -1px) rotate(1deg); }
-      80% { transform: translate(-1px, 2px) rotate(-1deg); }
-      100% { transform: translate(1px, 1px) rotate(0deg); }
-    }
     .shake { animation: shake 0.4s; }
+    @keyframes shake {
+      0% { transform: translate(1px, 1px); }
+      20% { transform: translate(-3px, 0px); }
+      40% { transform: translate(3px, 2px); }
+      100% { transform: translate(0,0); }
+    }
+
+    .glitch-flash {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(255, 255, 255, 0.1);
+      mix-blend-mode: overlay;
+      pointer-events: none;
+      z-index: 1000;
+      display: none;
+    }
   </style>
 </head>
 <body id="mainBody">
 
+<div id="crosshair"></div>
+<div id="soul-counter">SOULS: <span id="s-count">0</span></div>
+<div id="glitch" class="glitch-flash"></div>
+
 <div class="container">
   <h2>🚗 TWISTED METAL — CHRONOLOGY OF DESTRUCTION</h2>
-  <div class="subtitle">«ТВОЕ ЖЕЛАНИЕ — МОЁ ПРОКЛЯТИЕ»</div>
+  <div style="text-align: center; font-style: italic; color: var(--tm-gold); margin-bottom: 20px;">Кликни, чтобы уничтожить цель</div>
 
   <div class="table-wrapper">
     <table>
@@ -174,97 +184,110 @@
         </tr>
       </thead>
       <tbody id="game-list">
-        <tr onclick="detonate(this)">
+        <tr onclick="fire(this)" data-special="SPECIAL: NAPALM CONE">
           <td><b>1995</b></td>
           <td><b>Twisted Metal</b></td>
           <td>Лос-Анджелес</td>
           <td>Калипсо</td>
-          <td>Первое явление Свит Туфа. Калипсо исполняет желания буквально.</td>
+          <td>Первое явление Свит Туфа. Желания исполняются буквально.</td>
         </tr>
-        <tr onclick="detonate(this)">
+        <tr onclick="fire(this)" data-special="SPECIAL: POWER MISSILE">
           <td><b>1996</b></td>
           <td><b>Twisted Metal 2</b></td>
           <td>Весь мир</td>
           <td>Калипсо</td>
-          <td>Пик серии. Эйфелева башня разрушена, Статуя Свободы в бикини.</td>
+          <td>Золотой век. Статуя Свободы в бикини и хаос в Париже.</td>
         </tr>
-        <tr onclick="detonate(this)">
+        <tr onclick="fire(this)" data-special="SPECIAL: DARK SPECTRE">
           <td><b>2001</b></td>
           <td><b>Twisted Metal: Black</b></td>
           <td>Мидвэйв</td>
           <td>Калипсо</td>
-          <td>Мрачный шедевр. Самый высокий уровень безумия участников.</td>
+          <td>Мрачный шедевр. Участники — пациенты психбольницы.</td>
         </tr>
-        <tr onclick="detonate(this)">
+        <tr onclick="fire(this)" data-special="SPECIAL: TELEPORT">
           <td><b>2005</b></td>
           <td><b>Head-On</b></td>
           <td>Глобально</td>
           <td>Калипсо</td>
-          <td>Прямой сиквел TM2, игнорирующий 3 и 4 части.</td>
+          <td>Прямой сиквел TM2. Возвращение классического драйва.</td>
         </tr>
-        <tr onclick="detonate(this)">
+        <tr onclick="fire(this)" data-special="SPECIAL: MECHA-CLOWN">
           <td><b>2012</b></td>
           <td><b>Twisted Metal (PS3)</b></td>
           <td>Сан-Паулу</td>
           <td>Калипсо</td>
-          <td>Кинематографичный перезапуск. Акцент на бандах.</td>
+          <td>Кровавый перезапуск. Акцент на войне банд.</td>
         </tr>
       </tbody>
     </table>
   </div>
 
   <div class="era-grid">
-    <div class="era-box">
+    <div class="era-box" onclick="playQuote('Welcome to Twisted Metal!')">
       <h3>🔥 ПРАВИЛА ТУРНИРА</h3>
-      <p>• <b>Победитель получает всё</b>: Одно любое желание, каким бы невозможным оно ни было.</p>
-      <p>• <b>Цена победы</b>: Калипсо — трикстер. Он всегда находит способ извратить твою мечту против тебя.</p>
-      <p>• <b>Транспорт</b>: Твое авто — это твой гроб. Модифицируй его или сгори в огне.</p>
+      <p>Нажми, чтобы услышать Калипсо. Помни: желание будет исполнено, но ты об этом пожалеешь.</p>
     </div>
-
-    <div class="era-box">
-      <h3>😈 КТО ТАКОЙ КАЛИПСО?</h3>
-      <p>Загадочный организатор с обожженным лицом. Обладает божественной силой исполнять желания, которую он получил, украв души из ада.</p>
-      <p><i>«Я — Калипсо, и я приветствую вас в самом Twisted Metal в истории!»</i></p>
+    <div class="era-box" onclick="playQuote('I am Calypso, and I thank you for playing!')">
+      <h3>😈 ГОЛОС ТЬМЫ</h3>
+      <p>Калипсо не просто дает силы — он забирает твою душу в обмен на миг триумфа.</p>
     </div>
-  </div>
-
-  <div class="note">
-    💀 <b>СОВЕТ АГЕНТА:</b> Не проси Калипсо о бессмертии — проведешь вечность в виде манекена для краш-тестов.<br>
-    Франшиза ждет своего часа. Ходят слухи о возрождении на движке <b>Unreal Engine 5</b> в 2026 году.
   </div>
 </div>
 
 <script>
-  // Эффект взрыва при клике на строку
-  function detonate(row) {
-    const body = document.getElementById('mainBody');
-    body.classList.add('shake');
-    
-    // Подсветка строки "огнем"
-    const originalColor = row.style.backgroundColor;
-    row.style.backgroundColor = 'rgba(255, 102, 0, 0.4)';
+  // 1. Прицел
+  const crosshair = document.getElementById('crosshair');
+  document.addEventListener('mousemove', (e) => {
+    crosshair.style.left = e.clientX + 'px';
+    crosshair.style.top = e.clientY + 'px';
+  });
+
+  // 2. Логика выстрела и душ
+  let souls = 0;
+  function fire(el) {
+    // Звук выстрела
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'square';
+    osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+    gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.3);
+
+    // Визуальные эффекты
+    document.getElementById('mainBody').classList.add('shake');
+    const glitch = document.getElementById('glitch');
+    glitch.style.display = 'block';
     
     setTimeout(() => {
-      body.classList.remove('shake');
-      row.style.backgroundColor = originalColor;
-    }, 400);
+      document.getElementById('mainBody').classList.remove('shake');
+      glitch.style.display = 'none';
+    }, 300);
+
+    // Счетчик душ
+    souls += 666;
+    document.getElementById('s-count').innerText = souls.toLocaleString();
     
-    // Звуковой эффект (синтезированный "взрыв")
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(100, ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5);
-    gain.gain.setValueAtTime(0.1, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5);
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    osc.start();
-    osc.stop(ctx.currentTime + 0.5);
+    // Анимация прицела
+    crosshair.style.width = '60px';
+    crosshair.style.height = '60px';
+    setTimeout(() => { crosshair.style.width = '40px'; crosshair.style.height = '40px'; }, 100);
   }
 
-  console.log("Welcome to Twisted Metal. Good luck, you'll need it.");
+  // 3. Синтез речи Калипсо
+  function playQuote(text) {
+    const msg = new SpeechSynthesisUtterance();
+    msg.text = text;
+    msg.pitch = 0.1;
+    msg.rate = 0.8;
+    msg.lang = 'en-US';
+    window.speechSynthesis.speak(msg);
+  }
 </script>
 
 </body>
