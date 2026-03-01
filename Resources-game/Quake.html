@@ -44,12 +44,12 @@
       text-shadow: 0 0 15px rgba(212, 85, 255, 0.5);
     }
 
-    /* Навигация */
     .tabs-nav {
       display: flex;
       justify-content: center;
       gap: 10px;
       margin-bottom: 30px;
+      flex-wrap: wrap;
     }
 
     .tab-btn {
@@ -68,55 +68,72 @@
       box-shadow: 0 0 15px #d455ff;
     }
 
-    .tab-content { display: none; }
+    .tab-content { display: none; animation: fadeIn 0.4s ease; }
     .tab-content.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
     /* Таблица */
     table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
     th { background: #2d0f46; color: #d455ff; padding: 15px; text-align: left; border-bottom: 2px solid #4a205a; }
     td { padding: 15px; border-bottom: 1px solid #3a1845; }
 
-    @media screen and (max-width: 768px) {
-      table, thead, tbody, th, td, tr { display: block; }
-      thead tr { position: absolute; top: -9999px; left: -9999px; }
-      tr { margin-bottom: 15px; border: 1px solid #4a205a; padding: 10px; }
-      td { border: none; position: relative; padding-left: 50% !important; text-align: right; }
-      td:before {
-        content: attr(data-label);
-        position: absolute; left: 15px; width: 45%; text-align: left;
-        font-weight: bold; color: #d455ff;
-      }
-    }
-
-    /* Терминал */
-    .pda-terminal {
+    /* Интерактив Портала */
+    .slipgate-panel {
         max-width: 600px;
-        margin: 20px auto;
-        background: #1a0a20;
-        padding: 15px;
-        border: 4px solid #4a205a;
-        border-radius: 5px;
+        margin: 0 auto;
+        text-align: center;
+        background: rgba(30, 10, 50, 0.5);
+        padding: 30px;
+        border: 2px solid #d455ff;
+        border-radius: 20px;
     }
-
-    .pda-screen {
-        background: #0a0210;
-        padding: 20px;
-        color: #d455ff;
-        min-height: 250px;
-        border: 1px solid #3a1845;
+    .portal-display {
+        height: 250px;
         position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+        background: #000;
+        border-radius: 50%;
+        border: 5px double #4a205a;
+        overflow: hidden;
+        box-shadow: inset 0 0 50px #d455ff;
+    }
+    .portal-ring {
+        position: absolute;
+        width: 100%; height: 100%;
+        border: 8px dashed #d455ff;
+        border-radius: 50%;
+        opacity: 0.2;
+        transition: 0.5s;
+    }
+    .active-portal .portal-ring {
+        animation: rotateRing 2s linear infinite;
+        opacity: 0.8;
+        box-shadow: 0 0 30px #d455ff;
+    }
+    @keyframes rotateRing { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    
+    .portal-info { z-index: 2; color: #f0e0ff; font-family: 'Orbitron'; font-size: 0.9rem; padding: 20px; }
+    
+    .portal-controls input {
+        background: #1a0a20;
+        border: 1px solid #d455ff;
+        color: #fff;
+        padding: 10px;
+        font-family: 'Orbitron';
+        width: 120px;
+        text-align: center;
+        margin-bottom: 10px;
     }
 
-    .pda-output { font-size: 14px; text-shadow: 0 0 5px #d455ff; margin-bottom: 10px; }
-    .pda-input-line { display: flex; gap: 10px; }
+    /* Консоль */
+    .pda-terminal { max-width: 600px; margin: 20px auto; background: #1a0a20; padding: 15px; border: 4px solid #4a205a; }
+    .pda-screen { background: #0a0210; padding: 20px; color: #d455ff; min-height: 250px; border: 1px solid #3a1845; }
     #pdaInput { background: transparent; border: none; color: #fff; font-family: inherit; outline: none; width: 100%; }
 
-    .era-box {
-      background: rgba(45, 15, 70, 0.4);
-      border-left: 4px solid #d455ff;
-      padding: 20px;
-      margin: 20px 0;
-    }
+    .era-box { background: rgba(45, 15, 70, 0.4); border-left: 4px solid #d455ff; padding: 20px; margin: 20px 0; }
   </style>
 </head>
 <body>
@@ -129,51 +146,41 @@
 
   <nav class="tabs-nav">
     <button class="tab-btn active" onclick="openTab('archive')">📂 АРХИВ</button>
+    <button class="tab-btn" onclick="openTab('slipgate')">🌀 SLIPGATE</button>
     <button class="tab-btn" onclick="openTab('terminal')">📟 КОНСОЛЬ</button>
   </nav>
 
   <div id="archive" class="tab-content active">
     <table>
       <thead>
-        <tr>
-          <th>ЭПОХА</th>
-          <th>ИГРА</th>
-          <th>ГЕРОЙ</th>
-          <th>СЮЖЕТ</th>
-        </tr>
+        <tr><th>ЭПОХА</th><th>ИГРА</th><th>ГЕРОЙ</th><th>СЮЖЕТ</th></tr>
       </thead>
       <tbody>
-        <tr>
-          <td data-label="ЭПОХА">Неизвестно</td>
-          <td data-label="ИГРА"><b>Quake (1996)</b></td>
-          <td data-label="ГЕРОЙ">Рейнджер</td>
-          <td>Вторжение Шаб-Ниггурат. Герой проходит через порталы (Slipgates), чтобы уничтожить Древнее Божество.</td>
-        </tr>
-        <tr>
-          <td data-label="ЭПОХА">Будущее</td>
-          <td data-label="ИГРА"><b>Quake II</b></td>
-          <td data-label="ГЕРОЙ">Биттерман</td>
-          <td>Война на планете Строггос. Человечество наносит ответный удар кибер-захватчикам.</td>
-        </tr>
-        <tr>
-          <td data-label="ЭПОХА">Вне времени</td>
-          <td data-label="ИГРА"><b>Quake III</b></td>
-          <td data-label="ГЕРОЙ">Мульти-герой</td>
-          <td>Арены Вечности. Вадригары собирают лучших воинов всех эпох для бесконечной битвы.</td>
-        </tr>
-        <tr>
-          <td data-label="ЭПОХА">Сиквел</td>
-          <td data-label="ИГРА"><b>Quake 4</b></td>
-          <td data-label="ГЕРОЙ">Мэттью Кейн</td>
-          <td>Прямое продолжение Q2. Кейн проходит через «строггификацию» и использует вражьи технологии против них.</td>
-        </tr>
+        <tr><td>1996</td><td><b>Quake</b></td><td>Рейнджер</td><td>Вторжение Шаб-Ниггурат через порталы.</td></tr>
+        <tr><td>1997</td><td><b>Quake II</b></td><td>Биттерман</td><td>Контратака на планету Строггос.</td></tr>
+        <tr><td>1999</td><td><b>Quake III</b></td><td>Легион</td><td>Арены Вечности для лучших воинов.</td></tr>
+        <tr><td>2005</td><td><b>Quake 4</b></td><td>М. Кейн</td><td>Окончательное решение вопроса Строггов.</td></tr>
       </tbody>
     </table>
-
     <div class="era-box">
       <h3 style="color: #d455ff;">🌀 Особенности вселенной:</h3>
-      <p>• <b>Лавкрафт против Киберпанка:</b> Серия уникальна тем, что первая часть — это мрачная магия, а вторая — индустриальный хоррор.</p>
-      <p>• <b>Технология:</b> Quake подарил миру полноценное 3D и понятие "киберспорт".</p>
+      <p>• Переход от готического хоррора к индустриальному Sci-Fi.</p>
+    </div>
+  </div>
+
+  <div id="slipgate" class="tab-content">
+    <div class="slipgate-panel">
+        <div class="portal-display" id="portalDisplay">
+            <div class="portal-ring" id="portalRing"></div>
+            <div class="portal-info" id="portalInfo">
+                ВВЕДИТЕ ГОД ЗАПУСКА ПРОТОКОЛА<br>
+                (Напр: 1996, 1997, 1999)
+            </div>
+        </div>
+        <div class="portal-controls">
+            <input type="number" id="portalYear" placeholder="ГОД" min="1990">
+            <button class="tab-btn" onclick="activatePortal()">АКТИВИРОВАТЬ</button>
+        </div>
     </div>
   </div>
 
@@ -183,16 +190,15 @@
           <div class="pda-output" id="pdaOutput">
               QUAKE CONSOLE v1.66<br>
               > STATUS: ENCRYPTED<br>
-              > ENTER AUTH CODE (Hint: Doom weapon cheat?):<br>
+              > ENTER AUTH CODE (Hint: IDKFA):<br>
           </div>
-          <div class="pda-input-line">
+          <div class="pda-input-line" style="display:flex;">
               <span>]</span>
               <input type="text" id="pdaInput" maxlength="10" autocomplete="off">
           </div>
       </div>
     </div>
   </div>
-
 </div>
 
 <script>
@@ -204,6 +210,43 @@
     if(tabId === 'terminal') setTimeout(() => document.getElementById('pdaInput').focus(), 100);
   }
 
+  // Логика Портала
+  const portalData = {
+    "1996": "ИЗМЕРЕНИЕ: DIMENSION OF THE DOOMED. Статус: Прорыв Хаоса.",
+    "1997": "ПЛАНЕТА: СТРОГГОС. Статус: Обнаружен Биттерман.",
+    "1999": "ЛОКАЦИЯ: АРЕНА ВЕЧНОСТИ. Статус: Гладиаторские бои.",
+    "2005": "ОПЕРАЦИЯ: ПРЕВОСХОДСТВО. Статус: Кейн строггифицирован."
+  };
+
+  function activatePortal() {
+    const year = document.getElementById('portalYear').value;
+    const info = document.getElementById('portalInfo');
+    const panel = document.querySelector('.slipgate-panel');
+    
+    if (portalData[year]) {
+      panel.classList.add('active-portal');
+      info.innerHTML = `<span style="color:#d455ff">СВЯЗЬ УСТАНОВЛЕНА...</span><br><br>${portalData[year]}`;
+      playWarp();
+    } else {
+      panel.classList.remove('active-portal');
+      info.innerHTML = `<span style="color:#ff4444">ОШИБКА:</span> Год ${year} не найден в архиве Slipgate.`;
+    }
+  }
+
+  function playWarp() {
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(50, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.6);
+    gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.6);
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    osc.start(); osc.stop(audioCtx.currentTime + 0.6);
+  }
+
+  // Логика Консоли
   const pdaInput = document.getElementById('pdaInput');
   const pdaOutput = document.getElementById('pdaOutput');
 
@@ -211,15 +254,9 @@
     if (e.key === 'Enter') {
       const val = pdaInput.value.toUpperCase();
       if (val === 'IDKFA') {
-        pdaOutput.innerHTML = `
-          <span style="color:#0f0">> ACCESS GRANTED...</span><br>
-          > SECRET DATA UNLOCKED:<br>
-          - Ranger is trapped in the Slipgate nexus.<br>
-          - Stroggs are harvesting humans for neural links.<br>
-          - Shub-Niggurath is NOT dead, only dreaming.
-        `;
+        pdaOutput.innerHTML = `<span style="color:#0f0">> ACCESS GRANTED...</span><br>SECRET UNLOCKED: Slipgates were built by the Vadrigars.`;
       } else {
-        pdaOutput.innerHTML += `<br><span style="color:#f00">> UNKNOWN COMMAND: ${val}</span>`;
+        pdaOutput.innerHTML += `<br><span style="color:#f00">> UNKNOWN: ${val}</span>`;
       }
       pdaInput.value = '';
     }
