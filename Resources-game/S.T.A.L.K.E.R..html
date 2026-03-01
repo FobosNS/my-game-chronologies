@@ -3,154 +3,206 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>S.T.A.L.K.E.R. — Chronology</title>
+  <title>S.T.A.L.K.E.R. — Zone Archive</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap');
+
     body {
-      font-family: 'Share Tech Mono', 'Orbitron', monospace;
-      background: linear-gradient(135deg, #0d150a, #1a2512);
-      color: #e0f8c0;
-      padding: 25px;
+      font-family: 'Share Tech Mono', monospace;
+      background: #0a0c08;
+      background-image: 
+        radial-gradient(circle at 50% 50%, rgba(170, 255, 0, 0.05) 0%, transparent 80%),
+        url('https://www.transparenttextures.com/patterns/dark-leather.png');
+      color: #b8d8a0;
+      padding: clamp(10px, 5vw, 30px);
       margin: 0;
       line-height: 1.6;
-      font-size: 15px;
     }
-    h2 {
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      border: 1px solid #3a4a2a;
+      background: rgba(15, 20, 10, 0.95);
+      padding: 25px;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.9), inset 0 0 20px rgba(170, 255, 0, 0.05);
+      position: relative;
+    }
+
+    header {
       text-align: center;
+      border-bottom: 2px solid #ff9900;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+    }
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
       color: #ff9900;
-      font-size: 28px;
-      margin-bottom: 8px;
-      text-shadow: 0 0 12px rgba(255, 153, 0, 0.5);
-      letter-spacing: 1px;
+      font-size: clamp(1.5rem, 6vw, 2.5rem);
+      margin: 0;
+      letter-spacing: 4px;
+      text-shadow: 0 0 15px rgba(255, 153, 0, 0.3);
     }
-    .subtitle {
-      text-align: center;
-      color: #aacc88;
-      font-size: 16px;
-      margin-bottom: 24px;
-      font-style: italic;
-    }
+
+    /* Адаптивная таблица */
     table {
       width: 100%;
       border-collapse: collapse;
-      margin: 0 auto 28px;
-      background: rgba(15, 25, 15, 0.92);
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
-      border: 1px solid #3a4a2a;
+      margin-bottom: 30px;
     }
-    th, td {
-      padding: 14px 12px;
-      text-align: left;
-      border-bottom: 1px solid #2a3a20;
+
+    th { 
+      background: #1a2512; 
+      color: #ff9900; 
+      padding: 15px; 
+      text-align: left; 
+      font-family: 'Orbitron';
+      font-size: 0.8rem;
+      border-bottom: 2px solid #3a4a2a;
     }
-    th {
-      background: rgba(25, 40, 20, 0.95);
-      color: #d0ffaa;
-      font-weight: bold;
-      font-size: 14px;
-      letter-spacing: 0.8px;
-      text-transform: uppercase;
+
+    td { padding: 15px; border-bottom: 1px solid #2a3a20; }
+
+    @media screen and (max-width: 768px) {
+      table, thead, tbody, th, td, tr { display: block; }
+      thead tr { position: absolute; top: -9999px; left: -9999px; }
+      tr { margin-bottom: 15px; border: 1px solid #3a4a2a; border-radius: 5px; }
+      td { border: none; position: relative; padding-left: 50% !important; text-align: right; }
+      td:before {
+        content: attr(data-label);
+        position: absolute; left: 15px; width: 45%; text-align: left;
+        font-weight: bold; color: #ff9900;
+      }
     }
-    tr:last-child td {
-      border-bottom: none;
-    }
-    tr:hover {
-      background: rgba(35, 50, 30, 0.7);
-    }
-    .era-box {
-      background: rgba(20, 35, 20, 0.85);
+
+    .card {
+      background: rgba(25, 35, 20, 0.6);
       border-left: 4px solid #ff9900;
-      padding: 18px;
-      border-radius: 0 10px 10px 0;
+      padding: 20px;
       margin: 20px 0;
-      font-size: 14px;
-      line-height: 1.6;
     }
-    .era-box h3 {
-      color: #ffcc33;
-      margin-top: 0;
-      font-size: 19px;
+
+    .card h3 { color: #ff9900; font-family: 'Orbitron'; margin-top: 0; }
+
+    .btn-pda {
+      display: inline-block;
+      background: #3a4a2a;
+      color: #ff9900;
+      border: 1px solid #ff9900;
+      padding: 10px 20px;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
     }
-    .note {
-      margin-top: 20px;
-      font-size: 13px;
-      color: #b8d8a0;
-      text-align: center;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.5;
+
+    .btn-pda:hover { background: #ff9900; color: #000; box-shadow: 0 0 15px #ff9900; }
+
+    .warning-blink {
+      color: #ff4444;
+      animation: blink 1s infinite;
+      font-weight: bold;
     }
-    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap');
+
+    @keyframes blink { 50% { opacity: 0.3; } }
   </style>
 </head>
 <body>
-  <h2>☢️ S.T.A.L.K.E.R. — ХРОНОЛОГИЯ ЗОНЫ</h2>
-  <div class="subtitle">«Зона не прощает ошибок. Но даёт шанс»</div>
+
+<div class="container">
+  <header>
+    <h1>S.T.A.L.K.E.R. DATA-NET</h1>
+    <div style="color: #aacc88; font-size: 0.9rem;">АРХИВ СОБЫТИЙ И ПЕРИОДОВ ЗОНЫ</div>
+  </header>
 
   <table>
     <thead>
       <tr>
-        <th>📅 Год (в Зоне)</th>
-        <th>🎮 Игра</th>
-        <th>👤 Герой</th>
-        <th>📍 Локация</th>
-        <th>🔗 Сюжетная связь</th>
+        <th>ГОД В ЗОНЕ</th>
+        <th>ОПЕРАЦИЯ / ИГРА</th>
+        <th>ОБЪЕКТ</th>
+        <th>СТАТУС СЮЖЕТА</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td><b>2010</b></td>
-        <td><b>S.T.A.L.K.E.R.: Shadow of Chernobyl</b></td>
-        <td>Меченый (Стрелок)</td>
-        <td>Южная Припять → ЧАЭС</td>
-        <td>Герой теряет память. Ищет «Стрелка» — себя. Уничтожает мозг ЧАЭС, останавливая излучение. Финал: «Зона жива».</td>
+        <td data-label="ГОД">2011 (Сентябрь)</td>
+        <td data-label="ИГРА"><b>Clear Sky</b></td>
+        <td data-label="ОБЪЕКТ">Наемник Шрам</td>
+        <td>Большой Выброс. Группировка «Чистое Небо» пытается предотвратить катастрофу, преследуя группу Стрелка.</td>
       </tr>
       <tr>
-        <td><b>2010–2011</b></td>
-        <td><b>S.T.A.L.K.E.R.: Clear Sky</b></td>
-        <td>Скар</td>
-        <td>Болота → Лиманск → Припять</td>
-        <td><b>Приквел к Shadow!</b> Скар пытается остановить эмиссию, которая приведёт к событиям первой игры. Встречает Меченого.</td>
+        <td data-label="ГОД">2012 (Май)</td>
+        <td data-label="ИГРА"><b>Shadow of Chernobyl</b></td>
+        <td data-label="ОБЪЕКТ">Меченый</td>
+        <td>Грузовик смерти. Отключение Выжигателя Мозгов. Раскрытие тайны «О-Сознания» и Монолита.</td>
       </tr>
       <tr>
-        <td><b>2012</b></td>
-        <td><b>S.T.A.L.K.E.R.: Call of Pripyat</b></td>
-        <td>Майор Дегтярёв</td>
-        <td>Затон → Юпитер → Припять</td>
-        <td>Разведка после провала «Операции «Гроза». Исследует новые аномалии. Находит выживших сталкеров из первых игр.</td>
+        <td data-label="ГОД">2012 (Август)</td>
+        <td data-label="ИГРА"><b>Call of Pripyat</b></td>
+        <td data-label="ОБЪЕКТ">Майор Дегтярёв</td>
+        <td>Операция «Фарватер». Расследование падения военных вертолетов. Эвакуация из Припяти.</td>
+      </tr>
+      <tr>
+        <td data-label="ГОД">2021+</td>
+        <td data-label="ИГРА"><b>Heart of Chornobyl</b></td>
+        <td data-label="ОБЪЕКТ">Скиф</td>
+        <td>Зона расширяется. Новые аномалии и угрозы. Попытка заглянуть в самое сердце Чернобыля.</td>
       </tr>
     </tbody>
   </table>
 
-  <div class="era-box">
-    <h3>🌀 Эволюция Зоны:</h3>
-    <p><b>• Shadow of Chernobyl (2010)</b>:<br>
-    — Основа мифологии. Меченый — легенда.<br>
-    — Финал зависит от выбора: уничтожить Зону или оставить её жить.</p>
-    <p><b>• Clear Sky (2010, но приквел)</b>:<br>
-    — Показывает, как началась эмиссия, приведшая к финалу Shadow.<br>
-    — Фракция «Чистое Небо» пытается контролировать Зону.</p>
-    <p><b>• Call of Pripyat (2012)</b>:<br>
-    — Последствия вмешательства военные.<br>
-    — Зона эволюционирует: новые аномалии, артефакты, мутанты.<br>
-    — Финал: Зона «засыпает»… но не умирает.</p>
+  <div class="card">
+    <h3>🌀 ТИПЫ ВОЗДЕЙСТВИЯ:</h3>
+    <ul>
+      <li><b>Пси-излучение:</b> Разрушает личность, превращая человека в зомбированного.</li>
+      <li><b>Выброс:</b> Периодический сброс энергии Ноосферы. Шанс выжить — только в глубоком укрытии.</li>
+      <li><b>Пространственные пузыри:</b> Аномалии-ловушки, из которых нет выхода без специального детектора.</li>
+    </ul>
   </div>
 
-  <div class="era-box">
-    <h3>👁️ Ключевые концепции:</h3>
-    <p>• <b>Зона Отчуждения</b> — живой организм, реагирующий на вмешательство.<br>
-    • <b>Артефакты</b> — кристаллы с аномальными свойствами. Их ищут сталкеры.<br>
-    • <b>Эмиссия</b> — волна энергии, убивающая всё живое. Предупреждается «выбросами».<br>
-    • <b>Меченый</b> — не просто герой. Возможно, он <b>носитель воли Зоны</b>.</p>
+  <div style="text-align: center; margin-top: 30px;">
+    <p class="warning-blink">⚠️ ВНИМАНИЕ: ЗАФИКСИРОВАНА ВЫСОКАЯ АКТИВНОСТЬ НООСФЕРЫ</p>
+    <button class="btn-pda" onclick="simulateGeiger()">Включить счетчик Гейгера</button>
   </div>
 
-  <div class="note">
-    💡 Все три игры — единая сага. <i>Clear Sky</i> — единственный приквел в серии.<br>
-    В 2024 году выходит <b>S.T.A.L.K.E.R. 2: Heart of Chornobyl</b> — прямое продолжение трилогии.<br>
-    Название «Chornobyl» — дань украинскому языку (разработчики из Киева).<br>
-    Слоган: «Войди в Зону. Останься навсегда».
+  <div class="footer-note" style="text-align: center; margin-top: 40px; font-size: 0.8rem; color: #5a6a4a;">
+    Данные синхронизированы с сервером «Бар 100 Рентген». 2026 год.
   </div>
+</div>
+
+<script>
+  function simulateGeiger() {
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    
+    function playClick() {
+      const oscillator = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+      
+      oscillator.type = 'square';
+      oscillator.frequency.setValueAtTime(150, audioCtx.currentTime);
+      gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+      
+      oscillator.start();
+      oscillator.stop(audioCtx.currentTime + 0.1);
+    }
+
+    // Симуляция треска Гейгера в течение 3 секунд
+    let count = 0;
+    const interval = setInterval(() => {
+      if (Math.random() > 0.3) playClick();
+      count++;
+      if (count > 50) clearInterval(interval);
+    }, 50);
+
+    alert("Уровень радиации в норме... пока что.");
+  }
+</script>
+
 </body>
 </html>
