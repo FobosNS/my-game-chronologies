@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GTA — Complete Criminal Archive</title>
+  <title>GTA — Ultimate Criminal Archive</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap');
 
@@ -46,6 +46,18 @@
     td { padding: 10px; border-bottom: 1px solid #3a2545; }
     .era-tag { font-size: 0.7rem; padding: 2px 5px; border-radius: 3px; background: #4a2a5a; color: #fff; }
 
+    /* Персонажи */
+    .protag-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px; }
+    .protag-card { background: rgba(20, 20, 35, 0.8); border: 1px solid #4a2a5a; padding: 20px; border-left: 5px solid var(--gta-gold); position: relative; }
+    .protag-name { font-family: 'Orbitron'; color: var(--gta-gold); font-size: 1.2rem; margin-bottom: 5px; display: block; }
+    .protag-meta { color: var(--gta-cyan); font-size: 0.8rem; text-transform: uppercase; margin-bottom: 10px; display: block; }
+    .protag-bio { font-size: 0.85rem; line-height: 1.5; color: #ccc; }
+
+    /* Технологии */
+    .tech-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
+    .tech-card { border: 1px solid #444; padding: 15px; background: #111; border-top: 3px solid var(--gta-cyan); }
+    .tech-card b { color: var(--gta-pink); display: block; margin-bottom: 5px; }
+
     /* Wanted Level */
     .wanted-stars { display: flex; justify-content: center; gap: 10px; margin: 20px 0; font-size: 2rem; cursor: pointer; user-select: none; }
     .star { color: #331a3d; transition: 0.2s; text-shadow: 0 0 5px #000; }
@@ -54,8 +66,8 @@
 
     /* Карта */
     .map-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
-    .city-card { background: #1a0f25; border: 1px solid #4a2a5a; padding: 12px; text-align: center; cursor: pointer; color: var(--gta-cyan); }
-    .city-card:hover { border-color: var(--gta-cyan); transform: translateY(-3px); }
+    .city-card { background: #1a0f25; border: 1px solid #4a2a5a; padding: 12px; text-align: center; cursor: pointer; color: var(--gta-cyan); font-family: 'Orbitron'; }
+    .city-card:hover { border-color: var(--gta-cyan); transform: translateY(-3px); box-shadow: 0 0 10px var(--gta-cyan); }
 
     @media (max-width: 768px) { .hide-mobile { display: none; } }
   </style>
@@ -65,12 +77,14 @@
 <div class="archive-container">
   <header>
     <h1>GTA_CHRONICLES</h1>
-    <div style="color: var(--gta-gold); font-size: 0.8rem;">DATABASE ACCESS: GRANTED // ALL ERAS LOADED</div>
+    <div style="color: var(--gta-gold); font-size: 0.8rem;">DATABASE ACCESS: GRANTED // FULL ARCHIVE LOADED</div>
   </header>
 
   <div class="nav-tabs">
-    <button class="tab-btn active" onclick="openTab(event, 'timeline')">Хронология игр</button>
-    <button class="tab-btn" onclick="openTab(event, 'wanted')">Система розыска</button>
+    <button class="tab-btn active" onclick="openTab(event, 'timeline')">Хронология</button>
+    <button class="tab-btn" onclick="openTab(event, 'heroes')">Досье Героев</button>
+    <button class="tab-btn" onclick="openTab(event, 'tech')">Технологии</button>
+    <button class="tab-btn" onclick="openTab(event, 'wanted')">Розыск</button>
     <button class="tab-btn" onclick="openTab(event, 'map')">Города</button>
   </div>
 
@@ -79,35 +93,65 @@
       <table>
         <thead>
           <tr>
-            <th>Год (ЛОРа)</th>
-            <th>Название игры</th>
-            <th>Эра</th>
-            <th class="hide-mobile">Локация</th>
+            <th>Год</th>
+            <th>Игра</th>
+            <th class="hide-mobile">Герой</th>
+            <th>Злодей</th>
+            <th>Инновация</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td>1961</td><td><b>GTA: London 1961</b></td><td><span class="era-tag">2D</span></td><td class="hide-mobile">Лондон</td></tr>
-          <tr><td>1969</td><td><b>GTA: London 1969</b></td><td><span class="era-tag">2D</span></td><td class="hide-mobile">Лондон</td></tr>
-          <tr><td>1984</td><td><b>GTA: Vice City Stories</b></td><td><span class="era-tag">3D</span></td><td class="hide-mobile">Вайс-Сити</td></tr>
-          <tr><td>1986</td><td><b>GTA: Vice City</b></td><td><span class="era-tag">3D</span></td><td class="hide-mobile">Вайс-Сити</td></tr>
-          <tr><td>1992</td><td><b>GTA: San Andreas</b></td><td><span class="era-tag">3D</span></td><td class="hide-mobile">Сан-Андреас</td></tr>
-          <tr><td>1997</td><td><b>Grand Theft Auto (Original)</b></td><td><span class="era-tag">2D</span></td><td class="hide-mobile">LC, VC, San Andreas</td></tr>
-          <tr><td>1998</td><td><b>GTA: Liberty City Stories</b></td><td><span class="era-tag">3D</span></td><td class="hide-mobile">Либерти-Сити</td></tr>
-          <tr><td>2000</td><td><b>GTA Advance</b></td><td><span class="era-tag">3D/2D</span></td><td class="hide-mobile">Либерти-Сити</td></tr>
-          <tr><td>2001</td><td><b>Grand Theft Auto III</b></td><td><span class="era-tag">3D</span></td><td class="hide-mobile">Либерти-Сити</td></tr>
-          <tr><td>2008</td><td><b>Grand Theft Auto IV</b></td><td><span class="era-tag">HD</span></td><td class="hide-mobile">Либерти-Сити</td></tr>
-          <tr><td>2008</td><td><b>GTA IV: Lost and Damned / Gay Tony</b></td><td><span class="era-tag">HD</span></td><td class="hide-mobile">Либерти-Сити</td></tr>
-          <tr><td>2009</td><td><b>GTA: Chinatown Wars</b></td><td><span class="era-tag">HD</span></td><td class="hide-mobile">Либерти-Сити</td></tr>
-          <tr><td>2013-24</td><td><b>GTA V / Online</b></td><td><span class="era-tag">HD</span></td><td class="hide-mobile">Лос-Сантос</td></tr>
-          <tr><td>2025</td><td><b>Grand Theft Auto VI</b></td><td><span class="era-tag">HD</span></td><td class="hide-mobile">Леонида (Вайс-Сити)</td></tr>
-          <tr><td>2013 (Буд.)</td><td><b>Grand Theft Auto 2</b></td><td><span class="era-tag">2D</span></td><td class="hide-mobile">Anywhere City</td></tr>
+          <tr><td>1961</td><td><b>London 1961</b></td><td class="hide-mobile">Выбор</td><td>—</td><td>Первый аддон в серии.</td></tr>
+          <tr><td>1984</td><td><b>VC Stories</b></td><td class="hide-mobile">Виктор Вэнс</td><td>Мендес</td><td>Бизнес-империи.</td></tr>
+          <tr><td>1986</td><td><b>Vice City</b></td><td class="hide-mobile">Томми Версетти</td><td>Сонни Форелли</td><td>Покупка недвижимости.</td></tr>
+          <tr><td>1992</td><td><b>San Andreas</b></td><td class="hide-mobile">CJ</td><td>Тенпенни</td><td>RPG-статы, огромная карта.</td></tr>
+          <tr><td>2001</td><td><b>GTA III</b></td><td class="hide-mobile">Клод</td><td>Каталина</td><td>Революция 3D мира.</td></tr>
+          <tr><td>2008</td><td><b>GTA IV</b></td><td class="hide-mobile">Нико Беллик</td><td>Д. Раскалов</td><td>Физика Euphoria.</td></tr>
+          <tr><td>2013</td><td><b>GTA V</b></td><td class="hide-mobile">Трио</td><td>Дэвин Уэстон</td><td>Система трех героев.</td></tr>
+          <tr><td>2025</td><td><b>GTA VI</b></td><td class="hide-mobile">Люсия / Джейсон</td><td>TBA</td><td>Новый уровень ИИ.</td></tr>
         </tbody>
       </table>
     </div>
   </div>
 
+  <div id="heroes" class="tab-content">
+    <div class="protag-grid">
+      <div class="protag-card">
+        <span class="protag-meta">1986 // Vice City</span>
+        <span class="protag-name">Томми Версетти</span>
+        <p class="protag-bio">«Мясник Харвуда». Построил империю в Майами после 15 лет тюрьмы. Харизматичный и жестокий лидер.</p>
+      </div>
+      <div class="protag-card" style="border-left-color: var(--gta-cyan);">
+        <span class="protag-meta">2008 // Liberty City</span>
+        <span class="protag-name">Нико Беллик</span>
+        <p class="protag-bio">Ветеран войны на Балканах. Ищет «Американскую мечту», но находит лишь предательство и месть.</p>
+      </div>
+      <div class="protag-card" style="border-left-color: var(--gta-pink);">
+        <span class="protag-meta">2025 // Leonida</span>
+        <span class="protag-name">Люсия</span>
+        <p class="protag-bio">Первая женщина-протагонист HD-эры. Криминальная история в духе «Бонни и Клайда».</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="tech" class="tab-content">
+    <div class="tech-grid">
+      <div class="tech-card">
+        <b>RenderWare (3D Era)</b>
+        Движок III, VC и San Andreas. Позволил создать открытые миры на железе PS2.
+      </div>
+      <div class="tech-card">
+        <b>RAGE Engine (HD Era)</b>
+        Собственная разработка Rockstar. Потрясающая дальность прорисовки и работа со светом в GTA V и VI.
+      </div>
+      <div class="tech-card">
+        <b>Euphoria Biology</b>
+        Процедурная анимация тел. NPC реалистично реагируют на удары, пули и падения.
+      </div>
+    </div>
+  </div>
+
   <div id="wanted" class="tab-content">
-    <h3 style="text-align:center; color: var(--gta-gold); font-family: 'Orbitron';">WANTED LEVEL TESTER</h3>
     <div class="wanted-stars" id="stars-container">
       <span class="star" onclick="setWanted(1)">★</span>
       <span class="star" onclick="setWanted(2)">★</span>
@@ -123,10 +167,10 @@
 
   <div id="map" class="tab-content">
     <div class="map-grid">
-      <div class="city-card" onclick="alert('Liberty City: Прототип Нью-Йорка')">Liberty City</div>
-      <div class="city-card" onclick="alert('Vice City: Прототип Майами')">Vice City</div>
-      <div class="city-card" onclick="alert('Los Santos: Прототип Лос-Анджелеса')">Los Santos</div>
-      <div class="city-card" onclick="alert('Las Venturas: Прототип Лас-Вегаса')">Las Venturas</div>
+      <div class="city-card" onclick="alert('Liberty City: Нью-Йорк. Грязный, мрачный, полный мафии.')">Liberty City</div>
+      <div class="city-card" onclick="alert('Vice City: Майами. Неон, пляжи и наркотрафик.')">Vice City</div>
+      <div class="city-card" onclick="alert('Los Santos: Лос-Анджелес. Гетто, голливудский блеск и коррупция.')">Los Santos</div>
+      <div class="city-card" onclick="alert('Las Venturas: Лас-Вегас. Казино и мафия в пустыне.')">Las Venturas</div>
     </div>
   </div>
 
@@ -147,19 +191,15 @@
     const stars = document.querySelectorAll('.star');
     const status = document.getElementById('wanted-status');
     const desc = document.getElementById('wanted-desc');
-    
-    stars.forEach((s, idx) => {
-      s.classList.toggle('active', idx < level);
-    });
+    stars.forEach((s, idx) => s.classList.toggle('active', idx < level));
 
     const reports = [
-      { t: "1 ЗВЕЗДА", d: "Обычный патруль. Пытаются арестовать или выписать штраф." },
-      { t: "2 ЗВЕЗДЫ", d: "Полиция открывает огонь. Патрульные машины становятся агрессивнее." },
-      { t: "3 ЗВЕЗДЫ", d: "Вертолет в воздухе. Выставляются дорожные блоки. Работает детектив." },
-      { t: "4 ЗВЕЗДЫ", d: "Спецназ (SWAT/NOOSE). Бронированные фургоны. Шансы на выживание крайне малы." },
-      { t: "5 ЗВЕЗД И ВЫШЕ", d: "Армия, танки или ФБР. Полная мобилизация сил штата. Вас сотрут с лица земли." }
+      { t: "1 ЗВЕЗДА", d: "Полиция пытается арестовать. Патрульные дубинки." },
+      { t: "2 ЗВЕЗДЫ", d: "Огонь на поражение. Агрессивное вождение патрульных." },
+      { t: "3 ЗВЕЗДЫ", d: "Вертолет сопровождения. Шипы на дорогах." },
+      { t: "4 ЗВЕЗДЫ", d: "Спецназ SWAT. Бронированные фургоны." },
+      { t: "5 ЗВЕЗД", d: "Армейская мобилизация. Выхода нет." }
     ];
-
     status.innerText = "СТАТУС: " + reports[level-1].t;
     desc.innerText = reports[level-1].d;
   }
