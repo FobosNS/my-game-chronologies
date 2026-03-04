@@ -154,44 +154,61 @@
     .entry b { color: var(--witch-pink); display: block; margin-bottom: 5px; }
     .entry p { color: #ccc; margin-bottom: 25px; font-size: 15px; font-weight: 300; }
 
-    /* --- АДАПТИВНОСТЬ (MOBILE) --- */
+/* --- АДАПТИВНОСТЬ (MOBILE) --- */
     @media (max-width: 768px) {
       .side-nav { display: none; }
-      .bottom-nav { display: flex; }
+      .bottom-nav { 
+        display: flex; 
+        height: 70px; /* Фиксированная высота панели */
+      }
       
-      .interface-wrapper { align-items: flex-start; padding: 0; }
+      .interface-wrapper { 
+        align-items: flex-start; 
+        padding: 0; 
+      }
       
       .content-box {
         margin-left: 0;
         height: 100vh;
         width: 100%;
-        padding: 80px 25px 100px 25px;
+        /* padding-bottom: 120px — это создает "безопасную зону", 
+           чтобы текст прокручивался ВЫШЕ кнопок */
+        padding: 70px 25px 120px 25px; 
         border: none;
-        background: transparent;
+        background: rgba(5, 1, 10, 0.9); /* Слегка затемнили фон для читаемости */
+        overflow-y: auto;
       }
 
       h2 { font-size: 24px; }
 
       /* Стили для нижних иконок */
       .mobile-icon {
+        flex: 1; /* Распределяем кнопки равномерно */
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 5px;
+        justify-content: center;
+        gap: 4px;
       }
       .mobile-circle {
-        width: 35px;
-        height: 35px;
+        width: 32px;
+        height: 32px;
         border: 2px solid var(--witch-purple);
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
         font-family: 'Cinzel', serif;
-        font-size: 14px;
+        font-size: 13px;
         transition: 0.3s;
       }
-      .mobile-text { font-size: 9px; text-transform: uppercase; color: #888; }
+      .mobile-text { 
+        font-size: 8px; 
+        text-transform: uppercase; 
+        color: #888; 
+        letter-spacing: 0.5px;
+      }
+    }
 
       /* Актив в мобилке */
       #t1:checked ~ .bottom-nav label[for="t1"] .mobile-circle,
@@ -408,4 +425,5 @@
 </body>
 
 </html>
+
 
