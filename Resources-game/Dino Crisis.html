@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>☣️ DINO CRISIS: MISSION FILES</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+    :root {
+      --dc-red: #ff0b0b;
+      --dc-blood: #8a0000;
+      --dc-cyan: #00f2ff;
+      --dc-bg: #050505;
+      --scanline: rgba(18, 16, 16, 0.3);
+    }
+
+    body {
+      background-color: var(--dc-bg);
+      color: var(--dc-cyan);
+      font-family: 'Share Tech Mono', monospace;
+      margin: 0;
+      overflow-x: hidden;
+      padding: 20px;
+      /* Эффект старого монитора */
+      background-image: linear-gradient(var(--scanline) 50%, transparent 50%);
+      background-size: 100% 4px;
+    }
+
+    /* Анимация помех (Glitch) */
+    @keyframes glitch {
+      0% { transform: translate(0); }
+      20% { transform: translate(-2px, 2px); }
+      40% { transform: translate(-2px, -2px); }
+      60% { transform: translate(2px, 2px); }
+      80% { transform: translate(2px, -2px); }
+      100% { transform: translate(0); }
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      border: 1px solid var(--dc-cyan);
+      padding: 25px;
+      position: relative;
+      box-shadow: inset 0 0 30px rgba(0, 242, 255, 0.1), 0 0 15px rgba(0, 242, 255, 0.2);
+    }
+
+    header {
+      border-bottom: 2px solid var(--dc-red);
+      margin-bottom: 30px;
+      padding-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .status-bar {
+      color: #00ff00;
+      border: 1px solid #00ff00;
+      padding: 5px 15px;
+      font-size: 14px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; background: rgba(0, 255, 0, 0.1); }
+    }
+
+    h1 {
+      font-size: 28px;
+      color: var(--dc-red);
+      text-shadow: 2px 2px 0 #000;
+      margin: 0;
+    }
+
+    /* ТАБЛИЦА ХРОНОЛОГИИ */
+    .table-wrapper { width: 100%; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; background: rgba(0,0,0,0.8); }
+    th { background: var(--dc-red); color: white; padding: 12px; text-transform: uppercase; font-size: 13px; text-align: left; }
+    td { padding: 15px; border-bottom: 1px solid rgba(0, 242, 255, 0.2); font-size: 14px; transition: 0.3s; }
+    tr:hover td { background: rgba(255, 11, 11, 0.1); color: #fff; cursor: crosshair; }
+
+    /* КАРТОЧКИ ОБЪЕКТОВ (Динозавры) */
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 40px; }
+    .card {
+      border: 1px solid var(--dc-red);
+      padding: 15px;
+      background: rgba(138, 0, 0, 0.05);
+      position: relative;
+      transition: 0.3s;
+    }
+    .card:hover { transform: scale(1.02); background: rgba(138, 0, 0, 0.2); animation: glitch 0.2s infinite; }
+    .card h3 { color: var(--dc-red); margin-top: 0; border-bottom: 1px solid var(--dc-red); padding-bottom: 5px; }
+
+    /* ЭРА БОКСЫ */
+    .era-section {
+      margin-top: 40px;
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    .era-card {
+      flex: 1;
+      min-width: 280px;
+      border-left: 4px solid var(--dc-cyan);
+      padding: 15px;
+      background: rgba(0, 242, 255, 0.03);
+    }
+
+    /* МОБИЛЬНАЯ АДАПТАЦИЯ */
+    @media (max-width: 768px) {
+      td::before { color: var(--dc-red); font-weight: bold; }
+      table, tr, td { display: block; }
+      th { display: none; }
+      td { border: none; padding-left: 50%; position: relative; border-bottom: 1px solid #222; }
+      td::before { content: attr(data-label); position: absolute; left: 15px; text-transform: uppercase; font-size: 10px; }
+    }
+
+    /* ЭФФЕКТ КРОВИ */
+    .blood-splat {
+      position: fixed;
+      width: 150px; height: 150px;
+      background: url('https://www.transparentpng.com/download/blood/rC5R0N-blood-splatter-transparent-background.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      pointer-events: none;
+      z-index: 100;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body onclick="playActionSound()">
+
+<div class="container">
+  <header>
+    <h1>☣️ DINO_CRISIS_DATA</h1>
+    <div class="status-bar" id="vitals">CONDITION: FINE</div>
+  </header>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>YEAR</th>
+          <th>OPERATION</th>
+          <th>SUBJECT</th>
+          <th>ENCOUNTER DATA</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr onclick="playRoar()">
+          <td data-label="YEAR">1999</td>
+          <td data-label="OPERATION"><b>Dino Crisis</b></td>
+          <td data-label="SUBJECT">Ibis Island</td>
+          <td>Всплеск Третьей Энергии. Появление Т-Рекса. 90% персонала погибло.</td>
+        </tr>
+        <tr onclick="playRoar()">
+          <td data-label="YEAR">2000</td>
+          <td data-label="OPERATION"><b>Dino Crisis 2</b></td>
+          <td data-label="SUBJECT">Edward City</td>
+          <td>Временной сдвиг. Прямой контакт с Гиганотозавром. Эвакуация провалена.</td>
+        </tr>
+        <tr onclick="playRoar()">
+          <td data-label="YEAR">2003</td>
+          <td data-label="OPERATION"><b>Dino Crisis 3</b></td>
+          <td data-label="SUBJECT">Ozymandias</td>
+          <td>Космический дрейф. ДНК-мутации Cebalrai. Системная критическая ошибка.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 style="color:var(--dc-red); margin-top:40px;">⚠️ THREAT DATABASE (HOSTILES)</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>VELOCIRAPTOR</h3>
+      <p>Интеллект: ВЫСОКИЙ. Способны открывать двери. Рекомендуется использовать дробовик.</p>
+    </div>
+    <div class="card">
+      <h3>PTERANODON</h3>
+      <p>Воздушная угроза. Атакуют пикированием. Избегайте открытых пространств.</p>
+    </div>
+    <div class="card">
+      <h3>T-REX</h3>
+      <p>НЕУЯЗВИМ для стандартного оружия. Единственный выход — БЕЖАТЬ.</p>
+    </div>
+  </div>
+
+  <div class="era-section">
+    <div class="era-card">
+      <h3 style="color:var(--dc-cyan)">[ FILE 01: REGINA ]</h3>
+      <p>Специалист по разведке отряда S.O.R.T. Эксперт по выживанию и взлому систем.</p>
+    </div>
+    <div class="era-card" style="border-left-color: var(--dc-red)">
+      <h3 style="color:var(--dc-red)">[ FILE 02: 3RD ENERGY ]</h3>
+      <p>Экспериментальный источник энергии, вызвавший разрыв в пространстве-времени.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+  // Звук терминала при клике
+  function playActionSound() {
+    const osc = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    osc.type = 'square';
+    osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(10, audioCtx.currentTime + 0.05);
+    g.gain.setValueAtTime(0.05, audioCtx.currentTime);
+    osc.connect(g); g.connect(audioCtx.destination);
+    osc.start(); osc.stop(audioCtx.currentTime + 0.05);
+  }
+
+  // Звук Рыка
+  function playRoar() {
+    const osc = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(120, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(40, audioCtx.currentTime + 0.8);
+    g.gain.setValueAtTime(0.3, audioCtx.currentTime);
+    g.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.8);
+    osc.connect(g); g.connect(audioCtx.destination);
+    osc.start(); osc.stop(audioCtx.currentTime + 0.8);
+    
+    // Тряска терминала
+    document.querySelector('.container').style.animation = "glitch 0.3s cubic-bezier(.25,.46,.45,.94) both";
+    setTimeout(() => { document.querySelector('.container').style.animation = ""; }, 300);
+    
+    // Изменение статуса
+    const vitals = document.getElementById('vitals');
+    vitals.innerText = "CONDITION: DANGER";
+    vitals.style.color = "red";
+    vitals.style.borderColor = "red";
+    setTimeout(() => {
+        vitals.innerText = "CONDITION: CAUTION";
+        vitals.style.color = "yellow";
+        vitals.style.borderColor = "yellow";
+    }, 2000);
+  }
+
+  // Появление пятен крови со временем (пассивный интерактив)
+  setInterval(() => {
+    const splat = document.createElement('div');
+    splat.className = 'blood-splat';
+    splat.style.left = Math.random() * window.innerWidth + 'px';
+    splat.style.top = Math.random() * window.innerHeight + 'px';
+    splat.style.transform = `rotate(${Math.random() * 360}deg) scale(${Math.random() + 0.5})`;
+    document.body.appendChild(splat);
+    setTimeout(() => splat.remove(), 5000);
+  }, 15000);
+
+</script>
+
+</body>
+</html>
