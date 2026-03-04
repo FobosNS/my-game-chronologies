@@ -17,97 +17,70 @@
 
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
+/* Базовые стили */
     body {
       background-color: var(--bg);
       color: #fff;
       font-family: 'Montserrat', sans-serif;
       margin: 0;
       height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       overflow: hidden;
-      background-image: radial-gradient(circle at center, #1a0033 0%, #020005 100%);
+      display: flex;
+      flex-direction: column; /* Для мобильной структуры */
     }
 
-    /* ОСНОВНОЙ КОНТЕЙНЕР */
+    /* ПК Контейнер */
     .interface-wrapper {
-      position: relative;
-      width: 100%;
-      max-width: 1100px;
-      height: 100vh;
       display: flex;
+      flex-direction: row; /* На ПК в ряд */
+      width: 100%;
+      max-width: 1200px;
+      height: 100vh;
+      margin: 0 auto;
       align-items: center;
       padding: 20px;
+      flex-grow: 1;
     }
 
-    /* СКРЫТЫЕ РАДИОКНОПКИ */
-    input[type="radio"] { display: none; }
-
-    /* --- НАВИГАЦИЯ (ПК ВЕРСИЯ) --- */
-    .side-nav {
-      position: absolute;
-      left: 40px;
-      display: flex;
-      flex-direction: column;
-      gap: 25px;
-      z-index: 10;
+    .side-nav { display: flex; flex-direction: column; gap: 25px; flex-shrink: 0; }
+    .content-box {
+      flex: 1;
+      height: 80vh;
+      margin-left: 50px;
+      background: rgba(10, 0, 20, 0.7);
+      padding: 40px;
+      overflow-y: auto;
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 215, 0, 0.1);
     }
 
-    .nav-label {
-      display: flex;
-      align-items: center;
-      cursor: pointer;
-    }
+    .bottom-nav { display: none; } /* Прячем мобильное меню на ПК */
 
-    .nav-item {
-      width: 55px;
-      height: 55px;
-      border: 2px solid var(--witch-purple);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(0,0,0,0.9);
-      transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      box-shadow: 0 0 10px rgba(106, 13, 173, 0.5);
-      z-index: 2;
-    }
-
-    .nav-item span { font-family: 'Cinzel', serif; font-weight: 900; font-size: 20px; color: var(--gold); }
-
-    .nav-text {
-      margin-left: -20px;
-      padding: 10px 20px 10px 40px;
-      background: linear-gradient(90deg, var(--witch-purple), transparent);
-      color: #fff;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      opacity: 0;
-      transform: translateX(-20px);
-      transition: 0.4s;
-      border-radius: 0 20px 20px 0;
-      white-space: nowrap;
-    }
-
-    .nav-label:hover .nav-text { opacity: 1; transform: translateX(0); }
-
-    /* --- НИЖНЯЯ НАВИГАЦИЯ (СКРЫТА НА ПК) --- */
-    .bottom-nav {
-      display: none;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 75px;
-      background: rgba(10, 0, 20, 0.95);
-      backdrop-filter: blur(15px);
-      border-top: 1px solid var(--witch-purple);
-      z-index: 100;
-      justify-content: space-around;
-      align-items: center;
+    /* МОБИЛЬНАЯ АДАПТАЦИЯ */
+    @media (max-width: 768px) {
+      .interface-wrapper {
+        flex-direction: column; 
+        height: calc(100vh - 80px); /* Вычитаем высоту меню */
+        padding: 0;
+      }
+      .side-nav { display: none; }
+      .content-box {
+        margin-left: 0;
+        height: 100%;
+        width: 100%;
+        padding: 30px 20px 40px 20px;
+        border: none;
+      }
+      .bottom-nav {
+        display: flex;
+        width: 100%;
+        height: 80px;
+        background: rgba(15, 0, 30, 0.98);
+        border-top: 1px solid var(--witch-purple);
+        justify-content: space-around;
+        align-items: center;
+        flex-shrink: 0;
+      }
     }
 
     /* --- КОНТЕНТ --- */
@@ -428,6 +401,7 @@
 </body>
 
 </html>
+
 
 
 
