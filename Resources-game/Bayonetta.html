@@ -119,51 +119,56 @@
 
     .bottom-nav { display: none; }
 
-/* --- МОБИЛЬНАЯ АДАПТАЦИЯ: --- */
+/* --- МОБИЛЬНАЯ АДАПТАЦИЯ: СВОБОДНЫЙ СКРОЛЛ --- */
     @media (max-width: 768px) {
       body { 
-        overflow-y: auto; /* Разрешаем телу страницы крутиться целиком */
-        height: auto; 
+        overflow-y: auto !important; /* Разрешаем общий скролл страницы */
+        height: auto !important;    /* Убираем жесткую высоту экрана */
+        display: block;             /* Переключаем с flex на обычный поток */
       }
 
       .interface-wrapper {
-        flex-direction: column; 
-        height: auto; /* Убираем ограничение высоты */
-        padding: 20px 0;
+        display: block;             /* Контент идет по порядку */
+        height: auto; 
+        padding: 0;
       }
 
       .side-nav { display: none; }
 
       .content-box {
         width: 100%;
-        height: auto; /* Контент растягивается на всю свою длину */
+        height: auto;               /* Бокс растягивается под текст */
         margin-left: 0;
-        padding: 20px;
-        overflow-y: visible; /* Отключаем внутренний скролл */
-        background: transparent;
+        padding: 40px 20px;
+        overflow-y: visible;        /* Отключаем внутренний скролл бокса */
         border: none;
+        background: transparent;
+        backdrop-filter: none;      /* Убираем блюр, чтобы не тормозило при скролле */
       }
 
       .bottom-nav {
-        display: flex;
-        position: relative; /* Кнопки теперь стоят В ОЧЕРЕДИ за текстом */
+        display: flex; 
+        position: relative;         /* КНОПКИ ТЕПЕРЬ НЕ ПРИКЛЕЕНЫ */
         width: 100%;
-        height: 100px;
-        background: rgba(15, 0, 30, 0.5);
-        border-top: 1px solid rgba(106, 13, 173, 0.3);
+        height: 120px;
+        margin-top: 20px;
+        background: rgba(20, 0, 40, 0.5);
+        border-top: 1px solid var(--witch-purple);
+        padding-bottom: 30px;
         justify-content: space-around;
         align-items: center;
-        margin-top: 20px;
-        padding-bottom: 20px;
       }
 
+      /* Чтобы при клике на кнопки страница не дергалась */
       .mobile-icon {
         flex: 1;
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 5px;
+        gap: 8px;
+        cursor: pointer;
       }
+    }
 
       .mobile-circle {
         width: 40px; height: 40px;
@@ -390,6 +395,7 @@
 </body>
 
 </html>
+
 
 
 
