@@ -136,65 +136,65 @@
 <div class="container">
   <header>
     <h1>☣️ DINO_CRISIS_DATA</h1>
-    <div class="status-bar" id="vitals">CONDITION: FINE</div>
+    <div class="status-bar" id="vitals">СОСТОЯНИЕ: В НОРМЕ</div>
   </header>
 
   <div class="table-wrapper">
     <table>
       <thead>
         <tr>
-          <th>YEAR</th>
-          <th>OPERATION</th>
-          <th>SUBJECT</th>
-          <th>ENCOUNTER DATA</th>
+          <th>ГОД</th>
+          <th>ОПЕРАЦИЯ</th>
+          <th>ОБЪЕКТ</th>
+          <th>ДАННЫЕ КОНТАКТА</th>
         </tr>
       </thead>
       <tbody>
         <tr onclick="playRoar()">
-          <td data-label="YEAR">1999</td>
-          <td data-label="OPERATION"><b>Dino Crisis</b></td>
-          <td data-label="SUBJECT">Ibis Island</td>
+          <td data-label="ГОД">1999</td>
+          <td data-label="ОПЕРАЦИЯ"><b>Dino Crisis</b></td>
+          <td data-label="ОБЪЕКТ">Остров Ибис</td>
           <td>Всплеск Третьей Энергии. Появление Т-Рекса. 90% персонала погибло.</td>
         </tr>
         <tr onclick="playRoar()">
-          <td data-label="YEAR">2000</td>
-          <td data-label="OPERATION"><b>Dino Crisis 2</b></td>
-          <td data-label="SUBJECT">Edward City</td>
+          <td data-label="ГОД">2000</td>
+          <td data-label="ОПЕРАЦИЯ"><b>Dino Crisis 2</b></td>
+          <td data-label="ОБЪЕКТ">Эдвард-Сити</td>
           <td>Временной сдвиг. Прямой контакт с Гиганотозавром. Эвакуация провалена.</td>
         </tr>
         <tr onclick="playRoar()">
-          <td data-label="YEAR">2003</td>
-          <td data-label="OPERATION"><b>Dino Crisis 3</b></td>
-          <td data-label="SUBJECT">Ozymandias</td>
-          <td>Космический дрейф. ДНК-мутации Cebalrai. Системная критическая ошибка.</td>
+          <td data-label="ГОД">2003</td>
+          <td data-label="ОПЕРАЦИЯ"><b>Dino Crisis 3</b></td>
+          <td data-label="ОБЪЕКТ">Озимандия</td>
+          <td>Космический дрейф. ДНК-мутации Cebalrai. Критическая системная ошибка.</td>
         </tr>
       </tbody>
     </table>
   </div>
 
-  <h2 style="color:var(--dc-red); margin-top:40px;">⚠️ THREAT DATABASE (HOSTILES)</h2>
+  <h2 style="color:var(--dc-red); margin-top:40px;">⚠️ БАЗА УГРОЗ (ВРАЖДЕБНЫЕ ОСОБИ)</h2>
   <div class="grid">
     <div class="card">
-      <h3>VELOCIRAPTOR</h3>
+      <h3>ВЕЛОЦИРАПТОР</h3>
       <p>Интеллект: ВЫСОКИЙ. Способны открывать двери. Рекомендуется использовать дробовик.</p>
     </div>
     <div class="card">
-      <h3>PTERANODON</h3>
+      <h3>ПТЕРАНОДОН</h3>
       <p>Воздушная угроза. Атакуют пикированием. Избегайте открытых пространств.</p>
     </div>
     <div class="card">
-      <h3>T-REX</h3>
+      <h3>Т-РЕКС</h3>
       <p>НЕУЯЗВИМ для стандартного оружия. Единственный выход — БЕЖАТЬ.</p>
     </div>
   </div>
 
   <div class="era-section">
     <div class="era-card">
-      <h3 style="color:var(--dc-cyan)">[ FILE 01: REGINA ]</h3>
+      <h3 style="color:var(--dc-cyan)">[ ФАЙЛ 01: РЕГИНА ]</h3>
       <p>Специалист по разведке отряда S.O.R.T. Эксперт по выживанию и взлому систем.</p>
     </div>
     <div class="era-card" style="border-left-color: var(--dc-red)">
-      <h3 style="color:var(--dc-red)">[ FILE 02: 3RD ENERGY ]</h3>
+      <h3 style="color:var(--dc-red)">[ ФАЙЛ 02: 3-Я ЭНЕРГИЯ ]</h3>
       <p>Экспериментальный источник энергии, вызвавший разрыв в пространстве-времени.</p>
     </div>
   </div>
@@ -233,11 +233,11 @@
     
     // Изменение статуса
     const vitals = document.getElementById('vitals');
-    vitals.innerText = "CONDITION: DANGER";
+    vitals.innerText = "СОСТОЯНИЕ: ОПАСНОСТЬ";
     vitals.style.color = "red";
     vitals.style.borderColor = "red";
     setTimeout(() => {
-        vitals.innerText = "CONDITION: CAUTION";
+        vitals.innerText = "СОСТОЯНИЕ: ВНИМАНИЕ";
         vitals.style.color = "yellow";
         vitals.style.borderColor = "yellow";
     }, 2000);
