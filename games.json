@@ -252,6 +252,12 @@
     "file": "Warhammer.html"
   },
   {
+    "name": "Dino Crisis",
+    "emoji": "🦖",
+    "desc": "DINO_CRISIS_DATA",
+    "file": "Dino Crisis.html"
+  },   
+  {
     "name": "DOOM",
     "emoji": "🔥",
     "desc": "Рип энд тир. Никаких компромиссов",
