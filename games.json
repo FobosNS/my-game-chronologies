@@ -262,7 +262,13 @@
     "emoji": "🌴",
     "desc": "CRYSIS_DATA",
     "file": "Crysis.html"
-  },   
+  },
+  {
+    "name": "Made Max",
+    "emoji": "🌵",
+    "desc": "WASTELAND LOGS",
+    "file": "Made Max.html"
+  },      
   {
     "name": "DOOM",
     "emoji": "🔥",
