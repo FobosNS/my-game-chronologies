@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>💀 MAD MAX | WASTELAND LOGS</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Staatliches&family=Special+Elite&display=swap');
+
+    :root {
+      --dust-yellow: #c2b280;
+      --rust-red: #8b2500;
+      --oil-black: #1a1a1a;
+      --chrome: #e0e0e0;
+      --fire-orange: #ff4500;
+    }
+
+    body {
+      background-color: #000;
+      color: var(--dust-yellow);
+      font-family: 'Special Elite', cursor;
+      margin: 0;
+      padding: 20px;
+      /* Эффект песка и пыли */
+      background-image: url('https://www.transparenttextures.com/patterns/asfalt-light.png');
+      overflow-x: hidden;
+    }
+
+    .wasteland-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      border: 4px solid var(--rust-red);
+      background: rgba(26, 26, 26, 0.95);
+      box-shadow: 0 0 40px rgba(139, 37, 0, 0.5);
+      position: relative;
+    }
+
+    /* ЗАГОЛОВОК С ЭФФЕКТОМ МЕТАЛЛА */
+    header {
+      background: var(--rust-red);
+      padding: 20px;
+      text-align: center;
+      border-bottom: 5px double var(--oil-black);
+    }
+
+    header h1 {
+      margin: 0;
+      font-family: 'Staatliches', sans-serif;
+      font-size: 48px;
+      letter-spacing: 4px;
+      color: var(--chrome);
+      text-shadow: 3px 3px 0px #000;
+    }
+
+    .v8-status {
+      font-size: 12px;
+      color: var(--fire-orange);
+      text-transform: uppercase;
+      margin-top: 5px;
+      animation: flicker 0.1s infinite;
+    }
+
+    @keyframes flicker { 50% { opacity: 0.8; } }
+
+    /* ВКЛАДКИ (TABS) - СТИЛЬ КНОПОК ПРИБОРКИ */
+    .tabs {
+      display: flex;
+      background: #111;
+      border-bottom: 2px solid var(--rust-red);
+    }
+
+    .tabs label {
+      flex: 1;
+      padding: 15px;
+      cursor: pointer;
+      text-align: center;
+      font-family: 'Staatliches', sans-serif;
+      font-size: 18px;
+      transition: 0.2s;
+      border-right: 1px solid var(--rust-red);
+      color: var(--dust-yellow);
+    }
+
+    .tabs input[type="radio"] { display: none; }
+
+    .tabs input[type="radio"]:checked + label {
+      background: var(--fire-orange);
+      color: #000;
+      box-shadow: inset 0 0 10px #000;
+    }
+
+    .tab-content {
+      display: none;
+      padding: 30px;
+      min-height: 400px;
+      background-image: radial-gradient(circle, rgba(255,69,0,0.05) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+
+    #tab1:checked ~ .content-1,
+    #tab2:checked ~ .content-2,
+    #tab3:checked ~ .content-3,
+    #tab4:checked ~ .content-4 { display: block; }
+
+    /* ТАБЛИЦА ХРОНОЛОГИИ */
+    table { width: 100%; border-collapse: collapse; }
+    th { text-align: left; color: var(--fire-orange); border-bottom: 2px solid var(--rust-red); padding: 10px; }
+    td { padding: 12px; border-bottom: 1px solid #333; font-size: 14px; }
+
+    /* КАРТОЧКИ МАШИН */
+    .garage-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+    .car-card {
+      border: 2px solid #444;
+      padding: 15px;
+      background: #111;
+      transition: 0.3s;
+    }
+    .car-card:hover { border-color: var(--fire-orange); transform: translateY(-5px); }
+    .car-card h3 { color: var(--fire-orange); margin: 0 0 10px 0; font-family: 'Staatliches'; }
+
+    /* ЦИТАТЫ */
+    blockquote {
+      border-left: 4px solid var(--fire-orange);
+      padding-left: 15px;
+      font-style: italic;
+      color: var(--chrome);
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body onclick="playEngine()">
+
+<div class="wasteland-container">
+  <header>
+    <h1>MAD MAX: ROAD WARRIOR</h1>
+    <div class="v8-status">ENGINE STATUS: WITNESS ME!</div>
+  </header>
+
+  <div class="tabs">
+    <input type="radio" name="road" id="tab1" checked>
+    <label for="tab1">КИНО-ХРОНИКИ</label>
+
+    <input type="radio" name="road" id="tab2">
+    <label for="tab2">ГАРАЖ «ШЕДЕВР»</label>
+
+    <input type="radio" name="road" id="tab3">
+    <label for="tab3">ФРАКЦИИ ПУСТОШИ</label>
+
+    <input type="radio" name="road" id="tab4">
+    <label for="tab4">ИГРОВАЯ ВСЕЛЕННАЯ</label>
+
+    <div class="tab-content content-1">
+      <table>
+        <thead>
+          <tr>
+            <th>ГОД</th>
+            <th>ФИЛЬМ</th>
+            <th>ЛЕГЕНДА</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1979</td>
+            <td><b>Безумный Макс</b></td>
+            <td>Начало коллапса. Офицер Макс Рокатански теряет всё. Месть на перехватчике V8.</td>
+          </tr>
+          <tr>
+            <td>1981</td>
+            <td><b>Воин Дорог</b></td>
+            <td>Пустошь поглотила мир. Макс защищает нефтяную вышку от банды Гумунгуса.</td>
+          </tr>
+          <tr>
+            <td>1985</td>
+            <td><b>Под куполом грома</b></td>
+            <td>Бартертаун и Тина Тёрнер. Битва на арене. Поиск «Завтрашних земель».</td>
+          </tr>
+          <tr>
+            <td>2015</td>
+            <td><b>Дорога ярости</b></td>
+            <td>Шедевр безумия. Макс помогает Фуриосе сбежать от Несмертного Джо.</td>
+          </tr>
+          <tr>
+            <td>2024</td>
+            <td><b>Фуриоса: Сага</b></td>
+            <td>Предыстория великой воительницы. Дементус против Несмертного.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tab-content content-2">
+      <div class="garage-grid">
+        <div class="car-card">
+          <h3>INTERCEPTOR (V8 Pursuit Special)</h3>
+          <p>Черный Ford Falcon XB GT. Последний из перехватчиков. Сердце Макса и символ старого мира.</p>
+        </div>
+        <div class="car-card">
+          <h3>MAGNUM OPUS (Шедевр)</h3>
+          <p>Собран Жестянщиком для Макса в игре 2015 года. Полностью настраиваемый зверь на колесах.</p>
+        </div>
+        <div class="car-card">
+          <h3>WAR RIG (Боевая Фура)</h3>
+          <p>Бронированный тягоч Фуриосы. Мобильная крепость с запасом «Аква-Колы» и «Материнского молока».</p>
+        </div>
+        <div class="car-card">
+          <h3>BIG FOOT</h3>
+          <p>Монстр-трак Риктуса Эректуса. Построен на базе Dodge 1940 года. Не знает преград.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content content-3">
+      <h3 style="color:var(--fire-orange)">ЦИТАДЕЛЬ (War Boys)</h3>
+      <p>Фанатики Несмертного Джо. Верят в Вальгаллу и «Хром». Камикадзе, жаждущие славного конца.</p>
+      <hr style="border:1px solid #333">
+      <h3 style="color:var(--fire-orange)">СТЕРВЯТНИКИ (Buzzards)</h3>
+      <p>Живут под землей. Обшивают свои машины шипами. Говорят на русском/непонятном диалекте.</p>
+      <hr style="border:1px solid #333">
+      <h3 style="color:var(--fire-orange)">ГАЗОГРАД И СВИНЦОВОЕ БРЮХО</h3>
+      <p>Поставщики бензина и патронов. Части союза трех городов Пустоши.</p>
+    </div>
+
+    <div class="tab-content content-4">
+      <p>Игра 2015 года от Avalanche Studios стала культовой. В ней мы получили:</p>
+      <ul>
+        <li><b>Жестянщик (Chumbucket):</b> Гениальный горбун-механик, считающий двигатель V8 божеством.</li>
+        <li><b>Гриффа:</b> Таинственный странник, который прокачивает дух Макса через галлюцинации.</li>
+        <li><b>Бури:</b> Масштабные песчаные штормы, которые могут принести как смерть, так и ценный лом.</li>
+      </ul>
+      <blockquote>"Мир рушится. Люди убивают друг друга из-за бензина."</blockquote>
+    </div>
+  </div>
+</div>
+
+<script>
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+  function playEngine() {
+    // Звук низкочастотного "рыка" мотора
+    const osc = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(40, audioCtx.currentTime);
+    osc.frequency.linearRampToValueAtTime(60, audioCtx.currentTime + 0.1);
+    g.gain.setValueAtTime(0.1, audioCtx.currentTime);
+    g.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.2);
+    osc.connect(g); g.connect(audioCtx.destination);
+    osc.start(); osc.stop(audioCtx.currentTime + 0.2);
+  }
+
+  document.querySelectorAll('label').forEach(label => {
+    label.addEventListener('click', () => {
+      document.querySelector('.wasteland-container').style.filter = "brightness(1.5) contrast(1.2)";
+      setTimeout(() => {
+        document.querySelector('.wasteland-container').style.filter = "none";
+      }, 100);
+    });
+  });
+</script>
+
+</body>
+</html>
