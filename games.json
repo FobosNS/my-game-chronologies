@@ -268,7 +268,13 @@
     "emoji": "🌵",
     "desc": "WASTELAND LOGS",
     "file": "Made Max.html"
-  },      
+  },
+  {
+    "name": "Bayonetta",
+    "emoji": "👠",
+    "desc": "UMBRA INTERFACE",
+    "file": "Bayonetta.html"
+  },     
   {
     "name": "DOOM",
     "emoji": "🔥",
