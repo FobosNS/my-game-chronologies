@@ -256,6 +256,12 @@
     "emoji": "🦖",
     "desc": "DINO_CRISIS_DATA",
     "file": "Dino Crisis.html"
+  },
+  {
+    "name": "Crysis",
+    "emoji": "🌴",
+    "desc": "CRYSIS_DATA",
+    "file": "Crysis.html"
   },   
   {
     "name": "DOOM",
