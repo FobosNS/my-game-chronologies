@@ -172,22 +172,23 @@
 
       .mobile-text { font-size: 9px; text-transform: uppercase; color: #888; }
 
-      /* Актив в мобилке */
+/* Актив в мобилке */
       #t1:checked ~ .bottom-nav label[for="t1"] .mobile-circle,
       #t2:checked ~ .bottom-nav label[for="t2"] .mobile-circle,
       #t3:checked ~ .bottom-nav label[for="t3"] .mobile-circle,
       #t4:checked ~ .bottom-nav label[for="t4"] .mobile-circle {
-        background: var(--witch-pink);
-        border-color: var(--gold);
+        background: var(--witch-pink) !important;
+        border-color: var(--gold) !important;
         box-shadow: 0 0 15px var(--witch-pink);
-        transform: translateY(-5px);
+        transform: translateY(-8px); /* Кнопка прыгает вверх */
       }
-      
+
       #t1:checked ~ .bottom-nav label[for="t1"] .mobile-text,
       #t2:checked ~ .bottom-nav label[for="t2"] .mobile-text,
       #t3:checked ~ .bottom-nav label[for="t3"] .mobile-text,
       #t4:checked ~ .bottom-nav label[for="t4"] .mobile-text {
-        color: var(--gold);
+        color: var(--gold) !important;
+        font-weight: bold;
       }
     }
   </style>
@@ -388,6 +389,7 @@
 </body>
 
 </html>
+
 
 
 
