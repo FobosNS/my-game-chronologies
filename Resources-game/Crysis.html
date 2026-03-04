@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🧬 CRYSIS | NANOSUIT INTERFACE</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto+Condensed:wght@300;700&display=swap');
+
+    :root {
+      --nano-blue: #00d4ff;
+      --nano-orange: #ff9d00;
+      --nano-bg: #0a0e14;
+      --nano-hex: rgba(0, 212, 255, 0.1);
+    }
+
+    body {
+      background-color: var(--nano-bg);
+      color: #fff;
+      font-family: 'Roboto Condensed', sans-serif;
+      margin: 0;
+      padding: 20px;
+      /* Гексагональная сетка на фоне */
+      background-image: radial-gradient(circle, transparent 20%, var(--nano-bg) 20%, var(--nano-bg) 80%, transparent 80%, transparent), radial-gradient(circle, transparent 20%, var(--nano-bg) 20%, var(--nano-bg) 80%, transparent 80%, transparent) 25px 25px, linear-gradient(var(--nano-hex) 2px, transparent 2px), linear-gradient(90deg, var(--nano-hex) 2px, transparent 2px);
+      background-size: 50px 50px, 50px 50px, 25px 25px, 25px 25px;
+    }
+
+    .nano-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      border: 2px solid var(--nano-blue);
+      background: rgba(10, 14, 20, 0.9);
+      box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ЗАГОЛОВОК */
+    header {
+      background: linear-gradient(90deg, var(--nano-blue), transparent);
+      padding: 15px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-family: 'Orbitron', sans-serif;
+      letter-spacing: 5px;
+      font-size: 24px;
+      text-transform: uppercase;
+      color: #000;
+    }
+
+    .energy-bar {
+      width: 200px;
+      height: 10px;
+      border: 1px solid #000;
+      background: rgba(0,0,0,0.3);
+      position: relative;
+    }
+    .energy-fill {
+      width: 85%;
+      height: 100%;
+      background: #fff;
+      box-shadow: 0 0 10px #fff;
+    }
+
+    /* ВКЛАДКИ (TABS) */
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .tabs label {
+      flex: 1;
+      padding: 20px;
+      cursor: pointer;
+      background: rgba(0, 212, 255, 0.05);
+      text-align: center;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 12px;
+      border-bottom: 2px solid transparent;
+      transition: 0.3s;
+      color: var(--nano-blue);
+    }
+
+    .tabs input[type="radio"] { display: none; }
+
+    .tabs input[type="radio"]:checked + label {
+      background: rgba(0, 212, 255, 0.2);
+      border-bottom: 3px solid var(--nano-blue);
+      color: #fff;
+    }
+
+    .tab-content {
+      display: none;
+      padding: 30px;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    #tab1:checked ~ .content-1,
+    #tab2:checked ~ .content-2,
+    #tab3:checked ~ .content-3,
+    #tab4:checked ~ .content-4 { display: block; }
+
+    /* ТАБЛИЦА */
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th { text-align: left; color: var(--nano-orange); border-bottom: 1px solid var(--nano-blue); padding: 10px; font-size: 14px; }
+    td { padding: 15px 10px; border-bottom: 1px solid rgba(0, 212, 255, 0.1); font-size: 15px; }
+    
+    /* КАРТОЧКИ УГРОЗ */
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+    .card {
+      background: rgba(0, 212, 255, 0.03);
+      border: 1px solid rgba(0, 212, 255, 0.3);
+      padding: 20px;
+      position: relative;
+    }
+    .card h3 { color: var(--nano-orange); margin-top: 0; font-family: 'Orbitron'; font-size: 16px; }
+
+    /* МОДЫ КОСТЮМА */
+    .mode-box {
+      border-left: 5px solid var(--nano-blue);
+      background: rgba(255,255,255,0.05);
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+    .mode-box b { color: var(--nano-blue); text-transform: uppercase; }
+
+  </style>
+</head>
+<body onclick="playInterfaceSound()">
+
+<div class="nano-container">
+  <header>
+    <h1>Crynet Systems v4.0</h1>
+    <div class="energy-info">
+      <span style="font-size: 10px;">ENERGY LEVEL</span>
+      <div class="energy-bar"><div class="energy-fill"></div></div>
+    </div>
+  </header>
+
+  <div class="tabs">
+    <input type="radio" name="nav" id="tab1" checked>
+    <label for="tab1">ХРОНОЛОГИЯ</label>
+
+    <input type="radio" name="nav" id="tab2">
+    <label for="tab2">РЕЖИМЫ КОСТЮМА</label>
+
+    <input type="radio" name="nav" id="tab3">
+    <label for="tab3">БАЗА ЦЕФОЛОПОДОВ</label>
+
+    <input type="radio" name="nav" id="tab4">
+    <label for="tab4">АРХИВ «ПРОРОК»</label>
+
+    <div class="tab-content content-1">
+      <table>
+        <thead>
+          <tr>
+            <th>ГОД</th>
+            <th>ОПЕРАЦИЯ</th>
+            <th>ЛОКАЦИЯ</th>
+            <th>ДАННЫЕ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>2007/2020</td>
+            <td><b>Crysis / Warhead</b></td>
+            <td>Остров Лингшан</td>
+            <td>Первый контакт. Пробуждение древнего корабля под горой. Кочевник против Цефов.</td>
+          </tr>
+          <tr>
+            <td>2011</td>
+            <td><b>Crysis 2</b></td>
+            <td>Нью-Йорк (Манхэттен)</td>
+            <td>Вторжение вируса «Манхэттен». Алькатрас получает костюм Пророка. Коллапс города.</td>
+          </tr>
+          <tr>
+            <td>2013</td>
+            <td><b>Crysis 3</b></td>
+            <td>Купол Свободы (NY)</td>
+            <td>Джунгли внутри города. Финальная охота на Альфа-Цефа. Распад корпорации CELL.</td>
+          </tr>
+          <tr>
+            <td>2026</td>
+            <td><b>Crysis 4 (Next-Gen)</b></td>
+            <td>Unknown Sector</td>
+            <td>[ДАННЫЕ ЗАШИФРОВАНЫ]. Ожидание активации нанокостюма нового поколения.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tab-content content-2">
+      <div class="mode-box">
+        <b>MAXIMUM ARMOR:</b> Поглощение кинетической энергии. Визуальное уплотнение гексагональных ячеек.
+      </div>
+      <div class="mode-box" style="border-left-color: #fff;">
+        <b>CLOAK MODE:</b> Полная невидимость за счет преломления света. Потребляет энергию при движении.
+      </div>
+      <div class="mode-box" style="border-left-color: #ff0000;">
+        <b>MAXIMUM POWER:</b> Усиление мышц. Сверхпрыжки и возможность пинать автомобили.
+      </div>
+      <div class="mode-box" style="border-left-color: var(--nano-orange);">
+        <b>NANovision:</b> Тепловизор и выделение тактических целей в условиях нулевой видимости.
+      </div>
+    </div>
+
+    <div class="tab-content content-3">
+      <div class="grid">
+        <div class="card">
+          <h3>ГРАНТ (Grunt)</h3>
+          <p>Основная пехота Цефов. Агрессивны, используют плазменное оружие. Слабое место — сенсоры на спине.</p>
+        </div>
+        <div class="card">
+          <h3>СТАЛКЕР (Stalker)</h3>
+          <p>Маневренные охотники. Используют ближний бой и маскировку. Крайне опасны в джунглях.</p>
+        </div>
+        <div class="card">
+          <h3>ПИНГВИН (Pinger)</h3>
+          <p>Огромный трехногий шагоход. Выпускает ЭМИ-импульсы, отключающие ваш костюм.</p>
+        </div>
+        <div class="card">
+          <h3>АЛЬФА-ЦЕФ</h3>
+          <p>Высший разум роя. Контролирует червоточину в систему М31 (Андромеда).</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content content-4">
+      <h3 style="color: var(--nano-blue);">[ ФАЙЛ: ЛОРЕНС «ПРОРОК» БАРНС ]</h3>
+      <p>Лидер отряда «Хищник». Первый, кто понял, что костюм — это не броня, а симбионт. Его сознание было полностью перенесено в нанослой костюма после смерти физического тела.</p>
+      <hr style="border: 0; border-top: 1px solid var(--nano-blue); margin: 20px 0;">
+      <h3 style="color: var(--nano-orange);">[ КОРПОРАЦИЯ CELL ]</h3>
+      <p>Частная военная компания, захватившая власть над миром под предлогом решения энергетического кризиса. Используют технологии Цефов для контроля населения.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+  function playInterfaceSound() {
+    const osc = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(880, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(440, audioCtx.currentTime + 0.1);
+    
+    g.gain.setValueAtTime(0.1, audioCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+    
+    osc.connect(g);
+    g.connect(audioCtx.destination);
+    
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.1);
+  }
+
+  // Эффект Maximum Armor при клике на вкладки
+  document.querySelectorAll('label').forEach(label => {
+    label.addEventListener('click', () => {
+      const container = document.querySelector('.nano-container');
+      container.style.boxShadow = "0 0 50px rgba(255, 255, 255, 0.5)";
+      setTimeout(() => {
+        container.style.boxShadow = "0 0 30px rgba(0, 212, 255, 0.3)";
+      }, 200);
+    });
+  });
+</script>
+
+</body>
+</html>
