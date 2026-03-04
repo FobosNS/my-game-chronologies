@@ -119,6 +119,8 @@
 
     .bottom-nav { display: none; }
 
+
+    
 /* --- МОБИЛЬНАЯ АДАПТАЦИЯ: СВОБОДНЫЙ СКРОЛЛ --- */
     @media (max-width: 768px) {
       body { 
@@ -390,11 +392,25 @@
         if (navigator.vibrate) navigator.vibrate(15);
       });
     });
+
+    // Находим все мобильные кнопки и кнопки ПК
+  const navButtons = document.querySelectorAll('label');
+  
+  navButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      // Плавная прокрутка к самому верху страницы
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  });
   </script>
 
 </body>
 
 </html>
+
 
 
 
