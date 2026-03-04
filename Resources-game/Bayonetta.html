@@ -154,60 +154,62 @@
     .entry b { color: var(--witch-pink); display: block; margin-bottom: 5px; }
     .entry p { color: #ccc; margin-bottom: 25px; font-size: 15px; font-weight: 300; }
 
-/* --- АДАПТИВНОСТЬ (MOBILE) --- */
+/* --- МОБИЛЬНАЯ АДАПТАЦИЯ --- */
     @media (max-width: 768px) {
-      .side-nav { display: none; }
-      .bottom-nav { 
-        display: flex; 
-        height: 70px; /* Фиксированная высота панели */
+      body { 
+        flex-direction: column; /* Элементы встают друг под друга */
+        overflow: hidden; 
       }
-      
-      .interface-wrapper { 
-        align-items: flex-start; 
-        padding: 0; 
-      }
-      
-      .content-box {
-        margin-left: 0;
-        height: 100vh;
+
+      .interface-wrapper {
+        flex-direction: column; 
+        padding: 0;
+        height: calc(100vh - 80px); /* Высота контента = весь экран минус кнопки */
         width: 100%;
-        /* padding-bottom: 120px — это создает "безопасную зону", 
-           чтобы текст прокручивался ВЫШЕ кнопок */
-        padding: 70px 25px 120px 25px; 
-        border: none;
-        background: rgba(5, 1, 10, 0.9); /* Слегка затемнили фон для читаемости */
-        overflow-y: auto;
+        justify-content: flex-start;
       }
 
-      h2 { font-size: 24px; }
+      .side-nav { display: none; } /* Прячем боковую панель */
 
-      /* Стили для нижних иконок */
+      .content-box {
+        width: 100%;
+        height: 100%; /* Занимает всё отведенное место в wrapper */
+        margin-left: 0;
+        padding: 30px 20px;
+        border: none;
+        background: transparent;
+        overflow-y: auto; /* Скролл только внутри этого блока */
+      }
+
+      .bottom-nav {
+        display: flex; /* Показываем только на мобильных */
+        width: 100%;
+        height: 80px; /* Фиксированная высота панели */
+        background: rgba(15, 0, 30, 0.98);
+        border-top: 1px solid var(--witch-purple);
+        justify-content: space-around;
+        align-items: center;
+        flex-shrink: 0; /* Панель не сжимается */
+        z-index: 100;
+      }
+
       .mobile-icon {
-        flex: 1; /* Распределяем кнопки равномерно */
+        flex: 1;
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
-        gap: 4px;
+        gap: 5px;
       }
+
       .mobile-circle {
-        width: 32px;
-        height: 32px;
+        width: 35px; height: 35px;
         border: 2px solid var(--witch-purple);
         border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: 'Cinzel', serif;
-        font-size: 13px;
-        transition: 0.3s;
+        display: flex; align-items: center; justify-content: center;
+        font-family: 'Cinzel', serif; font-size: 14px;
       }
-      .mobile-text { 
-        font-size: 8px; 
-        text-transform: uppercase; 
-        color: #888; 
-        letter-spacing: 0.5px;
-      }
+
+      .mobile-text { font-size: 9px; text-transform: uppercase; color: #888; }
     }
 
       /* Актив в мобилке */
@@ -425,5 +427,6 @@
 </body>
 
 </html>
+
 
 
