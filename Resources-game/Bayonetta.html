@@ -12,12 +12,10 @@
       --witch-pink: #ff007f;
       --gold: #ffd700;
       --bg: #020005;
-      --glass: rgba(10, 0, 20, 0.7);
     }
 
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-/* Базовые стили */
     body {
       background-color: var(--bg);
       color: #fff;
@@ -26,13 +24,14 @@
       height: 100vh;
       overflow: hidden;
       display: flex;
-      flex-direction: column; /* Для мобильной структуры */
+      flex-direction: column;
+      background-image: radial-gradient(circle at center, #1a0033 0%, #020005 100%);
     }
 
-    /* ПК Контейнер */
+    /* --- ПК ИНТЕРФЕЙС --- */
     .interface-wrapper {
       display: flex;
-      flex-direction: row; /* На ПК в ряд */
+      flex-direction: row;
       width: 100%;
       max-width: 1200px;
       height: 100vh;
@@ -42,7 +41,39 @@
       flex-grow: 1;
     }
 
-    .side-nav { display: flex; flex-direction: column; gap: 25px; flex-shrink: 0; }
+    .side-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+      flex-shrink: 0;
+      z-index: 10;
+    }
+
+    .nav-label { display: flex; align-items: center; cursor: pointer; }
+
+    .nav-item {
+      width: 55px; height: 55px;
+      border: 2px solid var(--witch-purple);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(0,0,0,0.9);
+      transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .nav-item span { font-family: 'Cinzel', serif; font-size: 20px; color: var(--gold); }
+
+    .nav-text {
+      margin-left: -20px;
+      padding: 10px 20px 10px 40px;
+      background: linear-gradient(90deg, var(--witch-purple), transparent);
+      opacity: 0; transform: translateX(-20px);
+      transition: 0.4s; border-radius: 0 20px 20px 0;
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .nav-label:hover .nav-text { opacity: 1; transform: translateX(0); }
+
     .content-box {
       flex: 1;
       height: 80vh;
@@ -52,54 +83,13 @@
       overflow-y: auto;
       backdrop-filter: blur(20px);
       border: 1px solid rgba(255, 215, 0, 0.1);
+      position: relative;
     }
 
-    .bottom-nav { display: none; } /* Прячем мобильное меню на ПК */
-
-    /* МОБИЛЬНАЯ АДАПТАЦИЯ */
-    @media (max-width: 768px) {
-      .interface-wrapper {
-        flex-direction: column; 
-        height: calc(100vh - 80px); /* Вычитаем высоту меню */
-        padding: 0;
-      }
-      .side-nav { display: none; }
-      .content-box {
-        margin-left: 0;
-        height: 100%;
-        width: 100%;
-        padding: 30px 20px 40px 20px;
-        border: none;
-      }
-      .bottom-nav {
-        display: flex;
-        width: 100%;
-        height: 80px;
-        background: rgba(15, 0, 30, 0.98);
-        border-top: 1px solid var(--witch-purple);
-        justify-content: space-around;
-        align-items: center;
-        flex-shrink: 0;
-      }
-    }
-
-    /* --- КОНТЕНТ --- */
-.content-box {
-        width: 100%;
-        height: 100%;
-        margin-left: 0;
-        /* Увеличиваем padding-bottom до 100px */
-        padding: 40px 20px 100px 20px; 
-        border: none;
-        background: transparent;
-        overflow-y: auto;
-        /* Плавный скролл для мобилок */
-        -webkit-overflow-scrolling: touch; 
-      }
-
+    /* --- ОБЩИЕ СТИЛИ КОНТЕНТА --- */
+    input[type="radio"] { display: none; }
     .section { display: none; }
-
-    /* АНИМАЦИЯ WITCH TIME */
+    
     @keyframes witchTime {
       0% { opacity: 0; filter: blur(30px) brightness(2); transform: scale(1.1); }
       100% { opacity: 1; filter: blur(0) brightness(1); transform: scale(1); }
@@ -113,7 +103,7 @@
       animation: witchTime 0.6s ease-out forwards;
     }
 
-    /* АКТИВНЫЕ КНОПКИ (ПК) */
+    /* Активные кнопки ПК */
     #t1:checked ~ .interface-wrapper label[for="t1"] .nav-item,
     #t2:checked ~ .interface-wrapper label[for="t2"] .nav-item,
     #t3:checked ~ .interface-wrapper label[for="t3"] .nav-item,
@@ -123,47 +113,42 @@
       box-shadow: 0 0 20px var(--witch-pink);
     }
 
-    /* ТЕКСТ */
     h2 { font-family: 'Cinzel', serif; color: var(--gold); border-bottom: 2px solid var(--witch-pink); margin-bottom: 30px; display: inline-block; }
     .entry b { color: var(--witch-pink); display: block; margin-bottom: 5px; }
-    .entry p { color: #ccc; margin-bottom: 25px; font-size: 15px; font-weight: 300; }
+    .entry p { color: #ccc; margin-bottom: 25px; font-size: 15px; font-weight: 300; line-height: 1.6; }
 
-/* --- МОБИЛЬНАЯ АДАПТАЦИЯ --- */
+    .bottom-nav { display: none; }
+
+    /* --- МОБИЛЬНАЯ АДАПТАЦИЯ --- */
     @media (max-width: 768px) {
-      body { 
-        flex-direction: column; /* Элементы встают друг под друга */
-        overflow: hidden; 
-      }
-
       .interface-wrapper {
-        flex-direction: column; 
+        flex-direction: column;
+        height: calc(100vh - 80px);
         padding: 0;
-        height: calc(100vh - 80px); /* Высота контента = весь экран минус кнопки */
-        width: 100%;
         justify-content: flex-start;
       }
 
-      .side-nav { display: none; } /* Прячем боковую панель */
+      .side-nav { display: none; }
 
       .content-box {
-        width: 100%;
-        height: 100%; /* Занимает всё отведенное место в wrapper */
         margin-left: 0;
-        padding: 30px 20px;
+        width: 100%;
+        height: 100%;
+        padding: 30px 20px 40px 20px;
         border: none;
         background: transparent;
-        overflow-y: auto; /* Скролл только внутри этого блока */
+        -webkit-overflow-scrolling: touch;
       }
 
       .bottom-nav {
-        display: flex; /* Показываем только на мобильных */
+        display: flex;
         width: 100%;
-        height: 80px; /* Фиксированная высота панели */
+        height: 80px;
         background: rgba(15, 0, 30, 0.98);
         border-top: 1px solid var(--witch-purple);
         justify-content: space-around;
         align-items: center;
-        flex-shrink: 0; /* Панель не сжимается */
+        flex-shrink: 0;
         z-index: 100;
       }
 
@@ -173,6 +158,7 @@
         flex-direction: column;
         align-items: center;
         gap: 5px;
+        cursor: pointer;
       }
 
       .mobile-circle {
@@ -181,10 +167,10 @@
         border-radius: 50%;
         display: flex; align-items: center; justify-content: center;
         font-family: 'Cinzel', serif; font-size: 14px;
+        transition: 0.3s;
       }
 
       .mobile-text { font-size: 9px; text-transform: uppercase; color: #888; }
-    }
 
       /* Актив в мобилке */
       #t1:checked ~ .bottom-nav label[for="t1"] .mobile-circle,
@@ -196,6 +182,7 @@
         box-shadow: 0 0 15px var(--witch-pink);
         transform: translateY(-5px);
       }
+      
       #t1:checked ~ .bottom-nav label[for="t1"] .mobile-text,
       #t2:checked ~ .bottom-nav label[for="t2"] .mobile-text,
       #t3:checked ~ .bottom-nav label[for="t3"] .mobile-text,
@@ -401,6 +388,7 @@
 </body>
 
 </html>
+
 
 
 
