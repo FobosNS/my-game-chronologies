@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>🌙 BAYONETTA | ADAPTIVE ARCHIVE</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;900&family=Montserrat:wght@200;500;700&display=swap');
+
+    :root {
+      --witch-purple: #6a0dad;
+      --witch-pink: #ff007f;
+      --gold: #ffd700;
+      --bg: #020005;
+      --glass: rgba(10, 0, 20, 0.7);
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      background-color: var(--bg);
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      background-image: radial-gradient(circle at center, #1a0033 0%, #020005 100%);
+    }
+
+    /* ОСНОВНОЙ КОНТЕЙНЕР */
+    .interface-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 1100px;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 20px;
+    }
+
+    /* СКРЫТЫЕ РАДИОКНОПКИ */
+    input[type="radio"] { display: none; }
+
+    /* --- НАВИГАЦИЯ (ПК ВЕРСИЯ) --- */
+    .side-nav {
+      position: absolute;
+      left: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+      z-index: 10;
+    }
+
+    .nav-label {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .nav-item {
+      width: 55px;
+      height: 55px;
+      border: 2px solid var(--witch-purple);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.9);
+      transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 0 10px rgba(106, 13, 173, 0.5);
+      z-index: 2;
+    }
+
+    .nav-item span { font-family: 'Cinzel', serif; font-weight: 900; font-size: 20px; color: var(--gold); }
+
+    .nav-text {
+      margin-left: -20px;
+      padding: 10px 20px 10px 40px;
+      background: linear-gradient(90deg, var(--witch-purple), transparent);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: 0;
+      transform: translateX(-20px);
+      transition: 0.4s;
+      border-radius: 0 20px 20px 0;
+      white-space: nowrap;
+    }
+
+    .nav-label:hover .nav-text { opacity: 1; transform: translateX(0); }
+
+    /* --- НИЖНЯЯ НАВИГАЦИЯ (СКРЫТА НА ПК) --- */
+    .bottom-nav {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 75px;
+      background: rgba(10, 0, 20, 0.95);
+      backdrop-filter: blur(15px);
+      border-top: 1px solid var(--witch-purple);
+      z-index: 100;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    /* --- КОНТЕНТ --- */
+    .content-box {
+      margin-left: 220px;
+      width: 100%;
+      height: 80vh;
+      background: var(--glass);
+      border: 1px solid rgba(255, 215, 0, 0.1);
+      padding: 60px;
+      overflow-y: auto;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 0 50px rgba(0,0,0,0.5);
+    }
+
+    .section { display: none; }
+
+    /* АНИМАЦИЯ WITCH TIME */
+    @keyframes witchTime {
+      0% { opacity: 0; filter: blur(30px) brightness(2); transform: scale(1.1); }
+      100% { opacity: 1; filter: blur(0) brightness(1); transform: scale(1); }
+    }
+
+    #t1:checked ~ .interface-wrapper .s1,
+    #t2:checked ~ .interface-wrapper .s2,
+    #t3:checked ~ .interface-wrapper .s3,
+    #t4:checked ~ .interface-wrapper .s4 {
+      display: block;
+      animation: witchTime 0.6s ease-out forwards;
+    }
+
+    /* АКТИВНЫЕ КНОПКИ (ПК) */
+    #t1:checked ~ .interface-wrapper label[for="t1"] .nav-item,
+    #t2:checked ~ .interface-wrapper label[for="t2"] .nav-item,
+    #t3:checked ~ .interface-wrapper label[for="t3"] .nav-item,
+    #t4:checked ~ .interface-wrapper label[for="t4"] .nav-item {
+      background: var(--witch-purple);
+      border-color: var(--witch-pink);
+      box-shadow: 0 0 20px var(--witch-pink);
+    }
+
+    /* ТЕКСТ */
+    h2 { font-family: 'Cinzel', serif; color: var(--gold); border-bottom: 2px solid var(--witch-pink); margin-bottom: 30px; display: inline-block; }
+    .entry b { color: var(--witch-pink); display: block; margin-bottom: 5px; }
+    .entry p { color: #ccc; margin-bottom: 25px; font-size: 15px; font-weight: 300; }
+
+    /* --- АДАПТИВНОСТЬ (MOBILE) --- */
+    @media (max-width: 768px) {
+      .side-nav { display: none; }
+      .bottom-nav { display: flex; }
+      
+      .interface-wrapper { align-items: flex-start; padding: 0; }
+      
+      .content-box {
+        margin-left: 0;
+        height: 100vh;
+        width: 100%;
+        padding: 80px 25px 100px 25px;
+        border: none;
+        background: transparent;
+      }
+
+      h2 { font-size: 24px; }
+
+      /* Стили для нижних иконок */
+      .mobile-icon {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+      }
+      .mobile-circle {
+        width: 35px;
+        height: 35px;
+        border: 2px solid var(--witch-purple);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Cinzel', serif;
+        font-size: 14px;
+        transition: 0.3s;
+      }
+      .mobile-text { font-size: 9px; text-transform: uppercase; color: #888; }
+
+      /* Актив в мобилке */
+      #t1:checked ~ .bottom-nav label[for="t1"] .mobile-circle,
+      #t2:checked ~ .bottom-nav label[for="t2"] .mobile-circle,
+      #t3:checked ~ .bottom-nav label[for="t3"] .mobile-circle,
+      #t4:checked ~ .bottom-nav label[for="t4"] .mobile-circle {
+        background: var(--witch-pink);
+        border-color: var(--gold);
+        box-shadow: 0 0 15px var(--witch-pink);
+        transform: translateY(-5px);
+      }
+      #t1:checked ~ .bottom-nav label[for="t1"] .mobile-text,
+      #t2:checked ~ .bottom-nav label[for="t2"] .mobile-text,
+      #t3:checked ~ .bottom-nav label[for="t3"] .mobile-text,
+      #t4:checked ~ .bottom-nav label[for="t4"] .mobile-text {
+        color: var(--gold);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <input type="radio" name="witch" id="t1" checked>
+  <input type="radio" name="witch" id="t2">
+  <input type="radio" name="witch" id="t3">
+  <input type="radio" name="witch" id="t4">
+
+  <div class="interface-wrapper">
+    
+    <div class="side-nav">
+      <label for="t1" class="nav-label"><div class="nav-item"><span>Ⅰ</span></div><div class="nav-text">Летопись</div></label>
+      <label for="t2" class="nav-label"><div class="nav-item"><span>Ⅱ</span></div><div class="nav-text">Искусство</div></label>
+      <label for="t3" class="nav-label"><div class="nav-item"><span>Ⅲ</span></div><div class="nav-text">Иерархия</div></label>
+      <label for="t4" class="nav-label"><div class="nav-item"><span>Ⅳ</span></div><div class="nav-text">Бестиарий</div></label>
+    </div>
+
+    <div class="content-box">
+      <div class="section s1">
+        <h2>ХРОНИКИ УМБРЫ</h2>
+        <div class="entry"><b>ЧАСТЬ I: ПРОШЛОЕ</b><p>Пробуждение ведьмы в современном мире. Поиск утраченных воспоминаний о клане Умбра и Мудрецах Света.</p></div>
+        <div class="entry"><b>ЧАСТЬ II: СУДЬБА</b><p>Путь через чистилище и ад ради спасения Жанны. Встреча с Локи и раскрытие тайн Творца.</p></div>
+      </div>
+
+      <div class="section s2">
+        <h2>ВЕДЬМОВСКИЕ ИСКУССТВА</h2>
+        <div class="entry"><b>WITCH TIME</b><p>Замедление реальности. Искусство чувствовать поток времени и уклоняться от ударов богов.</p></div>
+        <div class="entry"><b>ПЫТКИ</b><p>Магические устройства наказания, созданные для самых дерзких обитателей Небес.</p></div>
+      </div>
+
+      <div class="section s3">
+        <h2>ИЕРАРХИЯ СВЕТА</h2>
+        <div class="entry"><b>ДОБРОДЕТЕЛИ</b><p>Высшие ангелы Auditio. Непоколебимые столпы веры, принимающие облик гигантских чудовищ.</p></div>
+      </div>
+
+      <div class="section s4">
+        <h2>БЕСТИАРИЙ АДА</h2>
+        <div class="entry"><b>МАДАМ БАТТЕРФЛЯЙ</b><p>Заклятый союзник. Её мощь течет сквозь волосы Байонетты, превращая каждый удар в смертельный танец.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <label for="t1" class="mobile-icon"><div class="mobile-circle">Ⅰ</div><div class="mobile-text">Летопись</div></label>
+    <label for="t2" class="mobile-icon"><div class="mobile-circle">Ⅱ</div><div class="mobile-text">Магия</div></label>
+    <label for="t3" class="mobile-icon"><div class="mobile-circle">Ⅲ</div><div class="mobile-text">Свет</div></label>
+    <label for="t4" class="mobile-icon"><div class="mobile-circle">Ⅳ</div><div class="mobile-text">Ад</div></label>
+  </div>
+
+  <script>
+    // Звуковой эффект и вибрация
+    document.querySelectorAll('label').forEach(label => {
+      label.addEventListener('click', () => {
+        if (navigator.vibrate) navigator.vibrate(15);
+      });
+    });
+  </script>
+
+</body>
+</html>
